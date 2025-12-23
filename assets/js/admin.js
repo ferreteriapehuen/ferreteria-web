@@ -24,10 +24,15 @@ onSnapshot(productsCol, (snapshot) => {
 const adminsCol = collection(db, 'admins');
 onSnapshot(adminsCol, (snapshot) => {
     admins = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+    console.log("Admins loaded from Firebase:", admins);
     populateUserSelect();
+
     if (document.getElementById('users').classList.contains('active')) {
         renderAdminUsers();
     }
+}, (error) => {
+    console.error("Error getting admins:", error);
+    alert("Error cargando usuarios: " + error.message);
 });
 
 // Load Movements (Ordered by date desc ideally)
@@ -77,12 +82,20 @@ const checkAuth = () => {
 
 const populateUserSelect = () => {
     const select = document.getElementById('admin-user-select');
-    if (!select) return;
+    console.log("Populating User Select. Admins found:", admins.length);
+    if (!select) {
+        console.error("Select element 'admin-user-select' not found!");
+        return;
+    }
     select.innerHTML = '<option value="" disabled selected>Seleccione Usuario</option>';
-    admins.filter(u => u.status === 'active').forEach(user => {
+
+    const activeAdmins = admins.filter(u => u.status === 'active');
+    console.log("Active admins:", activeAdmins);
+
+    activeAdmins.forEach(user => {
         const option = document.createElement('option');
         option.value = user.id;
-        option.textContent = `${user.name} (${user.role.toUpperCase()})`;
+        option.textContent = `${user.name} (${user.role ? user.role.toUpperCase() : 'ADMIN'})`;
         select.appendChild(option);
     });
 };
