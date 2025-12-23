@@ -1,267 +1,32 @@
-const defaultProducts = [
-    {
-        id: 1,
-        name: "Taladro Percutor Inalámbrico 18V",
-        category: "herramientas",
-        price: 89990,
-        oldPrice: 120000,
-        image: "assets/images/prod_taladro.jpg",
-        stock: 15
-    },
-    {
-        id: 2,
-        name: "Set de Herramientas 120 Piezas",
-        category: "herramientas",
-        price: 45990,
-        oldPrice: null,
-        image: "assets/images/prod_set.jpg",
-        stock: 20
-    },
-    {
-        id: 3,
-        name: "Pintura Latex Interior Blanco 1GL",
-        category: "materiales",
-        price: 15990,
-        oldPrice: 22990,
-        image: "assets/images/prod_pintura.jpg",
-        stock: 50
-    },
-    {
-        id: 4,
-        name: "Casco de Seguridad Industrial",
-        category: "seguridad",
-        price: 5990,
-        oldPrice: null,
-        image: "assets/images/prod_casco.png",
-        stock: 100
-    },
-    {
-        id: 5,
-        name: "Esmeril Angular 4 1/2'' 800W",
-        category: "herramientas",
-        price: 32990,
-        oldPrice: 39990,
-        image: "assets/images/prod_esmeril.jpg",
-        stock: 8
-    },
-    {
-        id: 6,
-        name: "Cemento Portland 25kg",
-        category: "materiales",
-        price: 4500,
-        oldPrice: null,
-        image: "assets/images/prod_cemento.png",
-        stock: 200
-    },
-    {
-        id: 7,
-        name: "Escalera de Aluminio Tijera 5 Peldaños",
-        category: "herramientas",
-        price: 34990,
-        oldPrice: 42990,
-        image: "assets/images/prod_escalera.png",
-        stock: 12
-    },
-    {
-        id: 8,
-        name: "Guantes de Seguridad Multiflex",
-        category: "seguridad",
-        price: 1990,
-        oldPrice: null,
-        image: "assets/images/prod_guantes.png",
-        stock: 300
-    },
-    {
-        id: 103,
-        name: "Arena Rubia (Metro Cúbico)",
-        category: "aridos",
-        price: 32000,
-        oldPrice: 35000,
-        image: "assets/images/prod_arena.png",
-        stock: 50
-    },
-    {
-        id: 104,
-        name: "Ripio 3/4 (Metro Cúbico)",
-        category: "aridos",
-        price: 34000,
-        oldPrice: null,
-        image: "assets/images/prod_ripio.jpg",
-        stock: 50
-    },
-    {
-        id: 105,
-        name: "Gravilla (Metro Cúbico)",
-        category: "aridos",
-        price: 36000,
-        oldPrice: null,
-        image: "assets/images/prod_gravilla.jpg",
-        stock: 50
-    },
-    {
-        id: 9,
-        name: "Sierra Circular 1800W",
-        category: "herramientas",
-        price: 54990,
-        oldPrice: 62990,
-        image: "assets/images/prod_sierra_circular.png",
-        stock: 5
-    },
-    {
-        id: 10,
-        name: "Lijadora Orbital 300W",
-        category: "herramientas",
-        price: 28990,
-        oldPrice: null,
-        image: "assets/images/prod_lijadora.png",
-        stock: 9
-    },
-    {
-        id: 11,
-        name: "Martillo Carpintero 20oz",
-        category: "herramientas",
-        price: 8990,
-        oldPrice: null,
-        image: "assets/images/prod_martillo.png",
-        stock: 30
-    },
-    {
-        id: 12,
-        name: "Destornillador Inalámbrico Compacto",
-        category: "herramientas",
-        price: 18990,
-        oldPrice: 24990,
-        image: "assets/images/prod_destornillador.png",
-        stock: 25
-    },
-    {
-        id: 13,
-        name: "Pasta Muro Interior 1GL",
-        category: "materiales",
-        price: 9990,
-        oldPrice: null,
-        image: "assets/images/prod_pasta_muro.png",
-        stock: 40
-    },
-    {
-        id: 14,
-        name: "Rodillo Antigota 18cm",
-        category: "materiales",
-        price: 4990,
-        oldPrice: null,
-        image: "assets/images/prod_rodillo.png",
-        stock: 60
-    },
-    {
-        id: 15,
-        name: "Lentes de Seguridad",
-        category: "seguridad",
-        price: 2990,
-        oldPrice: null,
-        image: "assets/images/prod_casco.png",
-        stock: 150
-    },
-    {
-        id: 16,
-        name: "Zapatos de Seguridad Dielectricos",
-        category: "seguridad",
-        price: 24990,
-        oldPrice: 32990,
-        image: "assets/images/prod_casco.png",
-        stock: 25
-    },
-    {
-        id: 17,
-        name: "Silicona Multiuso Transparente",
-        category: "materiales",
-        price: 3500,
-        oldPrice: null,
-        image: "assets/images/prod_pintura.jpg",
-        stock: 80
-    },
-    {
-        id: 18,
-        name: "Huincha de Medir 5 Metros",
-        category: "herramientas",
-        price: 3990,
-        oldPrice: null,
-        image: "assets/images/prod_set.jpg",
-        stock: 45
-    },
-    {
-        id: 201,
-        name: "Manguera de Riego Reforzada 20m",
-        category: "jardin",
-        price: 12990,
-        oldPrice: 15990,
-        image: "assets/images/prod_manguera.png",
-        stock: 18
-    },
-    {
-        id: 202,
-        name: "Tijera de Podar Profesional",
-        category: "jardin",
-        price: 8990,
-        oldPrice: null,
-        image: "assets/images/prod_tijera.png",
-        stock: 22
-    },
-    {
-        id: 203,
-        name: "Pala de Jardín Punta Huevo",
-        category: "jardin",
-        price: 9990,
-        oldPrice: null,
-        image: "assets/images/prod_pala.png",
-        stock: 16
-    },
-    {
-        id: 204,
-        name: "Rastrillo Metálico 14 Dientes",
-        category: "jardin",
-        price: 6990,
-        oldPrice: null,
-        image: "assets/images/prod_rastrillo.png",
-        stock: 14
-    },
-    {
-        id: 205,
-        name: "Pulverizador de Espalda 5L",
-        category: "jardin",
-        price: 18990,
-        oldPrice: 24990,
-        image: "assets/images/prod_pulverizador.png",
-        stock: 8
-    },
-    {
-        id: 206,
-        name: "Cortasetos Eléctrico 600W",
-        category: "jardin",
-        price: 45990,
-        oldPrice: 52990,
-        image: "assets/images/prod_cortasetos.png",
-        stock: 4
-    }
-];
-
-// Load products from LocalStorage or use default
-let products = JSON.parse(localStorage.getItem('pehuen_products')) || defaultProducts;
-
-// Ensure local storage is synced initially if it was empty
-if (!localStorage.getItem('pehuen_products')) {
-    localStorage.setItem('pehuen_products', JSON.stringify(products));
-}
-
-// Helper to save products to storage
-const saveProducts = () => {
-    localStorage.setItem('pehuen_products', JSON.stringify(products));
-};
-
+import { db, collection, onSnapshot, query } from './firebase-config.js';
 
 // State
+let products = [];
 let cart = JSON.parse(localStorage.getItem('pehuen_cart')) || [];
 
-// Save Cart Function
+// Initial Data Load (Real-time listener for Products)
+const productsCol = collection(db, 'products');
+
+// Listen for updates
+onSnapshot(productsCol, (snapshot) => {
+    products = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+    // Initial Render
+    // Check for URL params to see if we need to search immediately
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchParam = urlParams.get('search');
+
+    if (searchParam && productsContainer) {
+        if (searchInput) searchInput.value = searchParam;
+        renderProducts('all', searchParam);
+    } else {
+        renderProducts();
+    }
+
+    renderAridosProducts();
+});
+
+// Helper to save cart to storage
 const saveCart = () => {
     localStorage.setItem('pehuen_cart', JSON.stringify(cart));
 };
@@ -601,28 +366,7 @@ const renderAridosProducts = () => {
     }, 300);
 };
 
-// Initial Render
-document.addEventListener('DOMContentLoaded', () => {
-
-    // Check for URL params
-    const urlParams = new URLSearchParams(window.location.search);
-    const searchParam = urlParams.get('search');
-
-    if (searchParam && productsContainer) {
-        if (searchInput) searchInput.value = searchParam;
-        // Render with search term, overriding default 'all' view which hides aridos
-        renderProducts('all', searchParam);
-        // Also scroll to products
-        setTimeout(() => {
-            const productsSection = document.getElementById('productos');
-            if (productsSection) productsSection.scrollIntoView({ behavior: 'smooth' });
-        }, 500);
-    } else {
-        renderProducts();
-    }
-
-    renderAridosProducts(); // Also render áridos section
-});
+// Initial Render handled by onSnapshot above
 
 /* Cart Logic */
 const cartDrawer = document.getElementById('cart-drawer');

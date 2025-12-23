@@ -1,21 +1,45 @@
 /* Admin JS Logic */
-
-// Admin Password (Simulated for this demo)
-const ADMIN_PASS = "admin123";
+import { db, collection, getDocs, doc, updateDoc, onSnapshot, setDoc, deleteDoc, query, orderBy, where } from './firebase-config.js';
 
 // State
-const STORAGE_PREFIX = 'pehuen_';
-let products = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'products')) || [];
+let products = [];
 let cart = []; // Local cart for POS
-let movementsHistory = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'movements')) || [];
-let admins = JSON.parse(localStorage.getItem(STORAGE_PREFIX + 'admins')) || [
-    { id: 1, name: 'Admin Principal', username: 'admin', email: 'admin@pehuen.cl', password: '123', role: 'admin', status: 'active' }
-];
+let movementsHistory = [];
+let admins = [];
 
-// Ensure admins are saved if it was empty
-if (!localStorage.getItem(STORAGE_PREFIX + 'admins')) {
-    localStorage.setItem(STORAGE_PREFIX + 'admins', JSON.stringify(admins));
-}
+const STORAGE_PREFIX = 'pehuen_';
+
+// Initial Data Load (Real-time listener for Products)
+const productsCol = collection(db, 'products');
+onSnapshot(productsCol, (snapshot) => {
+    products = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+    console.log("Productos actualizados desde Firebase:", products.length);
+    // If we are in the Inventory tab, re-render
+    if (document.getElementById('inventory').classList.contains('active')) {
+        renderInventory();
+    }
+});
+
+// Load Admins
+const adminsCol = collection(db, 'admins');
+onSnapshot(adminsCol, (snapshot) => {
+    admins = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+    populateUserSelect();
+    if (document.getElementById('users').classList.contains('active')) {
+        renderAdminUsers();
+    }
+});
+
+// Load Movements (Ordered by date desc ideally)
+const movementsCol = collection(db, 'movements');
+const movementsQuery = query(movementsCol, orderBy('id', 'desc')); // Assuming 'id' is timestamp-like or valid for sorting
+onSnapshot(movementsQuery, (snapshot) => {
+    movementsHistory = snapshot.docs.map(doc => ({ ...doc.data(), firebaseId: doc.id }));
+    if (document.getElementById('movements').classList.contains('active')) {
+        renderMovementsHistory();
+    }
+});
+
 
 // DOM Elements
 const loginModal = document.getElementById('login-modal');
@@ -65,9 +89,11 @@ const populateUserSelect = () => {
 
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const userId = parseInt(document.getElementById('admin-user-select').value);
+    const userId = document.getElementById('admin-user-select').value; // Usually the ID or doc ID
     const password = document.getElementById('admin-password').value;
 
+    // Find user by the selected ID (which matches doc.id or the id field)
+    // Note: admins array is now populated from Firestore
     const user = admins.find(a => a.id === userId && a.password === password);
 
     if (user) {
@@ -265,14 +291,29 @@ posCheckoutBtn.addEventListener('click', () => {
         }
     }
 
-    // Deduct stock
-    cart.forEach(item => {
-        const product = products.find(p => p.id === item.id);
-        if (product) product.stock -= item.qty;
+    // Deduct stock in Firebase
+    cart.forEach(async (item) => {
+        // item.id is the document ID in Firestore (or we use a query if IDs are custom numbers)
+        // With the current setup, we kept `id` inside the document. 
+        // We need to properly reference the document.
+        // Assuming products are mapped with `id` being the Firestore doc ID for simplicity, 
+        // OR we filter the `products` array to find the document ID if they are different.
+
+        // In the initial load, we did: products = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+        // So item.id IS the Firestore Document ID.
+
+        const productRef = doc(db, 'products', item.id);
+        const newStock = item.stock - item.qty;
+
+        try {
+            await updateDoc(productRef, { stock: newStock });
+        } catch (error) {
+            console.error("Error updating stock for", item.name, error);
+            alert("Error actualizando stock. Revise consola.");
+        }
     });
 
-    // Save to LocalStorage
-    localStorage.setItem(STORAGE_PREFIX + 'products', JSON.stringify(products));
+    // Save locally just in case? No, Firestore is the source of truth.
 
     // Simulate SII API Service Call
     console.log("Enviando datos al SII...");
@@ -382,9 +423,9 @@ const generateDTE = () => {
     });
 };
 
-const recordMovement = (data) => {
+const recordMovement = async (data) => {
     const entry = {
-        id: Date.now(),
+        id: Date.now(), // timestamp for sorting
         productId: data.productId || null,
         date: new Date().toLocaleString(),
         type: data.type, // 'sale' or 'entry'
@@ -395,8 +436,12 @@ const recordMovement = (data) => {
         seller: data.seller || "Sistema",
         justification: data.justification || ''
     };
-    movementsHistory.unshift(entry);
-    localStorage.setItem(STORAGE_PREFIX + 'movements', JSON.stringify(movementsHistory));
+
+    try {
+        await setDoc(doc(db, 'movements', entry.id.toString()), entry);
+    } catch (e) {
+        console.error("Error adding movement: ", e);
+    }
 };
 
 window.openHistory = (productId) => {
@@ -496,7 +541,7 @@ const renderInventory = () => {
     });
 };
 
-window.editStock = (id) => {
+window.editStock = async (id) => {
     const product = products.find(p => p.id === id);
     if (!product) return;
 
@@ -506,17 +551,25 @@ window.editStock = (id) => {
         if (!isNaN(stockInt) && stockInt >= 0) {
             const diff = stockInt - product.stock;
             if (diff !== 0) {
-                recordMovement({
-                    type: 'entry',
-                    docType: diff > 0 ? 'INGRESO' : 'AJUSTE',
-                    items: [`${Math.abs(diff)}x ${product.name} (${diff > 0 ? 'Aumento' : 'Baja'})`],
-                    total: 0,
-                    seller: "Admin (Manual)"
-                });
+                // Update Firestore
+                try {
+                    const productRef = doc(db, 'products', id);
+                    await updateDoc(productRef, { stock: stockInt });
+
+                    // Record Movement
+                    recordMovement({
+                        productId: id,
+                        type: 'entry',
+                        docType: diff > 0 ? 'INGRESO' : 'AJUSTE',
+                        items: [`${Math.abs(diff)}x ${product.name} (${diff > 0 ? 'Aumento' : 'Baja'})`],
+                        total: 0,
+                        seller: "Admin (Manual)"
+                    });
+                } catch (e) {
+                    console.error("Error actualizando stock:", e);
+                    alert("Error al actualizar stock.");
+                }
             }
-            product.stock = stockInt;
-            localStorage.setItem(STORAGE_PREFIX + 'products', JSON.stringify(products));
-            renderInventory();
         } else {
             alert('Valor inválido');
         }
@@ -605,23 +658,31 @@ if (stockForm) {
         const currentUser = JSON.parse(sessionStorage.getItem(STORAGE_PREFIX + 'current_admin')) || { name: 'Admin' };
 
         // Update Stock
-        if (type === 'entry') product.stock += qty;
-        else product.stock -= qty;
+        const productRef = doc(db, 'products', productId.toString()); // Assuming ID is string in our local list from Firestore map
+        const newStock = (type === 'entry') ? (product.stock + qty) : (product.stock - qty);
 
-        // Record
-        recordMovement({
-            productId: productId,
-            type: type,
-            docType: type === 'entry' ? 'INGRESO' : 'AJUSTE',
-            folio: doc || '---',
-            items: [`${qty}x ${product.name}`],
-            total: 0,
-            seller: currentUser.name,
-            justification: justification || (type === 'entry' ? `Ingreso vía documento ${doc}` : `Ajuste manual: ${justification}`)
-        });
+        try {
+            updateDoc(productRef, { stock: newStock });
 
-        localStorage.setItem(STORAGE_PREFIX + 'products', JSON.stringify(products));
-        alert('Movimiento registrado con éxito');
+            // Record
+            recordMovement({
+                productId: productId,
+                type: type,
+                docType: type === 'entry' ? 'INGRESO' : 'AJUSTE',
+                folio: doc || '---',
+                items: [`${qty}x ${product.name}`],
+                total: 0,
+                seller: currentUser.name,
+                justification: justification || (type === 'entry' ? `Ingreso vía documento ${doc}` : `Ajuste manual: ${justification}`)
+            });
+
+            alert('Movimiento registrado con éxito');
+            stockModal.classList.remove('open');
+            // renderInventory is auto-called by onSnapshot
+        } catch (e) {
+            console.error("Error managing stock:", e);
+            alert("Error al gestionar stock");
+        }
         stockModal.classList.remove('open');
         renderInventory();
     });
@@ -717,16 +778,16 @@ if (addProductForm) {
         });
     }
 
-    addProductForm.addEventListener('submit', (e) => {
+    addProductForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const name = document.getElementById('new-prod-name').value;
         const category = document.getElementById('new-prod-category').value;
         const price = parseInt(document.getElementById('new-prod-price').value);
         const stock = parseInt(document.getElementById('new-prod-stock').value);
-        let id = document.getElementById('new-prod-id').value;
+        let idInput = document.getElementById('new-prod-id').value;
         const imageUrl = document.getElementById('new-prod-image').value;
-        const doc = document.getElementById('new-prod-doc').value;
+        const docRef = document.getElementById('new-prod-doc').value;
 
         let finalImages = [...uploadedImagesList];
         if (imageUrl) finalImages.push(imageUrl);
@@ -737,20 +798,30 @@ if (addProductForm) {
             return;
         }
 
-        if (id) {
-            id = parseInt(id);
-            if (products.some(p => p.id === id)) {
+        // Generate ID or use provided
+        // With Firestore, we can use the provided ID as the Doc ID.
+        // It's safer to use a string ID for Firestore documents.
+
+        let newId;
+        if (idInput) {
+            if (products.some(p => p.id === idInput)) {
                 alert("El ID ya existe. Por favor elija otro.");
                 return;
             }
+            newId = idInput.toString();
         } else {
-            // Auto ID: Find max ID + 1
-            const maxId = products.reduce((max, p) => p.id > max ? p.id : max, 0);
-            id = maxId + 1;
+            // Find max numeric ID if possible, or just generate a timestamp one to simple usage
+            // Since the user might rely on short IDs for barcode, let's try to mimic the old auto-increment behavior based on existing products
+            // Filter for numeric-looking IDs
+            const maxId = products.reduce((max, p) => {
+                const numId = parseInt(p.id);
+                return (!isNaN(numId) && numId > max) ? numId : max;
+            }, 1000); // Start high to avoid conflicts with static data
+            newId = (maxId + 1).toString();
         }
 
         const newProduct = {
-            id: id,
+            // Note: id field inside data is optional if we use doc ID, but good for consistency
             name: name,
             category: category,
             price: price,
@@ -758,28 +829,31 @@ if (addProductForm) {
             image: finalImages[0],
             images: finalImages,
             stock: stock,
-            document: doc || '---'
+            document: docRef || '---'
         };
 
-        products.push(newProduct);
-        localStorage.setItem(STORAGE_PREFIX + 'products', JSON.stringify(products));
+        try {
+            await setDoc(doc(db, 'products', newId), newProduct);
 
-        recordMovement({
-            productId: id,
-            type: 'entry',
-            docType: 'NUEVO',
-            items: [`Ingreso inicial: ${stock}x ${name}`],
-            total: 0,
-            seller: "Admin",
-            folio: doc || '---'
-        });
+            recordMovement({
+                productId: newId,
+                type: 'entry',
+                docType: 'NUEVO',
+                items: [`Ingreso inicial: ${stock}x ${name}`],
+                total: 0,
+                seller: "Admin",
+                folio: docRef || '---'
+            });
 
-        alert(`Producto "${name}" agregado correctamente!`);
-        addProductForm.reset();
-        uploadedImagesList = [];
-        renderImagePreviews();
-        addProductModal.classList.remove('open');
-        renderInventory();
+            alert(`Producto "${name}" agregado correctamente!`);
+            addProductForm.reset();
+            uploadedImagesList = [];
+            renderImagePreviews();
+            addProductModal.classList.remove('open');
+        } catch (e) {
+            console.error("Error adding product:", e);
+            alert("Error al guardar producto.");
+        }
     });
 }
 
@@ -871,7 +945,7 @@ const renderAdminUsers = () => {
 };
 
 if (userForm) {
-    userForm.addEventListener('submit', (e) => {
+    userForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const fullname = document.getElementById('user-fullname').value;
         const email = document.getElementById('user-email').value;
@@ -879,34 +953,35 @@ if (userForm) {
         const role = document.getElementById('user-role').value;
         const userId = document.getElementById('user-idx').value;
 
-        if (userId) {
-            // Edit
-            const user = admins.find(a => a.id === parseInt(userId));
-            if (user) {
-                user.name = fullname;
-                user.email = email;
-                user.password = password;
-                user.role = role;
+        try {
+            if (userId) {
+                // Edit
+                const userRef = doc(db, 'admins', userId);
+                await updateDoc(userRef, {
+                    name: fullname,
+                    email: email,
+                    password: password,
+                    role: role
+                });
+            } else {
+                // New
+                const newUserId = Date.now().toString();
+                const newUser = {
+                    name: fullname,
+                    username: email.split('@')[0],
+                    email: email,
+                    password: password,
+                    role: role,
+                    status: 'active'
+                };
+                await setDoc(doc(db, 'admins', newUserId), newUser);
             }
-        } else {
-            // New
-            const newUser = {
-                id: Date.now(),
-                name: fullname,
-                username: email.split('@')[0],
-                email: email,
-                password: password,
-                role: role,
-                status: 'active'
-            };
-            admins.push(newUser);
+            alert('Usuario guardado con éxito');
+            userModal.classList.remove('open');
+        } catch (e) {
+            console.error("Error saving user:", e);
+            alert("Error al guardar usuario");
         }
-
-        localStorage.setItem(STORAGE_PREFIX + 'admins', JSON.stringify(admins));
-        alert('Usuario guardado con éxito');
-        userModal.classList.remove('open');
-        populateUserSelect();
-        renderAdminUsers();
     });
 }
 
@@ -924,24 +999,36 @@ window.editUser = (id) => {
     userModal.classList.add('open');
 };
 
-window.toggleUserStatus = (id) => {
-    if (id === 1) return alert('No se puede desactivar al administrador principal.');
+window.toggleUserStatus = async (id) => {
+    // Note: id passed here is string because it comes from doc ID map
+    if (id === 1 || id === '1') return alert('No se puede desactivar al administrador principal.');
     const user = admins.find(a => a.id === id);
     if (user) {
-        user.status = user.status === 'active' ? 'inactive' : 'active';
-        localStorage.setItem(STORAGE_PREFIX + 'admins', JSON.stringify(admins));
-        populateUserSelect();
-        renderAdminUsers();
+        const newStatus = user.status === 'active' ? 'inactive' : 'active';
+        try {
+            const userRef = doc(db, 'admins', id);
+            await updateDoc(userRef, { status: newStatus });
+        } catch (e) {
+            console.error(e);
+            alert("Error al cambiar estado");
+        }
     }
 };
 
-window.deleteUser = (id) => {
-    if (id === 1) return alert('No se puede eliminar al administrador principal.');
+window.deleteUser = async (id) => {
+    // Check if it is the admin created by default (id 1 or '1'). In Firestore it might be a generated ID.
+    // If the user's role is 'admin' and it's the only one, blocking might be complex.
+    // We already check for ID '1' legacy
+    if (id === 1 || id === '1') return alert('No se puede eliminar al administrador principal.');
+
     if (confirm('¿Estás seguro de eliminar este usuario?')) {
-        admins = admins.filter(a => a.id !== id);
-        localStorage.setItem(STORAGE_PREFIX + 'admins', JSON.stringify(admins));
-        populateUserSelect();
-        renderAdminUsers();
+        try {
+            await deleteDoc(doc(db, 'admins', id));
+            alert('Usuario eliminado');
+        } catch (e) {
+            console.error("Error deleting user:", e);
+            alert("Error al eliminar usuario.");
+        }
     }
 };
 
