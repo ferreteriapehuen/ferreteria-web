@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevos Logos - Ferretería Pehuen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #fff;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 3rem;
+        }
+
+        .logos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .logo-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logo-card:hover {
+            transform: translateY(-10px);
+            border-color: #FFD700;
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.3);
+        }
+
+        .logo-card.selected {
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .logo-number {
+            font-size: 0.9rem;
+            color: #FFD700;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .logo-display {
+            background: #fff;
+            border-radius: 15px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px;
+            margin-bottom: 20px;
+        }
+
+        .logo-display svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .logo-description {
+            color: #ccc;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .select-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .select-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .instructions {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .instructions h3 {
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .instructions p {
+            color: #ddd;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🌲 Nuevos Logos Pehuen</h1>
+        <p class="subtitle">Ferretería Pehuen - Identidad inspirada en la Araucaria</p>
+
+        <div class="logos-grid">
+            <!-- Opción 1: Minimalista Umbrella -->
+            <div class="logo-card" data-logo="1">
+                <div class="logo-number">Opción 1 - Minimalista Umbrella</div>
+                <div class="logo-display" id="logo-svg-1">
+                    <svg viewBox="0 0 200 200" width="200" height="200">
+                        <!-- Trunk -->
+                        <rect x="94" y="40" width="12" height="140" rx="2" fill="#1a1a1a" />
+                        <!-- Araucaria Umbrella Layers -->
+                        <path d="M100 30 Q150 35 180 90 L165 100 Q130 60 100 60 Q70 60 35 100 L20 90 Q50 35 100 30 Z"
+                            fill="#FFD700" />
+                        <path d="M100 65 Q135 70 160 120 L145 130 Q115 85 100 85 Q85 85 55 130 L40 120 Q65 70 100 65 Z"
+                            fill="#FFD700" opacity="0.8" />
+                        <!-- Base Line -->
+                        <rect x="70" y="180" width="60" height="4" rx="2" fill="#1a1a1a" />
+                    </svg>
+                </div>
+                <p class="logo-description">
+                    Representación elegante y simétrica de la Araucaria. El color dorado transmite calidad y solidez,
+                    mientras que la estructura balanceada proyecta confianza profesional.
+                </p>
+                <button class="select-btn" onclick="selectLogo(1)">Seleccionar esta opción</button>
+            </div>
+
+            <!-- Opción 2: Pehuén Constructivo -->
+            <div class="logo-card" data-logo="2">
+                <div class="logo-number">Opción 2 - Pehuén Constructivo</div>
+                <div class="logo-display" id="logo-svg-2">
+                    <svg viewBox="0 0 200 200" width="200" height="200">
+                        <!-- House Roof Triangle -->
+                        <path d="M20 160 L100 40 L180 160 Z" fill="none" stroke="#1a1a1a" stroke-width="8"
+                            stroke-linejoin="round" />
+                        <!-- Stylized Araucaria Inside -->
+                        <rect x="96" y="70" width="8" height="90" fill="#FFD700" />
+                        <path d="M100 60 L140 100 L100 90 L60 100 Z" fill="#FFD700" />
+                        <path d="M100 90 L130 130 L100 120 L70 130 Z" fill="#FFD700" />
+                        <!-- Industrial Base -->
+                        <rect x="40" y="160" width="120" height="12" rx="2" fill="#1a1a1a" />
+                    </svg>
+                </div>
+                <p class="logo-description">
+                    Fusiona la silueta de un techo de casa con el árbol Pehuén.
+                    Ideal para una ferretería que se enfoca en la construcción y el hogar.
+                </p>
+                <button class="select-btn" onclick="selectLogo(2)">Seleccionar esta opción</button>
+            </div>
+
+            <!-- Opción 3: Isotipo Geométrico -->
+            <div class="logo-card" data-logo="3">
+                <div class="logo-number">Opción 3 - Isotipo Geométrico</div>
+                <div class="logo-display" id="logo-svg-3">
+                    <svg viewBox="0 0 200 200" width="200" height="200">
+                        <!-- Hexagon frame -->
+                        <path d="M100 10 L178 55 L178 145 L100 190 L22 145 L22 55 Z" fill="none" stroke="#FFD700"
+                            stroke-width="4" />
+                        <!-- Geometric Tree -->
+                        <rect x="95" y="60" width="10" height="100" fill="#1a1a1a" />
+                        <!-- Triangle Branches -->
+                        <path d="M100 40 L150 110 L50 110 Z" fill="#FFD700" />
+                        <path d="M100 80 L140 150 L60 150 Z" fill="#FFD700" opacity="0.7" />
+                    </svg>
+                </div>
+                <p class="logo-description">
+                    Un diseño moderno y tecnológico dentro de un hexágono, evocando precisión y maestría técnica.
+                    El contraste entre negro y amarillo es máximo para alta visibilidad.
+                </p>
+                <button class="select-btn" onclick="selectLogo(3)">Seleccionar esta opción</button>
+            </div>
+
+            <!-- Opción 4: Emblema Circular -->
+            <div class="logo-card" data-logo="4">
+                <div class="logo-number">Opción 4 - Emblema Circular</div>
+                <div class="logo-display" id="logo-svg-4">
+                    <svg viewBox="0 0 200 200" width="200" height="200">
+                        <circle cx="100" cy="100" r="90" fill="#1a1a1a" />
+                        <circle cx="100" cy="100" r="82" fill="none" stroke="#FFD700" stroke-width="2" />
+                        <!-- Tree -->
+                        <rect x="96" y="60" width="8" height="100" fill="#FFD700" />
+                        <path d="M100 45 Q160 55 160 90 Q160 100 100 85 Q40 100 40 90 Q40 55 100 45 Z" fill="#FFD700" />
+                        <path d="M100 85 Q140 95 140 120 Q140 130 100 115 Q60 130 60 120 Q60 95 100 85 Z" fill="#FFD700"
+                            opacity="0.8" />
+                    </svg>
+                </div>
+                <p class="logo-description">
+                    Formato de sello o emblema circular. Aporta autoridad y tradición.
+                    El Pehuén se destaca en amarillo sobre el fondo negro profundo.
+                </p>
+                <button class="select-btn" onclick="selectLogo(4)">Seleccionar esta opción</button>
+            </div>
+
+            <!-- Opción 5: Pehuén & Herramientas -->
+            <div class="logo-card" data-logo="5">
+                <div class="logo-number">Opción 5 - Pehuén & Herramientas</div>
+                <div class="logo-display" id="logo-svg-5">
+                    <svg viewBox="0 0 200 200" width="200" height="200">
+                        <!-- Hammer and Screwdriver background crossed -->
+                        <rect x="95" y="40" width="10" height="130" rx="2" fill="#1a1a1a" /> <!-- Vertical handle -->
+                        <path d="M60 50 L140 50 L140 70 L60 70 Z" fill="#1a1a1a" opacity="0.2" />
+                        <!-- Stylized hammer head -->
+                        <!-- Tree overlay -->
+                        <path d="M100 30 L160 100 L100 85 L40 100 Z" fill="#FFD700" />
+                        <path d="M100 85 L140 150 L100 135 L60 150 Z" fill="#FFD700" />
+                        <rect x="80" y="170" width="40" height="8" rx="4" fill="#1a1a1a" />
+                    </svg>
+                </div>
+                <p class="logo-description">
+                    Incorpora sutilmente formas sugerentes de herramientas en la estructura del árbol.
+                    Es el diseño más enfocado al rubro ferretero puro.
+                </p>
+                <button class="select-btn" onclick="selectLogo(5)">Seleccionar esta opción</button>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Instrucciones</h3>
+            <p>
+                Selecciona el logo que mejor represente la nueva etapa de <strong>Pehuen</strong>.
+                Todos los diseños están optimizados en formato vectorial (SVG) para máxima nitidez en cualquier
+                pantalla.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function selectLogo(number) {
+            document.querySelectorAll('.logo-card').forEach(card => card.classList.remove('selected'));
+            const selectedCard = document.querySelector(`[data-logo="${number}"]`);
+            selectedCard.classList.add('selected');
+
+            // Log for extraction
+            console.log(`LOGO_SELECTED: ${number}`);
+            alert(`✅ Opción ${number} seleccionada. ¡Excelente elección!`);
+        }
+    </script>
+</body>
+
+</html>

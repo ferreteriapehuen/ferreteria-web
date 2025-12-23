@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opciones de Logo - Ferretería El Perro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #fff;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 3rem;
+        }
+
+        .logos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .logo-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logo-card:hover {
+            transform: translateY(-10px);
+            border-color: #FFD700;
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.3);
+        }
+
+        .logo-card.selected {
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .logo-number {
+            font-size: 0.9rem;
+            color: #FFD700;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .logo-display {
+            background: #fff;
+            border-radius: 15px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px;
+            margin-bottom: 20px;
+        }
+
+        .logo-display svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .logo-description {
+            color: #ccc;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .select-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .select-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .instructions {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .instructions h3 {
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .instructions p {
+            color: #ddd;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🐕 Opciones de Logo</h1>
+        <p class="subtitle">Ferretería El Perro - Selecciona tu favorito</p>
+
+        <div class="logos-grid">
+            <!-- Logo Opción 1 -->
+            <div class="logo-card" data-logo="1">
+                <div class="logo-number">Opción 1 - Minimalista Moderno</div>
+                <div class="logo-display">
+                    <svg viewBox="0 0 200 200" width="200" height="200">
+                        <!-- Cabeza del perro -->
+                        <path d="M100 40 L120 70 L115 100 L100 110 L85 100 L80 70 Z" fill="#1a1a1a" />
+                        <!-- Orejas -->
+                        <path d="M80 70 L70 50 L75 70 Z" fill="#1a1a1a" />
+                        <path d="M120 70 L130 50 L125 70 Z" fill="#1a1a1a" />
+                        <!-- Detalles amarillos en orejas -->
+                        <path d="M80 70 L70 50 L75 65 Z" fill="#FFD700" opacity="0.6" />
+                        <path d="M120 70 L130 50 L125 65 Z" fill="#FFD700" opacity="0.6" />
+                        <!-- Hocico -->
+                        <path d="M90 95 L100 105 L110 95 L100 100 Z" fill="#FFD700" />
+                        <!-- Nariz -->
+                        <circle cx="100" cy="105" r="4" fill="#1a1a1a" />
+                        <!-- Ojos amigables -->
+                        <ellipse cx="90" cy="85" rx="3" ry="4" fill="#1a1a1a" />
+                        <ellipse cx="110" cy="85" rx="3" ry="4" fill="#1a1a1a" />
+                        <circle cx="91" cy="84" r="1.5" fill="#fff" />
+                        <circle cx="111" cy="84" r="1.5" fill="#fff" />
+                        <!-- Collar amarillo -->
+                        <ellipse cx="100" cy="115" rx="25" ry="8" fill="none" stroke="#FFD700" stroke-width="4" />
+                        <circle cx="100" cy="115" r="5" fill="#FFD700" />
+                    </svg>
+                </div>
+                <p class="logo-description">
+                    Diseño minimalista y geométrico. Pastor alemán con expresión amigable,
+                    orejas alertas y collar amarillo distintivo. Perfecto para uso digital y print.
+                </p>
+                <button class="select-btn" onclick="selectLogo(1)">Seleccionar esta opción</button>
+            </div>
+
+            <!-- Logo Opción 2 -->
+            <div class="logo-card" data-logo="2">
+                <div class="logo-number">Opción 2 - Badge Circular</div>
+                <div class="logo-display">
+                    <svg viewBox="0 0 200 200" width="200" height="200">
+                        <!-- Círculo exterior amarillo -->
+                        <circle cx="100" cy="100" r="90" fill="none" stroke="#FFD700" stroke-width="6" />
+                        <!-- Círculo interior -->
+                        <circle cx="100" cy="100" r="75" fill="#1a1a1a" />
+                        <!-- Cabeza del perro -->
+                        <ellipse cx="100" cy="95" rx="35" ry="40" fill="#2d2d2d" />
+                        <!-- Orejas puntiagudas -->
+                        <path d="M75 75 L70 50 L80 70 Z" fill="#2d2d2d" />
+                        <path d="M125 75 L130 50 L120 70 Z" fill="#2d2d2d" />
+                        <!-- Detalles amarillos orejas -->
+                        <path d="M75 75 L72 60 L78 72 Z" fill="#FFD700" />
+                        <path d="M125 75 L128 60 L122 72 Z" fill="#FFD700" />
+                        <!-- Hocico -->
+                        <ellipse cx="100" cy="105" rx="20" ry="15" fill="#4a4a4a" />
+                        <!-- Nariz -->
+                        <ellipse cx="100" cy="110" rx="6" ry="5" fill="#1a1a1a" />
+                        <!-- Boca sonriente -->
+                        <path d="M100 112 Q95 118 90 115 M100 112 Q105 118 110 115" stroke="#1a1a1a" stroke-width="2"
+                            fill="none" />
+                        <!-- Ojos felices -->
+                        <circle cx="88" cy="90" r="4" fill="#1a1a1a" />
+                        <circle cx="112" cy="90" r="4" fill="#1a1a1a" />
+                        <circle cx="89" cy="89" r="2" fill="#FFD700" />
+                        <circle cx="113" cy="89" r="2" fill="#FFD700" />
+                        <!-- Lengua -->
+                        <ellipse cx="100" cy="120" rx="8" ry="5" fill="#FFD700" opacity="0.8" />
+                    </svg>
+                </div>
+                <p class="logo-description">
+                    Logo en formato badge circular con pastor alemán feliz y lengua afuera.
+                    Transmite confianza y cercanía. Ideal para sellos y aplicaciones redondas.
+                </p>
+                <button class="select-btn" onclick="selectLogo(2)">Seleccionar esta opción</button>
+            </div>
+
+            <!-- Logo Opción 3 -->
+            <div class="logo-card" data-logo="3">
+                <div class="logo-number">Opción 3 - Perfil Profesional</div>
+                <div class="logo-display">
+                    <svg viewBox="0 0 200 200" width="200" height="200">
+                        <!-- Cuerpo base -->
+                        <path d="M50 120 Q60 100 80 90 L100 85 L120 90 Q140 100 150 120 L145 140 L55 140 Z"
+                            fill="#1a1a1a" />
+                        <!-- Cabeza en perfil -->
+                        <ellipse cx="110" cy="95" rx="30" ry="35" fill="#1a1a1a" />
+                        <!-- Oreja derecha -->
+                        <path d="M115 70 L125 50 L120 75 Z" fill="#1a1a1a" />
+                        <path d="M115 70 L123 55 L119 72 Z" fill="#FFD700" opacity="0.7" />
+                        <!-- Hocico extendido -->
+                        <path d="M125 95 L145 100 L143 105 L125 102 Z" fill="#2d2d2d" />
+                        <!-- Nariz -->
+                        <circle cx="145" cy="102" r="5" fill="#1a1a1a" />
+                        <!-- Ojo -->
+                        <circle cx="118" cy="90" r="5" fill="#1a1a1a" />
+                        <circle cx="119" cy="89" r="2" fill="#FFD700" />
+                        <!-- Collar con herramienta -->
+                        <rect x="95" y="115" width="40" height="8" rx="4" fill="#FFD700" />
+                        <!-- Martillo estilizado en el fondo -->
+                        <path d="M160 130 L170 120 L175 125 L165 135 Z" fill="#FFD700" opacity="0.3" />
+                        <rect x="165" y="125" width="4" height="20" fill="#FFD700" opacity="0.3" />
+                    </svg>
+                </div>
+                <p class="logo-description">
+                    Pastor alemán en perfil con herramienta integrada sutilmente.
+                    Diseño profesional que conecta al perro con el rubro ferretero.
+                </p>
+                <button class="select-btn" onclick="selectLogo(3)">Seleccionar esta opción</button>
+            </div>
+
+            <!-- Logo Opción 4 -->
+            <div class="logo-card" data-logo="4">
+                <div class="logo-number">Opción 4 - Sentado Amigable</div>
+                <div class="logo-display">
+                    <svg viewBox="0 0 200 200" width="200" height="200">
+                        <!-- Cuerpo sentado -->
+                        <ellipse cx="100" cy="130" rx="40" ry="35" fill="#1a1a1a" />
+                        <!-- Patas delanteras -->
+                        <rect x="80" y="145" width="12" height="35" rx="6" fill="#2d2d2d" />
+                        <rect x="108" y="145" width="12" height="35" rx="6" fill="#2d2d2d" />
+                        <!-- Patas amarillas (pies) -->
+                        <ellipse cx="86" cy="175" rx="8" ry="6" fill="#FFD700" />
+                        <ellipse cx="114" cy="175" rx="8" ry="6" fill="#FFD700" />
+                        <!-- Pecho -->
+                        <ellipse cx="100" cy="110" rx="28" ry="30" fill="#2d2d2d" />
+                        <!-- Cabeza -->
+                        <ellipse cx="100" cy="75" rx="25" ry="28" fill="#1a1a1a" />
+                        <!-- Orejas -->
+                        <path d="M82 60 L75 40 L85 62 Z" fill="#1a1a1a" />
+                        <path d="M118 60 L125 40 L115 62 Z" fill="#1a1a1a" />
+                        <path d="M82 60 L77 45 L84 60 Z" fill="#FFD700" opacity="0.6" />
+                        <path d="M118 60 L123 45 L116 60 Z" fill="#FFD700" opacity="0.6" />
+                        <!-- Hocico -->
+                        <ellipse cx="100" cy="82" rx="15" ry="12" fill="#4a4a4a" />
+                        <!-- Nariz -->
+                        <ellipse cx="100" cy="87" rx="5" ry="4" fill="#1a1a1a" />
+                        <!-- Sonrisa -->
+                        <path d="M100 89 Q95 93 92 91 M100 89 Q105 93 108 91" stroke="#1a1a1a" stroke-width="2"
+                            fill="none" />
+                        <!-- Ojos amigables -->
+                        <ellipse cx="90" cy="72" rx="4" ry="5" fill="#1a1a1a" />
+                        <ellipse cx="110" cy="72" rx="4" ry="5" fill="#1a1a1a" />
+                        <circle cx="91" cy="71" r="2" fill="#fff" />
+                        <circle cx="111" cy="71" r="2" fill="#fff" />
+                        <!-- Bandana amarilla -->
+                        <path d="M75 95 L100 90 L125 95 L120 105 L80 105 Z" fill="#FFD700" />
+                        <circle cx="100" cy="100" r="6" fill="#1a1a1a" />
+                    </svg>
+                </div>
+                <p class="logo-description">
+                    Pastor alemán sentado con bandana amarilla y expresión amigable.
+                    Transmite lealtad y servicio. Excelente para mascota de marca.
+                </p>
+                <button class="select-btn" onclick="selectLogo(4)">Seleccionar esta opción</button>
+            </div>
+
+            <!-- Logo Opción 5 -->
+            <div class="logo-card" data-logo="5">
+                <div class="logo-number">Opción 5 - Escudo Emblema</div>
+                <div class="logo-display">
+                    <svg viewBox="0 0 200 200" width="200" height="200">
+                        <!-- Escudo base -->
+                        <path d="M100 30 L150 50 L155 120 Q155 160 100 180 Q45 160 45 120 L50 50 Z" fill="#FFD700" />
+                        <!-- Escudo interior -->
+                        <path d="M100 40 L145 57 L149 120 Q149 155 100 172 Q51 155 51 120 L55 57 Z" fill="#1a1a1a" />
+                        <!-- Cabeza del perro -->
+                        <ellipse cx="100" cy="95" rx="30" ry="32" fill="#2d2d2d" />
+                        <!-- Orejas - una arriba, una ladeada (juguetón) -->
+                        <path d="M78 75 L70 55 L82 78 Z" fill="#2d2d2d" />
+                        <path d="M122 75 L130 60 L120 80 Z" fill="#2d2d2d" />
+                        <!-- Detalles amarillos -->
+                        <path d="M78 75 L73 62 L80 76 Z" fill="#FFD700" opacity="0.5" />
+                        <path d="M122 75 L127 65 L121 78 Z" fill="#FFD700" opacity="0.5" />
+                        <!-- Hocico -->
+                        <ellipse cx="100" cy="105" rx="18" ry="14" fill="#4a4a4a" />
+                        <!-- Nariz -->
+                        <ellipse cx="100" cy="110" rx="5" ry="4" fill="#1a1a1a" />
+                        <!-- Boca amigable -->
+                        <path d="M100 112 Q96 116 93 114 M100 112 Q104 116 107 114" stroke="#1a1a1a" stroke-width="2"
+                            fill="none" />
+                        <!-- Ojos alertas pero amigables -->
+                        <circle cx="88" cy="92" r="5" fill="#1a1a1a" />
+                        <circle cx="112" cy="92" r="5" fill="#1a1a1a" />
+                        <circle cx="89" cy="91" r="2.5" fill="#FFD700" />
+                        <circle cx="113" cy="91" r="2.5" fill="#FFD700" />
+                        <!-- Detalles del escudo -->
+                        <path d="M100 140 L105 150 L100 148 L95 150 Z" fill="#FFD700" />
+                        <!-- Líneas decorativas -->
+                        <line x1="70" y1="130" x2="80" y2="135" stroke="#FFD700" stroke-width="2" />
+                        <line x1="130" y1="130" x2="120" y2="135" stroke="#FFD700" stroke-width="2" />
+                    </svg>
+                </div>
+                <p class="logo-description">
+                    Emblema en escudo con pastor alemán alerta y amigable.
+                    Diseño premium que transmite calidad, protección y confianza profesional.
+                </p>
+                <button class="select-btn" onclick="selectLogo(5)">Seleccionar esta opción</button>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Instrucciones</h3>
+            <p>
+                Haz clic en "Seleccionar esta opción" en tu logo favorito.
+                Estos logos están en formato SVG vectorial, por lo que se pueden escalar a cualquier tamaño sin perder
+                calidad.
+                <br><br>
+                <strong>Todos conservan los colores negro (#1a1a1a) y amarillo dorado (#FFD700) de tu marca.</strong>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function selectLogo(number) {
+            // Remover selección previa
+            document.querySelectorAll('.logo-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Seleccionar el nuevo
+            const selectedCard = document.querySelector(`[data-logo="${number}"]`);
+            selectedCard.classList.add('selected');
+
+            // Mostrar mensaje
+            alert(`✅ Has seleccionado la Opción ${number}!\n\nEste logo se puede integrar fácilmente en tu sitio web.`);
+
+            console.log(`Logo ${number} seleccionado`);
+        }
+
+        // Animación de entrada
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.logo-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+
+</html>

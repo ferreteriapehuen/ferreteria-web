@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Ferretería Pehuen</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style -->
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+
+<body>
+
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fa-solid fa-screwdriver-wrench"></i> ADMIN</h2>
+                <p>Pehuen</p>
+                <img src="assets/images/logo.svg" alt="Pehuen Logo"
+                    style="width: 40px; filter: brightness(0) invert(1);">
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="nav-item active" data-tab="pos"><i class="fa-solid fa-cash-register"></i>
+                            Punto de Venta</a></li>
+                    <li><a href="#" class="nav-item" data-tab="inventory"><i class="fa-solid fa-boxes-stacked"></i>
+                            Inventario</a></li>
+                    <li><a href="#" class="nav-item" data-tab="movements"><i class="fa-solid fa-list-check"></i>
+                            Movimientos</a></li>
+                    <li><a href="#" class="nav-item" data-tab="users"><i class="fa-solid fa-users-gear"></i>
+                            Usuarios</a></li>
+                    <li><a href="index.html" class="nav-item"><i class="fa-solid fa-globe"></i> Ver Tienda</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- POS Section -->
+            <section id="pos" class="tab-content active">
+                <div class="pos-header">
+                    <h1>Punto de Venta</h1>
+                    <div class="scanner-container">
+                        <i class="fa-solid fa-barcode"></i>
+                        <input type="text" id="barcode-input" placeholder="Escanear Código o ID de producto..."
+                            autofocus autocomplete="off">
+                        <div id="pos-search-results" class="pos-search-results"></div>
+                    </div>
+                </div>
+
+                <div class="pos-layout">
+                    <!-- Cart/Ticket -->
+                    <div class="pos-cart">
+                        <div class="ticket-header">
+                            <span>Producto</span>
+                            <span>Cant.</span>
+                            <span>Subtotal</span>
+                            <span></span>
+                        </div>
+                        <div class="ticket-items" id="pos-ticket-items">
+                            <!-- Items via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Totals & Actions -->
+                    <div class="pos-sidebar">
+
+                        <!-- Document Settings -->
+                        <div class="doc-settings">
+                            <label class="doc-label">Tipo de Documento</label>
+                            <div class="doc-toggle">
+                                <button class="doc-btn active" onclick="setDocType('boleta')">Boleta</button>
+                                <button class="doc-btn" onclick="setDocType('factura')">Factura</button>
+                            </div>
+
+                            <!-- Invoice Details Form (Hidden by default) -->
+                            <div id="invoice-form" class="invoice-details" style="display: none;">
+                                <input type="text" id="cli-rut" placeholder="R.U.T (ej: 76.123.456-7)"
+                                    oninput="formatRut(this)">
+                                <input type="text" id="cli-name" placeholder="Razón Social">
+                                <input type="text" id="cli-giro" placeholder="Giro">
+                                <input type="text" id="cli-address" placeholder="Dirección">
+                            </div>
+                        </div>
+
+                        <div class="total-display">
+                            <small>Total a Pagar</small>
+                            <span id="pos-total-amount">$0</span>
+                        </div>
+                        <div class="payment-methods">
+                            <button class="pm-btn active"><i class="fa-solid fa-money-bill"></i> Efectivo</button>
+                            <button class="pm-btn"><i class="fa-regular fa-credit-card"></i> Tarjeta</button>
+                        </div>
+                        <button class="btn-checkout" id="pos-checkout-btn">Emitir Documento (F12)</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Inventory Section -->
+            <section id="inventory" class="tab-content">
+                <div class="inventory-header">
+                    <h1>Gestión de Inventario</h1>
+                    <div class="inv-controls">
+                        <input type="text" id="inv-search" placeholder="Buscar producto...">
+                        <select id="inv-filter">
+                            <option value="all">Todas las categorías</option>
+                            <option value="herramientas">Herramientas</option>
+                            <option value="materiales">Materiales</option>
+                            <option value="seguridad">Seguridad</option>
+                            <option value="aridos">Áridos</option>
+                            <option value="jardin">Jardín</option>
+                        </select>
+                        <button class="btn-add" id="btn-add-product"><i class="fa-solid fa-plus"></i> Nuevo
+                            Producto</button>
+                        <button class="btn-add" id="btn-manage-stock"
+                            style="background-color: #2196F3; margin-left: 10px;">
+                            <i class="fa-solid fa-boxes-packing"></i> Gestionar Stock
+                        </button>
+                    </div>
+                </div>
+
+                <div class="inventory-table-wrapper">
+                    <table class="inventory-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Historial</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventory-body">
+                            <!-- Rows via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Sales Movements Section -->
+            <section id="movements" class="tab-content">
+                <div class="inventory-header">
+                    <h1>Movimientos de Venta</h1>
+                    <div class="inv-controls">
+                        <button class="btn-add" id="btn-daily-report" style="background-color: var(--admin-accent);">
+                            <i class="fa-solid fa-file-invoice-dollar"></i> Informe Diario
+                        </button>
+                    </div>
+                </div>
+
+                <div class="inventory-table-wrapper">
+                    <table class="inventory-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha/Hora</th>
+                                <th>Doc. Nº</th>
+                                <th>Tipo</th>
+                                <th>Productos</th>
+                                <th>Total</th>
+                                <th>Vendedor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="movements-body">
+                            <!-- Rows via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Users Management Section -->
+            <section id="users" class="tab-content">
+                <div class="inventory-header">
+                    <h1>Administración de Usuarios</h1>
+                    <div class="inv-controls">
+                        <button class="btn-add" id="btn-add-user"><i class="fa-solid fa-user-plus"></i> Nuevo
+                            Usuario</button>
+                    </div>
+                </div>
+
+                <div class="inventory-table-wrapper">
+                    <table class="inventory-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Email / Usuario</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-body">
+                            <!-- Rows via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal-overlay open">
+        <div class="login-box">
+            <h2>Acceso Administrativo</h2>
+            <p>Ferretería Pehuen</p>
+            <form id="admin-login-form">
+                <select id="admin-user-select" class="login-select" required
+                    style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 15px; background: white;">
+                    <option value="" disabled selected>Seleccione Usuario</option>
+                </select>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <input type="password" id="admin-password" placeholder="Contraseña" required
+                        style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;">
+                </div>
+                <button type="submit">Ingresar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div id="add-product-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>Agregar Nuevo Producto</h3>
+                <button class="close-modal" id="close-add-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="add-product-form">
+                <div class="form-group">
+                    <label>Nombre del Producto</label>
+                    <input type="text" id="new-prod-name" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select id="new-prod-category">
+                            <option value="herramientas">Herramientas</option>
+                            <option value="materiales">Materiales</option>
+                            <option value="seguridad">Seguridad</option>
+                            <option value="aridos">Áridos</option>
+                            <option value="jardin">Jardín</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio (CLP)</label>
+                        <input type="number" id="new-prod-price" min="0" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Stock Inicial</label>
+                        <input type="number" id="new-prod-stock" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>ID Personalizado (Opcional)</label>
+                        <input type="number" id="new-prod-id" placeholder="Auto">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>URL Imagen (Opcional)</label>
+                    <input type="text" id="new-prod-image" placeholder="assets/images/...">
+                </div>
+
+                <div class="form-group">
+                    <label>Subir Imágenes (Múltiples)</label>
+                    <input type="file" id="new-prod-image-file" accept="image/*" multiple
+                        style="width: 100%; padding: 10px; border: 1px dashed #ccc; border-radius: 8px;">
+                    <div id="image-preview-container"
+                        style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 10px;"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Documento Asociado</label>
+                    <input type="text" id="new-prod-doc" placeholder="N° Factura/Guía">
+                </div>
+                <button type="submit" class="btn-primary-modal">Guardar Producto</button>
+            </form>
+        </div>
+    </div>
+    <!-- Add/Edit User Modal -->
+    <div id="user-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="user-modal-title">Gestión de Usuario</h3>
+                <button class="close-modal" id="close-user-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="user-form">
+                <input type="hidden" id="user-idx">
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="user-fullname" required>
+                </div>
+                <div class="form-group">
+                    <label>Email / Usuario</label>
+                    <input type="email" id="user-email" required placeholder="ejemplo@pehuen.cl">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="password" id="user-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Rol</label>
+                        <select id="user-role">
+                            <option value="admin">Administrador</option>
+                            <option value="vendedor">Vendedor</option>
+                            <option value="bodeguero">Bodeguero</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary-modal">Guardar Usuario</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Stock Management Modal -->
+    <div id="stock-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>Gestionar Stock</h3>
+                <button class="close-modal" id="close-stock-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="stock-form">
+                <div class="form-group">
+                    <label>Producto</label>
+                    <select id="stock-product-select" required style="width: 100%; padding: 10px; border-radius: 8px;">
+                        <option value="" disabled selected>Seleccione Producto</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Stock Actual: <span id="stock-current-display"
+                            style="font-weight: bold; color: var(--admin-primary);">-</span></label>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tipo de Movimiento</label>
+                        <select id="stock-type-select">
+                            <option value="entry">Ingreso (Aumento)</option>
+                            <option value="exit">Salida/Ajuste (Disminución)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Cantidad</label>
+                        <input type="number" id="stock-qty" min="1" required>
+                    </div>
+                </div>
+                <div class="form-group" id="stock-doc-group">
+                    <label>Documento de Respaldo</label>
+                    <input type="text" id="stock-doc" placeholder="N° Factura o Guía de Despacho">
+                </div>
+                <div class="form-group" id="stock-justification-group" style="display: none;">
+                    <label>Justificación</label>
+                    <input type="text" id="stock-justification" placeholder="Motivo del ajuste (ej: Daño, Pérdida)">
+                </div>
+                <button type="submit" class="btn-primary-modal" style="background: #2196F3;">Guardar Movimiento</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+    <div id="history-modal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 id="history-modal-title">Historial de Producto</h3>
+                <button class="close-modal" id="close-history-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="inventory-table-wrapper" style="max-height: 400px; overflow-y: auto;">
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Tipo</th>
+                            <th>Folio/Doc</th>
+                            <th>Detalle</th>
+                            <th>Cantidad</th>
+                            <th>Usuario</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-table-body">
+                        <!-- Rows via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- DTE Receipt Modal (Simulation) -->
+    <div id="dte-modal" class="modal-overlay">
+        <div class="modal-box dte-box">
+            <div class="dte-paper">
+                <div class="dte-header">
+                    <h3>FERRETERÍA PEHUEN</h3>
+                    <p>R.U.T.: 76.888.999-K</p>
+                    <p>GIRO: MATERIALES DE CONSTRUCCIÓN</p>
+                    <p>CASA MATRIZ: ARTURO PRAT 29, LEBU</p>
+                    <hr>
+                    <h2 id="dte-title">BOLETA ELECTRÓNICA</h2>
+                    <p id="dte-number">Nº 000012345</p>
+                    <p>S.I.I. - CONCEPCIÓN</p>
+                </div>
+                <div class="dte-client-info" id="dte-client-info" style="display:none;">
+                    <!-- Client info injected here -->
+                </div>
+                <hr>
+                <div class="dte-items" id="dte-items">
+                    <!-- Items -->
+                </div>
+                <hr>
+                <div class="dte-totals">
+                    <div class="dte-row total">
+                        <strong>TOTAL</strong>
+                        <strong id="dte-total">$0</strong>
+                    </div>
+                </div>
+                <div class="dte-footer">
+                    <div class="barcode-fake">
+                        |||||||||||||||||||||||||||||||||
+                    </div>
+                    <p>Timbre Electrónico SSI</p>
+                    <p>Res. 80 de 2014 - Verifique documento: www.sii.cl</p>
+                </div>
+                <button class="btn-print" onclick="window.print()">Imprimir</button>
+                <button class="btn-close-dte" onclick="closeDteModal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/admin.js"></script>
+</body>
+
+</html>

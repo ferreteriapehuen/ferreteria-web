@@ -1,0 +1,971 @@
+const defaultProducts = [
+    {
+        id: 1,
+        name: "Taladro Percutor Inalámbrico 18V",
+        category: "herramientas",
+        price: 89990,
+        oldPrice: 120000,
+        image: "assets/images/prod_taladro.jpg",
+        stock: 15
+    },
+    {
+        id: 2,
+        name: "Set de Herramientas 120 Piezas",
+        category: "herramientas",
+        price: 45990,
+        oldPrice: null,
+        image: "assets/images/prod_set.jpg",
+        stock: 20
+    },
+    {
+        id: 3,
+        name: "Pintura Latex Interior Blanco 1GL",
+        category: "materiales",
+        price: 15990,
+        oldPrice: 22990,
+        image: "assets/images/prod_pintura.jpg",
+        stock: 50
+    },
+    {
+        id: 4,
+        name: "Casco de Seguridad Industrial",
+        category: "seguridad",
+        price: 5990,
+        oldPrice: null,
+        image: "assets/images/prod_casco.png",
+        stock: 100
+    },
+    {
+        id: 5,
+        name: "Esmeril Angular 4 1/2'' 800W",
+        category: "herramientas",
+        price: 32990,
+        oldPrice: 39990,
+        image: "assets/images/prod_esmeril.jpg",
+        stock: 8
+    },
+    {
+        id: 6,
+        name: "Cemento Portland 25kg",
+        category: "materiales",
+        price: 4500,
+        oldPrice: null,
+        image: "assets/images/prod_cemento.png",
+        stock: 200
+    },
+    {
+        id: 7,
+        name: "Escalera de Aluminio Tijera 5 Peldaños",
+        category: "herramientas",
+        price: 34990,
+        oldPrice: 42990,
+        image: "assets/images/prod_escalera.png",
+        stock: 12
+    },
+    {
+        id: 8,
+        name: "Guantes de Seguridad Multiflex",
+        category: "seguridad",
+        price: 1990,
+        oldPrice: null,
+        image: "assets/images/prod_guantes.png",
+        stock: 300
+    },
+    {
+        id: 103,
+        name: "Arena Rubia (Metro Cúbico)",
+        category: "aridos",
+        price: 32000,
+        oldPrice: 35000,
+        image: "assets/images/prod_arena.png",
+        stock: 50
+    },
+    {
+        id: 104,
+        name: "Ripio 3/4 (Metro Cúbico)",
+        category: "aridos",
+        price: 34000,
+        oldPrice: null,
+        image: "assets/images/prod_ripio.jpg",
+        stock: 50
+    },
+    {
+        id: 105,
+        name: "Gravilla (Metro Cúbico)",
+        category: "aridos",
+        price: 36000,
+        oldPrice: null,
+        image: "assets/images/prod_gravilla.jpg",
+        stock: 50
+    },
+    {
+        id: 9,
+        name: "Sierra Circular 1800W",
+        category: "herramientas",
+        price: 54990,
+        oldPrice: 62990,
+        image: "assets/images/prod_sierra_circular.png",
+        stock: 5
+    },
+    {
+        id: 10,
+        name: "Lijadora Orbital 300W",
+        category: "herramientas",
+        price: 28990,
+        oldPrice: null,
+        image: "assets/images/prod_lijadora.png",
+        stock: 9
+    },
+    {
+        id: 11,
+        name: "Martillo Carpintero 20oz",
+        category: "herramientas",
+        price: 8990,
+        oldPrice: null,
+        image: "assets/images/prod_martillo.png",
+        stock: 30
+    },
+    {
+        id: 12,
+        name: "Destornillador Inalámbrico Compacto",
+        category: "herramientas",
+        price: 18990,
+        oldPrice: 24990,
+        image: "assets/images/prod_destornillador.png",
+        stock: 25
+    },
+    {
+        id: 13,
+        name: "Pasta Muro Interior 1GL",
+        category: "materiales",
+        price: 9990,
+        oldPrice: null,
+        image: "assets/images/prod_pasta_muro.png",
+        stock: 40
+    },
+    {
+        id: 14,
+        name: "Rodillo Antigota 18cm",
+        category: "materiales",
+        price: 4990,
+        oldPrice: null,
+        image: "assets/images/prod_rodillo.png",
+        stock: 60
+    },
+    {
+        id: 15,
+        name: "Lentes de Seguridad",
+        category: "seguridad",
+        price: 2990,
+        oldPrice: null,
+        image: "assets/images/prod_casco.png",
+        stock: 150
+    },
+    {
+        id: 16,
+        name: "Zapatos de Seguridad Dielectricos",
+        category: "seguridad",
+        price: 24990,
+        oldPrice: 32990,
+        image: "assets/images/prod_casco.png",
+        stock: 25
+    },
+    {
+        id: 17,
+        name: "Silicona Multiuso Transparente",
+        category: "materiales",
+        price: 3500,
+        oldPrice: null,
+        image: "assets/images/prod_pintura.jpg",
+        stock: 80
+    },
+    {
+        id: 18,
+        name: "Huincha de Medir 5 Metros",
+        category: "herramientas",
+        price: 3990,
+        oldPrice: null,
+        image: "assets/images/prod_set.jpg",
+        stock: 45
+    },
+    {
+        id: 201,
+        name: "Manguera de Riego Reforzada 20m",
+        category: "jardin",
+        price: 12990,
+        oldPrice: 15990,
+        image: "assets/images/prod_manguera.png",
+        stock: 18
+    },
+    {
+        id: 202,
+        name: "Tijera de Podar Profesional",
+        category: "jardin",
+        price: 8990,
+        oldPrice: null,
+        image: "assets/images/prod_tijera.png",
+        stock: 22
+    },
+    {
+        id: 203,
+        name: "Pala de Jardín Punta Huevo",
+        category: "jardin",
+        price: 9990,
+        oldPrice: null,
+        image: "assets/images/prod_pala.png",
+        stock: 16
+    },
+    {
+        id: 204,
+        name: "Rastrillo Metálico 14 Dientes",
+        category: "jardin",
+        price: 6990,
+        oldPrice: null,
+        image: "assets/images/prod_rastrillo.png",
+        stock: 14
+    },
+    {
+        id: 205,
+        name: "Pulverizador de Espalda 5L",
+        category: "jardin",
+        price: 18990,
+        oldPrice: 24990,
+        image: "assets/images/prod_pulverizador.png",
+        stock: 8
+    },
+    {
+        id: 206,
+        name: "Cortasetos Eléctrico 600W",
+        category: "jardin",
+        price: 45990,
+        oldPrice: 52990,
+        image: "assets/images/prod_cortasetos.png",
+        stock: 4
+    }
+];
+
+// Load products from LocalStorage or use default
+let products = JSON.parse(localStorage.getItem('pehuen_products')) || defaultProducts;
+
+// Ensure local storage is synced initially if it was empty
+if (!localStorage.getItem('pehuen_products')) {
+    localStorage.setItem('pehuen_products', JSON.stringify(products));
+}
+
+// Helper to save products to storage
+const saveProducts = () => {
+    localStorage.setItem('pehuen_products', JSON.stringify(products));
+};
+
+
+// State
+let cart = JSON.parse(localStorage.getItem('pehuen_cart')) || [];
+
+// Save Cart Function
+const saveCart = () => {
+    localStorage.setItem('pehuen_cart', JSON.stringify(cart));
+};
+
+// Aridos Calculator Logic
+window.calculateAridos = () => {
+    const length = parseFloat(document.getElementById('calc-length').value) || 0;
+    const width = parseFloat(document.getElementById('calc-width').value) || 0;
+    const depthCm = parseFloat(document.getElementById('calc-depth').value) || 0;
+
+    if (length <= 0 || width <= 0 || depthCm <= 0) {
+        alert('Por favor ingresa medidas válidas (mayores a 0).');
+        return;
+    }
+
+    // Convert depth to meters
+    const depthM = depthCm / 100;
+
+    // Calculate m3
+    const m3 = length * width * depthM;
+
+    // Calculate estimate in 25kg sacks (Approx 1m3 sand = 1500-1600kg. Let's use 1600kg ~ 64 sacks)
+    // This is an estimation.
+    const sacks = Math.ceil((m3 * 1600) / 25);
+
+    // Display
+    document.getElementById('result-m3').textContent = m3.toFixed(2) + ' m³';
+    document.getElementById('result-sacos').textContent = sacks;
+    document.getElementById('calc-result').style.display = 'block';
+};
+
+// DOM Elements
+const productsContainer = document.getElementById('products-container');
+const cartCountElement = document.getElementById('cart-count');
+const filterButtons = document.querySelectorAll('.filter-btn');
+const searchInput = document.getElementById('search-input');
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const navList = document.getElementById('nav-list');
+const navLinks = document.querySelectorAll('.nav-list a:not(#mobile-menu-btn)'); // Exclude toggle button
+
+// Format Currency
+const formatPrice = (price) => {
+    return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(price);
+};
+
+// Create Product Card HTML
+const createProductCard = (product) => {
+    const hasDiscount = product.oldPrice != null;
+    const discountPercentage = hasDiscount
+        ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
+        : 0;
+
+    // Check for multiple images
+    const images = product.images && product.images.length > 0 ? product.images : [product.image];
+    const isCarousel = images.length > 1;
+
+    let carouselHTML = '';
+    if (isCarousel) {
+        carouselHTML = `
+            <div class="carousel-container" id="carousel-${product.id}">
+                ${images.map((img, idx) => `
+                    <div class="carousel-slide ${idx === 0 ? 'active' : ''}" data-index="${idx}">
+                        <img src="${img}" alt="${product.name} - ${idx + 1}">
+                    </div>
+                `).join('')}
+                <button class="carousel-btn prev" onclick="changeSlide(${product.id}, -1, event)"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="carousel-btn next" onclick="changeSlide(${product.id}, 1, event)"><i class="fa-solid fa-chevron-right"></i></button>
+                <div class="carousel-dots">
+                    ${images.map((_, idx) => `
+                        <span class="dot ${idx === 0 ? 'active' : ''}" onclick="setSlide(${product.id}, ${idx}, event)"></span>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    } else {
+        carouselHTML = `<img src="${images[0]}" alt="${product.name}">`;
+    }
+
+    return `
+        <div class="product-card" data-product-id="${product.id}">
+            <div class="product-image">
+                ${hasDiscount ? `<span class="discount-badge">-${discountPercentage}%</span>` : ''}
+                ${carouselHTML}
+            </div>
+            <div class="product-info">
+                <span class="product-cat">${product.category}</span>
+                <h3 class="product-title">${product.name}</h3>
+                <div class="product-price">
+                    <span class="current-price">${formatPrice(product.price)}</span>
+                    ${hasDiscount ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
+                </div>
+                
+                <div class="product-actions">
+                    <div class="qty-selector">
+                        <button class="qty-btn minus" onclick="adjustCardQty(this, -1)">-</button>
+                        <input type="number" class="qty-input" value="1" min="1" readonly>
+                        <button class="qty-btn plus" onclick="adjustCardQty(this, 1)">+</button>
+                    </div>
+                    <button class="btn btn-add" onclick="addToCart(${product.id}, this)">
+                        <i class="fa-solid fa-cart-shopping"></i> Agregar
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+};
+
+// Carousel Logic
+const carouselStates = {};
+
+window.changeSlide = (productId, delta, event) => {
+    if (event) event.stopPropagation();
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+
+    const images = product.images && product.images.length > 0 ? product.images : [product.image];
+    if (images.length <= 1) return;
+
+    if (!carouselStates[productId]) carouselStates[productId] = 0;
+
+    let newIndex = carouselStates[productId] + delta;
+    if (newIndex >= images.length) newIndex = 0;
+    if (newIndex < 0) newIndex = images.length - 1;
+
+    setSlide(productId, newIndex);
+};
+
+window.setSlide = (productId, index, event) => {
+    if (event) event.stopPropagation();
+    carouselStates[productId] = index;
+
+    const card = document.querySelector(`.product-card[data-product-id="${productId}"]`);
+    if (!card) return;
+
+    const slides = card.querySelectorAll('.carousel-slide');
+    const dots = card.querySelectorAll('.dot');
+
+    slides.forEach(s => s.classList.remove('active'));
+    dots.forEach(d => d.classList.remove('active'));
+
+    slides[index].classList.add('active');
+    dots[index].classList.add('active');
+
+    // Reset auto-rotate timer if it exists
+    resetAutoRotate(productId);
+};
+
+const autoRotateTimers = {};
+const startAutoRotate = () => {
+    products.forEach(product => {
+        if (product.images && product.images.length > 1) {
+            resetAutoRotate(product.id);
+        }
+    });
+};
+
+const resetAutoRotate = (productId) => {
+    if (autoRotateTimers[productId]) clearInterval(autoRotateTimers[productId]);
+    autoRotateTimers[productId] = setInterval(() => {
+        changeSlide(productId, 1);
+    }, 4000); // Change image every 4 seconds
+};
+
+// Render Products
+const renderProducts = (category = 'all', searchTerm = '') => {
+    if (!productsContainer) return;
+
+    productsContainer.innerHTML = '';
+    productsContainer.style.opacity = '0.5';
+
+    setTimeout(() => {
+        let filteredProducts = products;
+
+        if (category !== 'all') {
+            filteredProducts = filteredProducts.filter(p => p.category === category || (category === 'materiales' && p.category !== 'herramientas' && p.category !== 'aridos' && p.category !== 'jardin'));
+        } else if (!searchTerm) {
+            filteredProducts = filteredProducts.filter(p => p.category !== 'aridos');
+        }
+
+        if (searchTerm) {
+            const term = searchTerm.toLowerCase();
+            filteredProducts = filteredProducts.filter(p =>
+                p.name.toLowerCase().includes(term) ||
+                p.category.toLowerCase().includes(term)
+            );
+        }
+
+        if (filteredProducts.length === 0) {
+            productsContainer.innerHTML = '<div class="no-results"><p>No encontramos productos con esa descripción.</p></div>';
+            productsContainer.style.opacity = '1';
+            return;
+        }
+
+        filteredProducts.forEach(product => {
+            productsContainer.insertAdjacentHTML('beforeend', createProductCard(product));
+        });
+
+        productsContainer.style.opacity = '1';
+        startAutoRotate();
+    }, 300);
+};
+
+// Add to Cart Function
+window.addToCart = (id) => {
+    const product = products.find(p => p.id === id);
+    if (product) {
+        cart.push(product);
+        updateCartCount();
+
+        // Visual feedback
+        const btn = event.target.closest('.btn-add');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Agregado';
+        btn.style.backgroundColor = 'var(--success)';
+
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.backgroundColor = '';
+        }, 1500);
+    }
+};
+
+
+
+
+// Event Listeners for Filters
+filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Remove active class from all
+        filterButtons.forEach(b => b.classList.remove('active'));
+        // Add active to clicked
+        btn.classList.add('active');
+        // Render
+        renderProducts(btn.dataset.filter);
+    });
+});
+
+// Search Functionality
+if (searchInput) {
+    searchInput.addEventListener('input', (e) => { // Changed to 'change' or keeping 'input' but handling redirect on Enter? 
+        // 'input' is real-time. Redirecting on input is bad UX for typing.
+    });
+
+    // Better: Handle 'Enter' key or search button click for redirect scenarios, 
+    // but for index page 'input' is nice.
+    // Let's keep 'input' for index page, but if we are on another page, we need to wait for Enter?
+    // Actually, the previous code was doing realtime search on index. 
+
+    // To support "Search from Aridos Page" -> we probably need to listen for "Enter" key or button click.
+    // Realtime search on Aridos page without results is weird.
+
+    // Let's change listener to handle both.
+
+    searchInput.addEventListener('keyup', (e) => {
+        const term = searchInput.value;
+        if (productsContainer) {
+            // We are on Index, do realtime
+            renderProducts('all', term);
+            if (term.length > 0) {
+                filterButtons.forEach(b => b.classList.remove('active'));
+            }
+        } else {
+            // We are on another page. Wait for Enter to redirect.
+            if (e.key === 'Enter') {
+                window.location.href = `index.html?search=${encodeURIComponent(term)}`;
+            }
+        }
+    });
+
+    // Also handle the search button click if it exists (it's in HTML but no ID)
+    const searchBtn = searchInput.nextElementSibling; // The button next to input
+    if (searchBtn) {
+        searchBtn.addEventListener('click', () => {
+            const term = searchInput.value;
+            if (productsContainer) {
+                renderProducts('all', term);
+            } else {
+                window.location.href = `index.html?search=${encodeURIComponent(term)}`;
+            }
+        });
+    }
+}
+
+// Mobile Menu Toggle
+if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        navList.classList.toggle('show');
+    });
+}
+
+// Nav Links as Filters
+navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        // Do not intercept if it's a real link (not #) and not an in-page anchor
+        if (href && href !== '#' && !href.startsWith('#')) return;
+
+        e.preventDefault();
+        const text = link.textContent.toLowerCase().trim();
+
+        // Map nav text to standard categories
+        let category = 'all';
+        if (text.includes('herramientas')) category = 'herramientas';
+        else if (text.includes('materiales')) category = 'materiales';
+        else if (text.includes('pinturas')) category = 'materiales'; // Mapped to materiales for demo
+        else if (text.includes('seguridad')) category = 'seguridad';
+
+        renderProducts(category);
+
+        // Scroll to products
+        const productsSection = document.getElementById('productos');
+        productsSection.scrollIntoView({ behavior: 'smooth' });
+
+        // Close mobile menu if open
+        navList.classList.remove('show');
+    });
+});
+
+// Render Áridos Products (for the dedicated section)
+const renderAridosProducts = () => {
+    const aridosContainer = document.getElementById('aridos-products-container');
+    if (!aridosContainer) return;
+
+    aridosContainer.innerHTML = '';
+    aridosContainer.style.opacity = '0.5';
+
+    setTimeout(() => {
+        const aridosProducts = products.filter(p => p.category === 'aridos');
+
+        aridosProducts.forEach(product => {
+            aridosContainer.insertAdjacentHTML('beforeend', createProductCard(product));
+        });
+
+        aridosContainer.style.opacity = '1';
+        startAutoRotate();
+    }, 300);
+};
+
+// Initial Render
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Check for URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchParam = urlParams.get('search');
+
+    if (searchParam && productsContainer) {
+        if (searchInput) searchInput.value = searchParam;
+        // Render with search term, overriding default 'all' view which hides aridos
+        renderProducts('all', searchParam);
+        // Also scroll to products
+        setTimeout(() => {
+            const productsSection = document.getElementById('productos');
+            if (productsSection) productsSection.scrollIntoView({ behavior: 'smooth' });
+        }, 500);
+    } else {
+        renderProducts();
+    }
+
+    renderAridosProducts(); // Also render áridos section
+});
+
+/* Cart Logic */
+const cartDrawer = document.getElementById('cart-drawer');
+const cartOverlay = document.getElementById('cart-overlay');
+const closeCartBtn = document.getElementById('close-cart');
+const cartItemsContainer = document.getElementById('cart-items');
+const cartTotalAmount = document.getElementById('cart-total-amount');
+const cartTrigger = document.querySelector('.cart-trigger'); // Trigger in header
+
+// Toggle Cart
+const toggleCart = () => {
+    cartDrawer.classList.toggle('open');
+    cartOverlay.classList.toggle('open');
+};
+
+// Open Cart
+const openCart = () => {
+    cartDrawer.classList.add('open');
+    cartOverlay.classList.add('open');
+};
+
+// Close Cart Events
+closeCartBtn.addEventListener('click', toggleCart);
+cartOverlay.addEventListener('click', toggleCart);
+cartTrigger.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleCart();
+});
+
+// Update renderCart
+// Adjust Quantity on Product Card
+window.adjustCardQty = (btn, delta) => {
+    const input = btn.parentElement.querySelector('.qty-input');
+    let val = parseInt(input.value) || 1;
+    val += delta;
+    if (val < 1) val = 1;
+    input.value = val;
+};
+
+// Render Cart Items
+const renderCartItems = () => {
+    cartItemsContainer.innerHTML = '';
+
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = `
+            <div class="empty-cart-msg">
+                <i class="fa-solid fa-basket-shopping"></i>
+                <p>Tu carro está vacío</p>
+                <button class="btn btn-primary" onclick="toggleCart(); document.getElementById('productos').scrollIntoView({behavior: 'smooth'})">Ir a comprar</button>
+            </div>
+        `;
+        cartTotalAmount.textContent = formatPrice(0);
+        return;
+    }
+
+    let total = 0;
+
+    cart.forEach(item => {
+        total += item.price * item.qty;
+
+        const cartItem = document.createElement('div');
+        cartItem.className = 'cart-item';
+        cartItem.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <div class="item-details">
+                <h4>${item.name}</h4>
+                <div class="cart-qty-controls">
+                    <button class="mini-qty-btn" onclick="updateCartQty(${item.id}, ${item.qty - 1})"><i class="fa-solid fa-minus"></i></button>
+                    <span class="cart-qty-display">${item.qty}</span>
+                    <button class="mini-qty-btn" onclick="updateCartQty(${item.id}, ${item.qty + 1})"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <button class="remove-item" onclick="removeFromCart(${item.id})">Eliminar</button>
+            </div>
+            <div class="item-total">
+                ${formatPrice(item.price * item.qty)}
+            </div>
+        `;
+        cartItemsContainer.appendChild(cartItem);
+    });
+
+    cartTotalAmount.textContent = formatPrice(total);
+};
+
+// Update Cart Quantity
+window.updateCartQty = (id, newQty) => {
+    if (newQty < 1) {
+        // Optional: Ask to remove or just remove
+        removeFromCart(id);
+        return;
+    }
+
+    const item = cart.find(p => p.id === id);
+    if (item) {
+        item.qty = newQty;
+        updateCartCount();
+        saveCart();
+        renderCartItems();
+    }
+};
+
+// Remove from Cart
+window.removeFromCart = (id) => {
+    const index = cart.findIndex(item => item.id === id);
+    if (index > -1) {
+        cart.splice(index, 1);
+        updateCartCount();
+        saveCart();
+        renderCartItems();
+    }
+};
+
+// Add to Cart
+window.addToCart = (id, btnElement) => {
+    const product = products.find(p => p.id === id);
+    if (!product) return;
+
+    let qtyToAdd = 1;
+    if (btnElement) {
+        // Find the input in the same container
+        // Traverse up to .product-actions or just sibling search
+        const container = btnElement.closest('.product-actions');
+        // Note: I will update HTML to have product-actions wrapper. 
+        // If wrapper not there (old HTML), fallback to 1.
+        if (container) {
+            const input = container.querySelector('.qty-input');
+            if (input) qtyToAdd = parseInt(input.value) || 1;
+        }
+    }
+
+    // Check if exists
+    const existingItem = cart.find(item => item.id === id);
+    if (existingItem) {
+        existingItem.qty += qtyToAdd;
+    } else {
+        cart.push({ ...product, qty: qtyToAdd });
+    }
+
+    updateCartCount();
+    saveCart();
+    renderCartItems();
+    openCart();
+
+    // Visual feedback
+    if (btnElement) {
+        const originalHTML = btnElement.innerHTML;
+        btnElement.innerHTML = '<i class="fa-solid fa-check"></i>';
+        btnElement.style.backgroundColor = 'var(--success)';
+        setTimeout(() => {
+            btnElement.innerHTML = originalHTML;
+            btnElement.style.backgroundColor = '';
+        }, 1500);
+    }
+};
+
+const updateCartCount = () => {
+    const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+    cartCountElement.textContent = totalCount;
+    cartCountElement.classList.add('bump');
+    setTimeout(() => cartCountElement.classList.remove('bump'), 300);
+};
+
+// Checkout via WhatsApp
+const checkoutBtn = document.querySelector('.checkout-btn');
+
+// Checkout Modal Logic
+let checkoutModalCreated = false;
+
+const createCheckoutModal = () => {
+    if (checkoutModalCreated) return;
+
+    // Check if user is logged in
+    const currentUser = JSON.parse(localStorage.getItem('pehuen_currentUser'));
+    const prefillName = currentUser ? currentUser.name : '';
+    const prefillEmail = currentUser ? currentUser.email : ''; // Not used in form currently but good to have context
+
+    const modalHTML = `
+        <div id="checkout-modal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Finalizar Pedido</h3>
+                    <button class="close-modal" onclick="closeCheckoutModal()"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    <p>Ingresa tus datos para agilizar el despacho.</p>
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" id="cust-name" placeholder="Tu nombre" value="${prefillName}">
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección de Despacho</label>
+                        <input type="text" id="cust-address" placeholder="Calle, Número, Comuna">
+                    </div>
+                    <div class="form-group">
+                        <label>Comentarios (Opcional)</label>
+                        <textarea id="cust-notes" placeholder="Referencia, horario, etc."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary btn-block" onclick="submitOrder()">
+                        <i class="fa-brands fa-whatsapp"></i> Enviar Pedido por WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    checkoutModalCreated = true;
+};
+
+window.closeCheckoutModal = () => {
+    const modal = document.getElementById('checkout-modal');
+    if (modal) modal.classList.remove('open');
+};
+
+window.submitOrder = () => {
+    const name = document.getElementById('cust-name').value;
+    const address = document.getElementById('cust-address').value;
+    const notes = document.getElementById('cust-notes').value;
+
+    if (!name || !address) {
+        alert('Por favor ingresa tu nombre y dirección.');
+        return;
+    }
+
+    const phoneNumber = "56978589090";
+    let message = `Hola *Ferretería El Perro*, soy *${name}*.\nMe gustaría realizar el siguiente pedido con despacho a: *${address}*.\n\n`;
+
+    let total = 0;
+    cart.forEach(item => {
+        const itemTotal = item.price * item.qty;
+        total += itemTotal;
+        message += `▪️ ${item.qty}x ${item.name} (${formatPrice(itemTotal)})\n`;
+    });
+
+    message += `\n*Total a pagar: ${formatPrice(total)}*`;
+
+    if (notes) {
+        message += `\n\n📝 Nota: ${notes}`;
+    }
+
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+    closeCheckoutModal();
+};
+
+if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', () => {
+        if (cart.length === 0) {
+            alert('Tu carro está vacío. Agrega productos antes de comprar.');
+            return;
+        }
+        createCheckoutModal();
+        // Recalculate prefill if modal was just hidden and not destroyed? 
+        // Actually createCheckouModal returns if created. 
+        // We should update the value if currentUser changed.
+        const currentUser = JSON.parse(localStorage.getItem('ferreteria_currentUser'));
+        if (currentUser && document.getElementById('cust-name')) {
+            if (!document.getElementById('cust-name').value) {
+                document.getElementById('cust-name').value = currentUser.name;
+            }
+        }
+
+        setTimeout(() => {
+            document.getElementById('checkout-modal').classList.add('open');
+        }, 10);
+    });
+}
+
+/* AUTH LOGIC */
+window.handleRegister = (e) => {
+    e.preventDefault();
+    const name = document.getElementById('reg-name').value;
+    const email = document.getElementById('reg-email').value;
+    const password = document.getElementById('reg-password').value;
+    const confirmPassword = document.getElementById('reg-confirm-password').value;
+
+    if (password !== confirmPassword) {
+        alert('Las contraseñas no coinciden.');
+        return;
+    }
+
+    let users = JSON.parse(localStorage.getItem('ferreteria_users')) || [];
+
+    // Check if email exists
+    if (users.find(u => u.email === email)) {
+        alert('Este correo ya está registrado.');
+        return;
+    }
+
+    const newUser = { name, email, password }; // Note: In production never store passwords in plain text!
+    users.push(newUser);
+    localStorage.setItem('ferreteria_users', JSON.stringify(users));
+
+    alert('Registro exitoso. Ahora puedes iniciar sesión.');
+    switchTab('login');
+};
+
+window.handleLogin = (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    let users = JSON.parse(localStorage.getItem('ferreteria_users')) || [];
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if (user) {
+        // Login success
+        const sessionUser = { name: user.name, email: user.email };
+        localStorage.setItem('ferreteria_currentUser', JSON.stringify(sessionUser));
+        alert(`Bienvenido, ${user.name}!`);
+        window.location.href = 'index.html';
+    } else {
+        alert('Correo o contraseña incorrectos.');
+    }
+};
+
+window.logout = () => {
+    localStorage.removeItem('ferreteria_currentUser');
+    window.location.reload();
+};
+
+const checkSession = () => {
+    const currentUser = JSON.parse(localStorage.getItem('ferreteria_currentUser'));
+    const userActionLinks = document.querySelectorAll('#user-action'); // Use class or ID if unique? I used ID but repeated in diff files. 
+    // Actually ID must be unique per page, but querySelectorAll works if multiple accidental IDs or I change to class.
+
+    if (currentUser) {
+        userActionLinks.forEach(link => {
+            link.innerHTML = `
+                <i class="fa-solid fa-user-check"></i>
+                <span>${currentUser.name.split(' ')[0]}</span>
+            `;
+            link.href = "#";
+            link.onclick = (e) => {
+                e.preventDefault();
+                if (confirm('¿Deseas cerrar sesión?')) {
+                    logout();
+                }
+            };
+        });
+    }
+};
+
+// Run check session on load
+checkSession();

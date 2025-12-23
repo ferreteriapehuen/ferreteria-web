@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosotros - Ferretería Pehuen</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .about-hero {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .about-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .about-content {
+            padding: 80px 0;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .feature-box {
+            text-align: center;
+            padding: 30px;
+            border: 1px solid #eee;
+            border-radius: var(--radius);
+            margin-top: 30px;
+        }
+
+        .feature-box i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top Notification Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <span><i class="fa-solid fa-truck-fast"></i> Despacho gratis por compras sobre $50.000</span>
+            <div class="top-links">
+                <a href="index.html">Inicio</a>
+                <a href="#">Ayuda</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container header-content">
+            <!-- Logo -->
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo.svg" alt="Pehuen Logo" class="logo-image">
+                <div class="logo-text">
+                    <h1>PEHUEN</h1>
+                    <span>FERRETERÍA EXPERTA</span>
+                </div>
+            </a>
+            <!-- User Actions -->
+            <div class="header-actions">
+                <a href="#" class="action-item cart-trigger">
+                    <div class="icon-wrapper">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="badge" id="cart-count">0</span>
+                    </div>
+                    <span>Carro</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Content -->
+    <section class="about-hero">
+        <div class="container">
+            <h1>Nuestra Historia</h1>
+            <p>Más de 20 años construyendo junto a ti.</p>
+        </div>
+    </section>
+
+    <section class="about-content">
+        <div class="container">
+            <div class="about-grid">
+                <div>
+                    <h2>Expertos en Construcción</h2>
+                    <br>
+                    <p>En <strong>Ferretería Pehuen</strong>, nos dedicamos a entregar soluciones integrales para
+                        profesionales de la construcción y fanáticos del "Hazlo tú mismo". Fundada en 2005, comenzamos
+                        como una pequeña tienda de barrio y gracias a la confianza de nuestros clientes, hoy somos un
+                        referente en el sector.</p>
+                    <br>
+                    <p>Nuestro compromiso es simple: <strong>Calidad, Asesoría y Buenos Precios</strong>. Entendemos que
+                        cada proyecto es un sueño, y queremos ser parte de él entregándote las mejores herramientas.</p>
+                </div>
+                <div>
+                    <img src="assets/images/about_team.jpg" alt="Equipo Ferretería"
+                        style="border-radius: 10px; box-shadow: var(--shadow-lg);">
+                </div>
+            </div>
+
+            <div class="category-grid" style="margin-top: 80px;">
+                <div class="feature-box">
+                    <i class="fa-solid fa-award"></i>
+                    <h3>Calidad Garantizada</h3>
+                    <p>Solo trabajamos con marcas certificadas.</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fa-solid fa-truck"></i>
+                    <h3>Despacho Rápido</h3>
+                    <p>Tus materiales en obra en menos de 24 horas.</p>
+                </div>
+                <div class="feature-box">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    <h3>Asesoría Experta</h3>
+                    <p>Equipo técnico listo para resolver tus dudas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/56978589090" target="_blank" class="whatsapp-float">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo footer-logo">
+                        <img src="assets/images/logo.svg" alt="Pehuen Logo" class="logo-image">
+                        <span class="logo-text">PEHUEN</span>
+                    </div>
+                    <p>Tu socio experto en construcción y herramientas. Calidad garantizada en cada producto.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Servicio al Cliente</h4>
+                    <ul>
+                        <li><a href="#">Centro de Ayuda</a></li>
+                        <li><a href="#">Seguimiento de Compra</a></li>
+                        <li><a href="#">Políticas de Devolución</a></li>
+                        <li><a href="#">Términos y Condiciones</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-phone"></i> +56 41 251 1272</li>
+                        <li><i class="fa-solid fa-envelope"></i> contacto@pehuen.cl</li>
+                        <li><i class="fa-solid fa-location-dot"></i> Calle Arturo Prat 29, Lebu</li>
+                    </ul>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Calle+Arturo+Prat+29,+Lebu" target="_blank"
+                        class="btn btn-primary" style="padding: 5px 15px; font-size: 0.9rem; margin-top: 10px;">
+                        <i class="fa-solid fa-map-location-dot"></i> Cómo llegar
+                    </a>
+                </div>
+                <div class="footer-col">
+                    <h4>Síguenos</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Ferretería Pehuen. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Drawer (Essential for continuity) -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3>Tu Carro de Compras</h3>
+            <button class="close-cart" id="close-cart"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Items injected by JS -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-amount">$0</span>
+            </div>
+            <button class="btn btn-primary btn-block checkout-btn">
+                Finalizar Compra vía WhatsApp <i class="fa-brands fa-whatsapp"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Reusing the same script for cart functionality -->
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>

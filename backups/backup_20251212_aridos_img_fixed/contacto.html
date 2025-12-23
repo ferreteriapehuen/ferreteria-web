@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Ferretería El Perro</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .contact-container {
+            max-width: 800px;
+            margin: 80px auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .map-container {
+            height: 400px;
+            background-color: #eee;
+            margin-top: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top Notification Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <span><i class="fa-solid fa-truck-fast"></i> Despacho gratis por compras sobre $50.000</span>
+            <div class="top-links">
+                <a href="index.html">Inicio</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-dog"></i>
+                <div class="logo-text">
+                    <h1>EL PERRO</h1>
+                    <span>FERRETERÍA EXPERTA</span>
+                </div>
+            </a>
+            <div class="header-actions">
+                <a href="#" class="action-item cart-trigger">
+                    <div class="icon-wrapper">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="badge" id="cart-count">0</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container contact-container">
+        <h2 class="text-center" style="margin-bottom: 30px; font-size: 2.5rem; color: var(--secondary);">Contáctanos
+        </h2>
+        <p class="text-center" style="margin-bottom: 40px; color: var(--text-light);">¿Tienes dudas sobre un producto?
+            ¿Cotizaciones especiales? Escríbenos.</p>
+
+        <form id="contact-form"
+            onsubmit="event.preventDefault(); alert('Gracias por tu mensaje. Te responderemos pronto.');">
+            <div class="form-group">
+                <label>Nombre Completo</label>
+                <input type="text" required placeholder="Juan Pérez">
+            </div>
+            <div class="form-group">
+                <label>Correo Electrónico</label>
+                <input type="email" required placeholder="juan@ejemplo.com">
+            </div>
+            <div class="form-group">
+                <label>Asunto</label>
+                <input type="text" placeholder="Consulta sobre herramientas...">
+            </div>
+            <div class="form-group">
+                <label>Mensaje</label>
+                <textarea required placeholder="Escribe tu mensaje aquí..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Mensaje</button>
+        </form>
+    </div>
+
+    <!-- Map Placeholder -->
+    <div class="map-container">
+        <div class="text-center">
+            <i class="fa-solid fa-map-location-dot" style="font-size: 4rem; margin-bottom: 20px;"></i>
+            <h3>Encuéntranos en Av. Construcción 123, Santiago</h3>
+            <p>Mapa de Google Maps iría aquí</p>
+        </div>
+    </div>
+
+    <!-- Cart Drawer -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3>Tu Carro de Compras</h3>
+            <button class="close-cart" id="close-cart"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items"></div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-amount">$0</span>
+            </div>
+            <button class="btn btn-primary btn-block checkout-btn">
+                Finalizar Compra vía WhatsApp <i class="fa-brands fa-whatsapp"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>

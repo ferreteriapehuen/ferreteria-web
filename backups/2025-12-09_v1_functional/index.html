@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferretería El Perro - Especialistas en Construcción</title>
+    <meta name="description"
+        content="Ferretería El Perro: Encuentra las mejores herramientas y materiales de construcción. Venta online y despacho a domicilio.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <!-- Top Notification Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <span><i class="fa-solid fa-truck-fast"></i> Despacho gratis por compras sobre $50.000</span>
+            <div class="top-links">
+                <a href="nosotros.html">Nosotros</a>
+                <a href="contacto.html">Contacto</a>
+                <a href="#">Ayuda</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container header-content">
+            <!-- Logo -->
+            <a href="#" class="logo">
+                <i class="fa-solid fa-dog"></i>
+                <div class="logo-text">
+                    <h1>EL PERRO</h1>
+                    <span>FERRETERÍA EXPERTA</span>
+                </div>
+            </a>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="¿Qué estás buscando hoy?">
+                <button><i class="fa-solid fa-search"></i></button>
+            </div>
+
+            <!-- User Actions -->
+            <div class="header-actions">
+                <a href="#" class="action-item">
+                    <i class="fa-regular fa-user"></i>
+                    <span>Mi Cuenta</span>
+                </a>
+                <a href="#" class="action-item cart-trigger">
+                    <div class="icon-wrapper">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="badge" id="cart-count">0</span>
+                    </div>
+                    <span>Carro</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-list" id="nav-list">
+                <li><a href="#" id="mobile-menu-btn" class="active"><i class="fa-solid fa-bars"></i> Categorías</a></li>
+                <li><a href="#">Herramientas</a></li>
+                <li><a href="#">Materiales</a></li>
+                <li><a href="#">Pinturas</a></li>
+                <li><a href="#">Jardín</a></li>
+                <li><a href="#">Seguridad</a></li>
+                <li><a href="#" class="highlight">Ofertas del Mes</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <span class="badge-hero">NUEVA TEMPORADA</span>
+                <h2>Construye tus sueños con <br> <span class="text-primary">El Perro</span></h2>
+                <p>Las mejores marcas y precios para tus proyectos de construcción y remodelación.</p>
+                <a href="#productos" class="btn btn-primary">Ver Ofertas <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="hero-image">
+                <!-- Placeholder for Hero Image - CSS driven -->
+                <img src="assets/images/hero_banner.jpg" alt="Herramientas de construcción">
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Grid -->
+    <section class="categories section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h3>Categorías Destacadas</h3>
+                <a href="#" class="view-all">Ver todas <i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+            <div class="category-grid">
+                <div class="cat-card">
+                    <i class="fa-solid fa-hammer"></i>
+                    <span>Herramientas</span>
+                </div>
+                <div class="cat-card">
+                    <i class="fa-solid fa-trowel-bricks"></i>
+                    <span>Materiales</span>
+                </div>
+                <div class="cat-card">
+                    <i class="fa-solid fa-paint-roller"></i>
+                    <span>Pinturas</span>
+                </div>
+                <div class="cat-card">
+                    <i class="fa-solid fa-plug"></i>
+                    <span>Electricidad</span>
+                </div>
+                <div class="cat-card">
+                    <i class="fa-solid fa-faucet"></i>
+                    <span>Gasfitería</span>
+                </div>
+                <div class="cat-card">
+                    <i class="fa-solid fa-helmet-safety"></i>
+                    <span>Seguridad</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section id="productos" class="products section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <h3>Productos Destacados</h3>
+                <p>Nuestra selección de las mejores ofertas para ti</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="herramientas">Herramientas</button>
+                <button class="filter-btn" data-filter="materiales">Materiales</button>
+            </div>
+
+            <div class="products-grid" id="products-container">
+                <!-- Products will be injected here by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/56978589090" target="_blank" class="whatsapp-float" title="Hable con un experto">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo footer-logo">
+                        <i class="fa-solid fa-dog"></i>
+                        <span class="logo-text">EL PERRO</span>
+                    </div>
+                    <p>Tu socio experto en construcción y herramientas. Calidad garantizada en cada producto.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Servicio al Cliente</h4>
+                    <ul>
+                        <li><a href="#">Centro de Ayuda</a></li>
+                        <li><a href="#">Seguimiento de Compra</a></li>
+                        <li><a href="#">Políticas de Devolución</a></li>
+                        <li><a href="#">Términos y Condiciones</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-phone"></i> +56 2 2222 2222</li>
+                        <li><i class="fa-solid fa-envelope"></i> contacto@elperro.cl</li>
+                        <li><i class="fa-solid fa-location-dot"></i> Av. Construcción 123, Santiago</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Síguenos</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Ferretería El Perro. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Drawer -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3>Tu Carro de Compras</h3>
+            <button class="close-cart" id="close-cart"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Items will be injected here -->
+            <div class="empty-cart-msg">
+                <i class="fa-solid fa-basket-shopping"></i>
+                <p>Tu carro está vacío</p>
+                <button class="btn btn-primary" onclick="toggleCart()">Ir a comprar</button>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-amount">$0</span>
+            </div>
+            <button class="btn btn-primary btn-block checkout-btn">
+                Finalizar Compra vía WhatsApp <i class="fa-brands fa-whatsapp"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>

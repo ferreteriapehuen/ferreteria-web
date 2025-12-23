@@ -1,0 +1,853 @@
+/* CSS Update for Admin Styles to support Product Entry Module */
+:root {
+    --admin-dark: #1e1e2d;
+    --admin-darker: #151521;
+    --admin-accent: #3699ff;
+    --admin-text: #b5b5c3;
+    --admin-light: #f5f8fa;
+    --admin-border: #ebedf3;
+    --admin-danger: #f64e60;
+    --admin-success: #1bc5bd;
+    --admin-warning: #ffa800;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--admin-light);
+    color: #3f4254;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.admin-container {
+    display: flex;
+    height: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: var(--admin-dark);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: var(--admin-darker);
+    text-align: center;
+}
+
+.sidebar-header h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.sidebar-header p {
+    color: var(--admin-text);
+    font-size: 0.85rem;
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 20px 0;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 25px;
+    color: var(--admin-text);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.nav-item i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background-color: #2b2b40;
+    color: #fff;
+    border-left-color: var(--admin-accent);
+}
+
+.sidebar-footer {
+    padding: 20px;
+    background-color: var(--admin-darker);
+}
+
+#logout-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid #3f4254;
+    color: var(--admin-text);
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#logout-btn:hover {
+    background-color: var(--admin-danger);
+    color: #fff;
+    border-color: var(--admin-danger);
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px;
+    background-color: var(--admin-light);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* POS Styling */
+.pos-header {
+    margin-bottom: 20px;
+}
+
+.scanner-container {
+    background: #fff;
+    border: 2px solid var(--admin-accent);
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(54, 153, 255, 0.1);
+}
+
+.scanner-container i {
+    font-size: 1.5rem;
+    color: var(--admin-accent);
+    margin-right: 15px;
+}
+
+#barcode-input {
+    border: none;
+    font-size: 1.2rem;
+    flex: 1;
+    outline: none;
+    font-weight: 500;
+}
+
+.scanner-container {
+    position: relative;
+    /* Base for absolute results */
+}
+
+.pos-search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: 1px solid var(--admin-border);
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    max-height: 250px;
+    overflow-y: auto;
+    display: none;
+}
+
+.pos-search-results.active {
+    display: block;
+}
+
+.search-item {
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid #f8f9fa;
+    transition: 0.2s;
+}
+
+.search-item:last-child {
+    border-bottom: none;
+}
+
+.search-item:hover {
+    background-color: #f1f7ff;
+}
+
+.search-item .name {
+    font-weight: 500;
+    color: var(--admin-dark);
+}
+
+.search-item .stock-info {
+    font-size: 0.85rem;
+    color: var(--admin-text);
+}
+
+.search-item .price {
+    font-weight: 700;
+    color: var(--admin-accent);
+}
+
+.pos-layout {
+    display: flex;
+    gap: 20px;
+    height: calc(100vh - 200px);
+}
+
+.pos-cart {
+    flex: 2;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+}
+
+.ticket-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 0.5fr;
+    padding: 15px 20px;
+    background-color: #f3f6f9;
+    font-weight: 600;
+    color: #464e5f;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.ticket-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.ticket-item {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 0.5fr;
+    align-items: center;
+    padding: 15px 10px;
+    border-bottom: 1px solid var(--admin-border);
+    animation: slideIn 0.2s forwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.ticket-item h4 {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.pos-qty-input {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid var(--admin-border);
+    border-radius: 4px;
+    text-align: center;
+}
+
+.btn-remove-item {
+    background: none;
+    border: none;
+    color: var(--admin-danger);
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.pos-sidebar {
+    flex: 1;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.03);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.total-display {
+    background-color: #1e1e2d;
+    color: #fff;
+    padding: 30px 20px;
+    border-radius: 8px;
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.total-display small {
+    display: block;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 5px;
+}
+
+.total-display span {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--admin-success);
+}
+
+.payment-methods {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.pm-btn {
+    padding: 15px;
+    border: 2px solid var(--admin-border);
+    background: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.pm-btn.active,
+.pm-btn:hover {
+    border-color: var(--admin-accent);
+    color: var(--admin-accent);
+    background-color: rgba(54, 153, 255, 0.05);
+}
+
+.btn-checkout {
+    width: 100%;
+    padding: 20px;
+    background-color: var(--admin-success);
+    color: #fff;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-checkout:hover {
+    background-color: #15aabf;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(27, 197, 189, 0.3);
+}
+
+/* Inventory Styling */
+.inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.inv-controls {
+    display: flex;
+    gap: 15px;
+}
+
+#inv-search,
+#inv-filter {
+    padding: 10px 15px;
+    border: 1px solid var(--admin-border);
+    border-radius: 4px;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+#inv-search {
+    width: 300px;
+}
+
+.btn-add {
+    background-color: var(--admin-success);
+    color: #fff;
+    border: none;
+    padding: 0 20px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-add:hover {
+    background-color: #15aabf;
+}
+
+
+.inventory-table-wrapper {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.inventory-table th,
+.inventory-table td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.inventory-table th {
+    background-color: #f3f6f9;
+    color: #464e5f;
+    font-weight: 600;
+}
+
+.inventory-table tr:hover {
+    background-color: #fcfcfc;
+}
+
+.stock-low {
+    color: var(--admin-danger);
+    font-weight: 700;
+    background-color: rgba(246, 78, 96, 0.05);
+}
+
+.btn-action {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    margin-right: 5px;
+}
+
+.btn-edit {
+    background-color: #e1f0ff;
+    color: var(--admin-accent);
+}
+
+.btn-edit:hover {
+    background-color: var(--admin-accent);
+    color: #fff;
+}
+
+.btn-delete {
+    background-color: #ffe2e5;
+    color: var(--admin-danger);
+}
+
+.btn-delete:hover {
+    background-color: var(--admin-danger);
+    color: #fff;
+}
+
+/* Login Modal & Generic Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.login-box,
+.modal-box {
+    background: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal Content Styles */
+.modal-box {
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    text-align: left;
+    padding: 30px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--admin-text);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.modal-box label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.modal-box input,
+.modal-box select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--admin-border);
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+.btn-primary-modal {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--admin-accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.btn-primary-modal:hover {
+    background-color: #0b7dda;
+}
+
+
+/* Login Specifics */
+.login-box h2 {
+    margin-bottom: 10px;
+    color: var(--admin-dark);
+}
+
+.login-box p {
+    color: var(--admin-text);
+    margin-bottom: 30px;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 2px solid var(--admin-border);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+
+.login-box input:focus {
+    border-color: var(--admin-accent);
+    outline: none;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--admin-accent);
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.login-box button:hover {
+    background-color: #0b7dda;
+}
+
+/* Document Settings */
+.doc-settings {
+    margin-bottom: 20px;
+}
+
+.doc-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #464e5f;
+}
+
+.doc-toggle {
+    display: flex;
+    background: #f3f6f9;
+    padding: 3px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.doc-btn {
+    flex: 1;
+    border: none;
+    padding: 8px;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 500;
+    color: #464e5f;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.doc-btn.active {
+    background: #fff;
+    color: var(--admin-dark);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.invoice-details {
+    animation: fadeIn 0.3s ease;
+}
+
+.invoice-details input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 8px;
+    border: 1px solid var(--admin-border);
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.invoice-details input:focus {
+    border-color: var(--admin-accent);
+    outline: none;
+}
+
+/* DTE Receipt Styling */
+.dte-box {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.dte-paper {
+    background: #fff;
+    width: 380px;
+    /* Approx 80mm printer width scale */
+    padding: 30px;
+    /* Margins */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    font-family: 'Courier New', Courier, monospace;
+    /* Thermal receipt font look */
+    text-align: center;
+    color: #000;
+}
+
+.dte-header h3 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.dte-header p {
+    font-size: 0.8rem;
+    margin: 2px 0;
+}
+
+.dte-header h2 {
+    font-size: 1.2rem;
+    margin: 15px 0 5px;
+    border: 2px solid #000;
+    display: inline-block;
+    padding: 5px 10px;
+}
+
+hr {
+    border: none;
+    border-top: 1px dashed #000;
+    margin: 15px 0;
+}
+
+.dte-client-info {
+    text-align: left;
+    font-size: 0.85rem;
+}
+
+.dte-client-info p {
+    margin: 3px 0;
+}
+
+.dte-items {
+    text-align: left;
+    font-size: 0.85rem;
+}
+
+.dte-item-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.dte-totals {
+    text-align: right;
+    font-size: 1rem;
+}
+
+.dte-footer {
+    margin-top: 20px;
+    font-size: 0.75rem;
+}
+
+.barcode-fake {
+    font-family: 'Libre Barcode 39', sans-serif;
+    /* Or mock with lines */
+    font-size: 2rem;
+    letter-spacing: -3px;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-bottom: 5px;
+}
+
+.btn-print,
+.btn-close-dte {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    width: 100%;
+}
+
+.btn-print {
+    background: var(--admin-dark);
+    color: #fff;
+}
+
+.btn-close-dte {
+    background: #f3f6f9;
+    color: var(--admin-dark);
+    margin-top: 10px;
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .dte-paper,
+    .dte-paper * {
+        visibility: visible;
+    }
+
+    .dte-paper {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        box-shadow: none;
+    }
+
+    .btn-print,
+    .btn-close-dte {
+        display: none;
+    }
+}
+
+/* Badges for Movements */
+.badge {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.badge.boleta {
+    background-color: #e1f0ff;
+    color: var(--admin-accent);
+}
+
+.badge.factura {
+    background-color: #fff4de;
+    color: var(--admin-warning);
+}
+
+.badge.ingreso {
+    background-color: #c9f7f5;
+    color: var(--admin-success);
+}
+
+.text-success {
+    color: var(--admin-success);
+}
+
+.text-neutral {
+    color: var(--admin-text);
+}
