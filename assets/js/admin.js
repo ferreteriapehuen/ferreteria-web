@@ -834,7 +834,7 @@ if (addProductForm) {
         }
 
         const newProduct = {
-            // Note: id field inside data is optional if we use doc ID, but good for consistency
+            id: newId,  // Campo id necesario
             name: name,
             category: category,
             price: price,

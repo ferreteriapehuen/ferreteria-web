@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reparar Productos Existentes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover { background: #45a049; }
+        #log {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>🔧 Reparar Productos Existentes</h2>
+        <p>Este script agregará el campo <code>id</code> a todos los productos que no lo tengan.</p>
+        <button onclick="fixProducts()">Ejecutar Reparación</button>
+        <div id="log"></div>
+    </div>
+
+    <script type="module">
+        import { db, collection, getDocs, doc, updateDoc } from './assets/js/firebase-config.js';
+
+        window.fixProducts = async () => {
+            const log = document.getElementById('log');
+            log.innerHTML = '<p>Iniciando reparación...</p>';
+
+            try {
+                const productsCol = collection(db, 'products');
+                const snapshot = await getDocs(productsCol);
+                
+                let fixed = 0;
+                let skipped = 0;
+
+                for (const docSnap of snapshot.docs) {
+                    const data = docSnap.data();
+                    const docId = docSnap.id;
+
+                    // Si no tiene campo 'id', agregarlo
+                    if (!data.id) {
+                        await updateDoc(doc(db, 'products', docId), {
+                            id: docId
+                        });
+                        log.innerHTML += `<p class="success">✅ Producto "${data.name}" reparado (ID: ${docId})</p>`;
+                        fixed++;
+                    } else {
+                        log.innerHTML += `<p>⏭️ Producto "${data.name}" ya tiene ID</p>`;
+                        skipped++;
+                    }
+                }
+
+                log.innerHTML += `<p><strong>Completado: ${fixed} reparados, ${skipped} omitidos</strong></p>`;
+                log.innerHTML += `<p class="success">¡Recarga la página de admin para ver los cambios!</p>`;
+
+            } catch (e) {
+                log.innerHTML += `<p class="error">❌ Error: ${e.message}</p>`;
+                console.error(e);
+            }
+        };
+    </script>
+</body>
+</html>
