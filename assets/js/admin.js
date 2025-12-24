@@ -204,9 +204,9 @@ const renderPosCart = () => {
         row.className = 'ticket-item';
         row.innerHTML = `
             <h4>${item.name}</h4>
-            <input type="number" class="pos-qty-input" value="${item.qty}" min="1" onchange="updatePosQty(${item.id}, this)">
+            <input type="number" class="pos-qty-input" value="${item.qty}" min="1" onchange="updatePosQty('${item.id}', this)">
             <span>${formatPrice(subtotal)}</span>
-            <button class="btn-remove-item" onclick="removePosItem(${item.id})"><i class="fa-solid fa-trash"></i></button>
+            <button class="btn-remove-item" onclick="removePosItem('${item.id}')"><i class="fa-solid fa-trash"></i></button>
         `;
         posTicketItems.appendChild(row);
     });
@@ -218,8 +218,8 @@ const renderPosCart = () => {
 // Update Qty
 window.updatePosQty = (id, input) => {
     const newQty = parseInt(input.value);
-    const item = cart.find(i => i.id === id);
-    const product = products.find(p => p.id === id);
+    const item = cart.find(i => i.id == id);
+    const product = products.find(p => p.id == id);
 
     if (item && product) {
         if (newQty > 0 && newQty <= product.stock) {
@@ -234,7 +234,7 @@ window.updatePosQty = (id, input) => {
 
 // Remove Item
 window.removePosItem = (id) => {
-    cart = cart.filter(i => i.id !== id);
+    cart = cart.filter(i => i.id != id);
     renderPosCart();
     posInput.focus(); // Return focus
 };
