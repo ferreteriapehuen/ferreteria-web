@@ -458,7 +458,7 @@ const recordMovement = async (data) => {
 };
 
 window.openHistory = (productId) => {
-    const product = products.find(p => p.id === productId);
+    const product = products.find(p => p.id == productId);
     if (!product) return;
 
     document.getElementById('history-modal-title').textContent = `Historial: ${product.name}`;
@@ -541,13 +541,13 @@ const renderInventory = () => {
             <td>${formatPrice(p.price)}</td>
             <td style="${p.stock <= 5 ? 'color: var(--admin-danger); font-weight: bold;' : ''}">${p.stock}</td>
             <td>
-                <button class="btn-action btn-history" onclick="openHistory(${p.id})" title="Ver Historial" style="background-color: #607D8B; color: white;">
+                <button class="btn-action btn-history" onclick="openHistory('${p.id}')" title="Ver Historial" style="background-color: #607D8B; color: white;">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                 </button>
             </td>
             <td>
-                <button class="btn-action btn-edit" onclick="editStock(${p.id})"><i class="fa-solid fa-pen"></i></button>
-                <button class="btn-action btn-delete" onclick="alert('Funcionalidad no implementada en demo.')"><i class="fa-solid fa-trash"></i></button>
+                <button class="btn-action btn-edit" onclick="editStock('${p.id}')"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn-action btn-delete" onclick="deleteProduct('${p.id}')"><i class="fa-solid fa-trash"></i></button>
             </td>
         `;
         invBody.appendChild(row);
@@ -555,7 +555,7 @@ const renderInventory = () => {
 };
 
 window.editStock = async (id) => {
-    const product = products.find(p => p.id === id);
+    const product = products.find(p => p.id == id);
     if (!product) return;
 
     const newStock = prompt(`Editar Stock para: ${product.name}\nActual: ${product.stock}`, product.stock);
@@ -1049,3 +1049,38 @@ window.deleteUser = async (id) => {
 checkAuth();
 populateUserSelect();
 renderPosCart();
+
+// Función para eliminar productos del inventario
+window.deleteProduct = async (id) => {
+    const product = products.find(p => p.id == id);
+    if (!product) {
+        alert('Producto no encontrado');
+        return;
+    }
+
+    if (!confirm(`¿Estás seguro de eliminar "${product.name}"?\n\nEsta acción no se puede deshacer.`)) {
+        return;
+    }
+
+    try {
+        await deleteDoc(doc(db, 'products', id.toString()));
+        
+        // Registrar movimiento
+        const currentUser = JSON.parse(sessionStorage.getItem(STORAGE_PREFIX + 'current_admin')) || { name: 'Admin' };
+        await recordMovement({
+            productId: id,
+            type: 'entry',
+            docType: 'ELIMINADO',
+            items: [`Producto eliminado: ${product.name}`],
+            total: 0,
+            seller: currentUser.name,
+            justification: 'Eliminación de producto del inventario'
+        });
+
+        alert(`Producto "${product.name}" eliminado correctamente`);
+        // No necesitamos renderizar manualmente, el onSnapshot lo hará automáticamente
+    } catch (e) {
+        console.error('Error eliminando producto:', e);
+        alert('Error al eliminar el producto: ' + e.message);
+    }
+};
