@@ -118,6 +118,24 @@
         </div>
     </header>
 
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <button id="mobile-menu-btn" class="mobile-toggle"><i class="fa-solid fa-bars"></i> Categorías</button>
+            <ul class="nav-list" id="nav-list">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="index.html#productos" onclick="window.location.href='index.html#productos'">Herramientas</a></li>
+                <li><a href="aridos.html" style="color: var(--primary); font-weight: bold;">Venta de Áridos</a></li>
+                <li><a href="index.html#productos" onclick="window.location.href='index.html#productos'">Materiales</a></li>
+                <li><a href="index.html#productos" onclick="window.location.href='index.html#productos'">Pinturas</a></li>
+                <li><a href="index.html#productos" onclick="window.location.href='index.html#productos'">Jardín</a></li>
+                <li><a href="index.html#productos" onclick="window.location.href='index.html#productos'">Seguridad</a></li>
+                <li><a href="#" class="highlight" onclick="alert('Próximamente: Ofertas exclusivas por temporada.'); return false;">Ofertas del Mes</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
     <!-- Auth Section -->
     <section class="section-padding" style="background-color: var(--bg-light); min-height: 80vh;">
         <div class="container">
@@ -213,6 +231,28 @@
             }
         }
     </script>
+
+    <!-- Cart Drawer -->
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3>Tu Carro de Compras</h3>
+            <button class="close-cart" id="close-cart"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Items injected by JS -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-amount">$0</span>
+            </div>
+            <button class="btn btn-primary btn-block checkout-btn">
+                Finalizar Compra vía WhatsApp <i class="fa-brands fa-whatsapp"></i>
+            </button>
+        </div>
+    </div>
+    <div class="cart-overlay" id="cart-overlay"></div>
+
 </body>
 
 </html>

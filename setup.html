@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Configuración Inicial</title>
+</head>
+<body style="font-family: sans-serif; text-align: center; padding: 50px;">
+    <h1>Configurando Base de Datos...</h1>
+    <p id="status">Conectando con Google Firebase...</p>
+    
+    <script type="module">
+        import { db, doc, setDoc } from './assets/js/firebase-config.js';
+        
+        async function createAdmin() {
+            try {
+                const status = document.getElementById('status');
+                status.innerText = "Creando usuario administrador...";
+                
+                await setDoc(doc(db, "admins", "1"), {
+                    id: "1",
+                    name: 'Admin Principal', 
+                    username: 'admin', 
+                    email: 'ferreteriapehuenweb@gmail.com', 
+                    password: '123', 
+                    role: 'admin', 
+                    status: 'active' 
+                });
+                
+                document.body.innerHTML = `
+                    <h1 style="color: green;">¡Listo! Usuario Creado.</h1>
+                    <p>Usuario: <strong>admin</strong></p>
+                    <p>Contraseña: <strong>123</strong></p>
+                    <br>
+                    <a href="admin.html" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Ir al Login de Admin</a>
+                `;
+            } catch(e) {
+                document.body.innerHTML = `<h1 style="color: red;">Error</h1><p>${e.message}</p>`;
+                console.error(e);
+            }
+        }
+        
+        createAdmin();
+    </script>
+</body>
+</html>

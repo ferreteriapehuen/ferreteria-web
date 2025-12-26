@@ -26,7 +26,7 @@
             <div class="top-links">
                 <a href="nosotros.html">Nosotros</a>
                 <a href="contacto.html">Contacto</a>
-                <a href="#">Ayuda</a>
+                <a href="#" onclick="alert('¿Necesitas ayuda? Escríbenos por WhatsApp para una atención inmediata.'); return false;">Ayuda</a>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
     <header class="main-header">
         <div class="container header-content">
             <!-- Logo -->
-            <a href="#" class="logo">
+            <a href="index.html" class="logo">
                 <img src="assets/images/logo.svg" alt="Pehuen Logo" class="logo-image">
                 <div class="logo-text">
                     <h1>PEHUEN</h1>
@@ -66,21 +66,24 @@
         </div>
     </header>
 
+    
     <!-- Navigation -->
     <nav class="main-nav">
         <div class="container">
+            <button id="mobile-menu-btn" class="mobile-toggle"><i class="fa-solid fa-bars"></i> Categorías</button>
             <ul class="nav-list" id="nav-list">
-                <li><a href="#" id="mobile-menu-btn" class="active"><i class="fa-solid fa-bars"></i> Categorías</a></li>
-                <li><a href="#">Herramientas</a></li>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="index.html?cat=herramientas">Herramientas</a></li>
                 <li><a href="aridos.html" style="color: var(--primary); font-weight: bold;">Venta de Áridos</a></li>
-                <li><a href="#">Materiales</a></li>
-                <li><a href="#">Pinturas</a></li>
-                <li><a href="#">Jardín</a></li>
-                <li><a href="#">Seguridad</a></li>
-                <li><a href="#" class="highlight">Ofertas del Mes</a></li>
+                <li><a href="index.html?cat=materiales">Materiales</a></li>
+                <li><a href="index.html?cat=materiales">Pinturas</a></li>
+                <li><a href="index.html?cat=jardin">Jardín</a></li>
+                <li><a href="index.html?cat=seguridad">Seguridad</a></li>
+                <li><a href="#" class="highlight" onclick="alert('Próximamente: Ofertas exclusivas por temporada.'); return false;">Ofertas del Mes</a></li>
             </ul>
         </div>
     </nav>
+
 
     <!-- Hero Section -->
     <section class="hero">
@@ -192,7 +195,7 @@
                 <div class="footer-col">
                     <h4>Servicio al Cliente</h4>
                     <ul>
-                        <li><a href="#">Centro de Ayuda</a></li>
+                        <li><a href="#" onclick="alert('Nuestro centro de ayuda está siendo actualizado. Por favor contáctanos vía WhatsApp.'); return false;">Centro de Ayuda</a></li>
                         <li><a href="#">Seguimiento de Compra</a></li>
                         <li><a href="#">Políticas de Devolución</a></li>
                         <li><a href="#">Términos y Condiciones</a></li>

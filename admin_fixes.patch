@@ -1,0 +1,10 @@
+--- Correcciones para admin.js ---
+
+PROBLEMA 1: IDs pueden ser string o number, causando fallos en comparaciones
+SOLUCIÓN: Usar comparación flexible con ==
+
+PROBLEMA 2: Funciones onclick con IDs numéricos sin comillas
+SOLUCIÓN: Agregar comillas o usar template strings seguros
+
+PROBLEMA 3: updatePosQty puede no encontrar el producto
+SOLUCIÓN: Agregar logs y validación robusta

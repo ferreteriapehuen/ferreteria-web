@@ -112,6 +112,12 @@
                     <span>ÁRIDOS Y CONSTRUCCIÓN</span>
                 </div>
             </a>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="¿Qué estás buscando hoy?">
+                <button><i class="fa-solid fa-search"></i></button>
+            </div>
             <div class="header-actions">
                 <a href="login.html" class="action-item" id="user-action">
                     <i class="fa-regular fa-user"></i>
@@ -127,6 +133,24 @@
             </div>
         </div>
     </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="container">
+            <button id="mobile-menu-btn" class="mobile-toggle"><i class="fa-solid fa-bars"></i> Categorías</button>
+            <ul class="nav-list" id="nav-list">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="index.html#productos" onclick="window.location.href='index.html#productos'">Herramientas</a></li>
+                <li><a href="aridos.html" style="color: var(--primary); font-weight: bold;">Venta de Áridos</a></li>
+                <li><a href="index.html#productos" onclick="window.location.href='index.html#productos'">Materiales</a></li>
+                <li><a href="index.html#productos" onclick="window.location.href='index.html#productos'">Pinturas</a></li>
+                <li><a href="index.html#productos" onclick="window.location.href='index.html#productos'">Jardín</a></li>
+                <li><a href="index.html#productos" onclick="window.location.href='index.html#productos'">Seguridad</a></li>
+                <li><a href="#" class="highlight" onclick="alert('Próximamente: Ofertas exclusivas por temporada.'); return false;">Ofertas del Mes</a></li>
+            </ul>
+        </div>
+    </nav>
+
 
     <!-- Hero -->
     <section class="aridos-hero">

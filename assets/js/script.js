@@ -15,10 +15,18 @@ onSnapshot(productsCol, (snapshot) => {
     // Check for URL params to see if we need to search immediately
     const urlParams = new URLSearchParams(window.location.search);
     const searchParam = urlParams.get('search');
+    const catParam = urlParams.get('cat');
 
     if (searchParam && productsContainer) {
         if (searchInput) searchInput.value = searchParam;
         renderProducts('all', searchParam);
+    } else if (catParam && productsContainer) {
+        renderProducts(catParam);
+        const btn = Array.from(filterButtons).find(b => b.dataset.filter === catParam);
+        if (btn) {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
     } else {
         renderProducts();
     }
@@ -92,11 +100,11 @@ const createProductCard = (product) => {
                         <img src="${img}" alt="${product.name} - ${idx + 1}">
                     </div>
                 `).join('')}
-                <button class="carousel-btn prev" onclick="changeSlide(${product.id}, -1, event)"><i class="fa-solid fa-chevron-left"></i></button>
-                <button class="carousel-btn next" onclick="changeSlide(${product.id}, 1, event)"><i class="fa-solid fa-chevron-right"></i></button>
+                <button class="carousel-btn prev" onclick="changeSlide('${product.id}', -1, event)"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="carousel-btn next" onclick="changeSlide('${product.id}', 1, event)"><i class="fa-solid fa-chevron-right"></i></button>
                 <div class="carousel-dots">
                     ${images.map((_, idx) => `
-                        <span class="dot ${idx === 0 ? 'active' : ''}" onclick="setSlide(${product.id}, ${idx}, event)"></span>
+                        <span class="dot ${idx === 0 ? 'active' : ''}" onclick="setSlide('${product.id}', ${idx}, event)"></span>
                     `).join('')}
                 </div>
             </div>
@@ -109,11 +117,11 @@ const createProductCard = (product) => {
         <div class="product-card" data-product-id="${product.id}">
             <div class="product-image">
                 ${hasDiscount ? `<span class="discount-badge">-${discountPercentage}%</span>` : ''}
-                ${carouselHTML}
+                <div onclick="openProductDetails('${product.id}')" style="cursor:pointer">${carouselHTML}</div>
             </div>
             <div class="product-info">
                 <span class="product-cat">${product.category}</span>
-                <h3 class="product-title">${product.name}</h3>
+                <h3 class="product-title" onclick="openProductDetails('${product.id}')" style="cursor:pointer">${product.name}</h3>
                 <div class="product-price">
                     <span class="current-price">${formatPrice(product.price)}</span>
                     ${hasDiscount ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
@@ -125,7 +133,7 @@ const createProductCard = (product) => {
                         <input type="number" class="qty-input" value="1" min="1" readonly>
                         <button class="qty-btn plus" onclick="adjustCardQty(this, 1)">+</button>
                     </div>
-                    <button class="btn btn-add" onclick="addToCart(${product.id}, this)">
+                    <button class="btn btn-add" onclick="addToCart('${product.id}', this)">
                         <i class="fa-solid fa-cart-shopping"></i> Agregar
                     </button>
                 </div>
@@ -139,7 +147,7 @@ const carouselStates = {};
 
 window.changeSlide = (productId, delta, event) => {
     if (event) event.stopPropagation();
-    const product = products.find(p => p.id === productId);
+    const product = products.find(p => p.id == productId);
     if (!product) return;
 
     const images = product.images && product.images.length > 0 ? product.images : [product.image];
@@ -229,25 +237,7 @@ const renderProducts = (category = 'all', searchTerm = '') => {
     }, 300);
 };
 
-// Add to Cart Function
-window.addToCart = (id) => {
-    const product = products.find(p => p.id === id);
-    if (product) {
-        cart.push(product);
-        updateCartCount();
 
-        // Visual feedback
-        const btn = event.target.closest('.btn-add');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fa-solid fa-check"></i> Agregado';
-        btn.style.backgroundColor = 'var(--success)';
-
-        setTimeout(() => {
-            btn.innerHTML = originalText;
-            btn.style.backgroundColor = '';
-        }, 1500);
-    }
-};
 
 
 
@@ -434,11 +424,11 @@ const renderCartItems = () => {
             <div class="item-details">
                 <h4>${item.name}</h4>
                 <div class="cart-qty-controls">
-                    <button class="mini-qty-btn" onclick="updateCartQty(${item.id}, ${item.qty - 1})"><i class="fa-solid fa-minus"></i></button>
+                    <button class="mini-qty-btn" onclick="updateCartQty('${item.id}', ${item.qty - 1})"><i class="fa-solid fa-minus"></i></button>
                     <span class="cart-qty-display">${item.qty}</span>
-                    <button class="mini-qty-btn" onclick="updateCartQty(${item.id}, ${item.qty + 1})"><i class="fa-solid fa-plus"></i></button>
+                    <button class="mini-qty-btn" onclick="updateCartQty('${item.id}', ${item.qty + 1})"><i class="fa-solid fa-plus"></i></button>
                 </div>
-                <button class="remove-item" onclick="removeFromCart(${item.id})">Eliminar</button>
+                <button class="remove-item" onclick="removeFromCart('${item.id}')">Eliminar</button>
             </div>
             <div class="item-total">
                 ${formatPrice(item.price * item.qty)}
@@ -458,7 +448,7 @@ window.updateCartQty = (id, newQty) => {
         return;
     }
 
-    const item = cart.find(p => p.id === id);
+    const item = cart.find(p => p.id == id);
     if (item) {
         item.qty = newQty;
         updateCartCount();
@@ -469,7 +459,7 @@ window.updateCartQty = (id, newQty) => {
 
 // Remove from Cart
 window.removeFromCart = (id) => {
-    const index = cart.findIndex(item => item.id === id);
+    const index = cart.findIndex(item => item.id == id);
     if (index > -1) {
         cart.splice(index, 1);
         updateCartCount();
@@ -480,7 +470,7 @@ window.removeFromCart = (id) => {
 
 // Add to Cart
 window.addToCart = (id, btnElement) => {
-    const product = products.find(p => p.id === id);
+    const product = products.find(p => p.id == id);
     if (!product) return;
 
     let qtyToAdd = 1;
@@ -497,7 +487,7 @@ window.addToCart = (id, btnElement) => {
     }
 
     // Check if exists
-    const existingItem = cart.find(item => item.id === id);
+    const existingItem = cart.find(item => item.id == id);
     if (existingItem) {
         existingItem.qty += qtyToAdd;
     } else {
@@ -593,7 +583,7 @@ window.submitOrder = () => {
     }
 
     const phoneNumber = "56978589090";
-    let message = `Hola *Ferretería El Perro*, soy *${name}*.\nMe gustaría realizar el siguiente pedido con despacho a: *${address}*.\n\n`;
+    let message = `Hola *Ferretería Pehuen*, soy *${name}*.\nMe gustaría realizar el siguiente pedido con despacho a: *${address}*.\n\n`;
 
     let total = 0;
     cart.forEach(item => {
@@ -713,3 +703,71 @@ const checkSession = () => {
 
 // Run check session on load
 checkSession();
+
+/* Product Details Modal */
+let detailsModalCreated = false;
+
+window.openProductDetails = (id) => {
+    const product = products.find(p => p.id == id);
+    if (!product) return;
+
+    if (!document.getElementById('product-details-modal')) {
+        const modalHTML = `
+            <div id="product-details-modal" class="modal-overlay">
+                <div class="modal-content large">
+                    <div class="modal-header">
+                        <h3>Detalle del Producto</h3>
+                        <button class="close-modal" onclick="closeProductDetails()"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="modal-body" id="details-modal-body">
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+    }
+
+    const body = document.getElementById('details-modal-body');
+    const images = product.images && product.images.length > 0 ? product.images : [product.image];
+    
+    body.innerHTML = `
+        <div class="product-details-grid">
+            <div class="details-images">
+                <img src="${images[0]}" alt="${product.name}" id="main-detail-img">
+                <div class="details-thumbnails">
+                    ${images.map(img => `<img src="${img}" onclick="document.getElementById('main-detail-img').src='${img}'">`).join('')}
+                </div>
+            </div>
+            <div class="details-info">
+                <span class="badge">${product.category.toUpperCase()}</span>
+                <h1>${product.name}</h1>
+                <div class="price-box">
+                    <span class="current-price">${formatPrice(product.price)}</span>
+                    ${product.oldPrice ? `<span class="old-price">${formatPrice(product.oldPrice)}</span>` : ''}
+                </div>
+                <p class="description">${product.description || 'Este producto es de alta calidad, diseñado para ofrecer durabilidad y un rendimiento excepcional en todas sus aplicaciones de construcción y ferretería.'}</p>
+                <div class="stock-info">
+                    <i class="fa-solid fa-check-circle"></i> En Stock: <strong>${product.stock} unidades</strong>
+                </div>
+                <hr>
+                <div class="product-actions">
+                    <div class="qty-selector">
+                        <button class="qty-btn minus" onclick="adjustCardQty(this, -1)">-</button>
+                        <input type="number" class="qty-input" value="1" min="1" readonly>
+                        <button class="qty-btn plus" onclick="adjustCardQty(this, 1)">+</button>
+                    </div>
+                    <button class="btn btn-primary" onclick="addToCart('${product.id}', this)">
+                        <i class="fa-solid fa-cart-shopping"></i> Agregar al Carro
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('product-details-modal').classList.add('open');
+};
+
+window.closeProductDetails = () => {
+    const modal = document.getElementById('product-details-modal');
+    if (modal) modal.classList.remove('open');
+};
