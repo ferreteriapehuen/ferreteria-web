@@ -1058,22 +1058,26 @@ if (btnStockReport) {
 
 if (btnDailyReport) {
     btnDailyReport.addEventListener('click', () => {
-        const today = new Date().toLocaleDateString();
-        const todaysMovements = movementsHistory.filter(m => new Date(m.date).toLocaleDateString() === today);
+        const now = new Date();
+        const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+
+        // Filter by timestamp ID which is Date.now()
+        const todaysMovements = movementsHistory.filter(m => m.id >= startOfToday);
 
         const sales = todaysMovements.filter(m => m.type === 'sale');
         const totalSales = sales.reduce((sum, s) => sum + s.total, 0);
 
         const entries = todaysMovements.filter(m => m.type === 'entry');
-        const totalEntries = entries.length;
+        const exits = todaysMovements.filter(m => m.type === 'exit');
 
-        alert(`--- REPORTE GENERAL (${today}) ---\n\n` +
-            `VENTAS:\n` +
+        alert(`--- RESUMEN GENERAL DE HOY (${now.toLocaleDateString()}) ---\n\n` +
+            `VENTAS DEL DÍA:\n` +
             `- Total Recaudado: ${formatPrice(totalSales)}\n` +
-            `- Documentos: ${sales.length}\n\n` +
-            `INVENTARIO:\n` +
-            `- Movimientos de Ingreso: ${totalEntries}\n\n` +
-            `¡Resumen actualizado!`);
+            `- Cantidad de Ventas: ${sales.length}\n\n` +
+            `OPERACIONES DE BODEGA:\n` +
+            `- Ingresos de Stock: ${entries.length}\n` +
+            `- Ajustes/Salidas: ${exits.length}\n\n` +
+            `¡Reporte generado con éxito!`);
     });
 }
 
