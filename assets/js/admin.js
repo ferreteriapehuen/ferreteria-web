@@ -6,6 +6,7 @@ let products = [];
 let cart = []; // Local cart for POS
 let movementsHistory = [];
 let admins = [];
+let currentMovementFilter = 'all';
 
 const STORAGE_PREFIX = 'pehuen_';
 
@@ -979,11 +980,21 @@ if (addProductForm) {
 /* --- Movements & Reports Module --- */
 const movementsBody = document.getElementById('movements-body');
 const btnDailyReport = document.getElementById('btn-daily-report');
+const btnSalesReport = document.getElementById('btn-sales-report');
+const btnStockReport = document.getElementById('btn-stock-report');
+const mFilterBtns = document.querySelectorAll('.m-filter-btn');
 
 const renderMovementsHistory = () => {
     movementsBody.innerHTML = '';
 
-    movementsHistory.forEach(m => {
+    const filteredMovements = movementsHistory.filter(m => {
+        if (currentMovementFilter === 'all') return true;
+        if (currentMovementFilter === 'sale') return m.type === 'sale';
+        if (currentMovementFilter === 'entry') return m.type === 'entry' || m.type === 'exit';
+        return m.type === currentMovementFilter;
+    });
+
+    filteredMovements.forEach(m => {
         const row = document.createElement('tr');
         const badgeClass = m.type === 'entry' ? 'ingreso' : m.docType;
 
@@ -1001,6 +1012,49 @@ const renderMovementsHistory = () => {
         movementsBody.appendChild(row);
     });
 };
+
+// Movement Filters
+mFilterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        mFilterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentMovementFilter = btn.dataset.mtype;
+        renderMovementsHistory();
+    });
+});
+
+if (btnSalesReport) {
+    btnSalesReport.addEventListener('click', () => {
+        const sales = movementsHistory.filter(m => m.type === 'sale');
+        const totalAmount = sales.reduce((sum, s) => sum + s.total, 0);
+        const internalVouchers = sales.filter(s => s.docType === 'VALE_INTERNO').length;
+        const pendingInvoices = sales.filter(s => s.docType === 'PENDIENTE_FACTURA').length;
+
+        alert(`--- REPORTE ACUMULADO DE VENTAS ---\n\n` +
+            `Total Ventas: ${sales.length}\n` +
+            `Monto Total: ${formatPrice(totalAmount)}\n\n` +
+            `Desglose por Documento:\n` +
+            `- Vales Internos: ${internalVouchers}\n` +
+            `- Boucher Factura: ${pendingInvoices}\n\n` +
+            `Este reporte incluye todas las ventas registradas en el sistema.`);
+    });
+}
+
+if (btnStockReport) {
+    btnStockReport.addEventListener('click', () => {
+        const entries = movementsHistory.filter(m => m.type === 'entry');
+        const totalItems = entries.reduce((sum, e) => {
+            // Extract quantity from items string like "10x Product Name"
+            const qtyMatch = e.items[0]?.match(/^(\d+)x/);
+            return sum + (qtyMatch ? parseInt(qtyMatch[1]) : 0);
+        }, 0);
+
+        alert(`--- REPORTE DE INGRESOS (STOCK) ---\n\n` +
+            `Total Operaciones: ${entries.length}\n` +
+            `Unidades Ingresadas: ${totalItems}\n\n` +
+            `Consulte el historial para ver detalles de cada ingreso por documento.`);
+    });
+}
 
 if (btnDailyReport) {
     btnDailyReport.addEventListener('click', () => {

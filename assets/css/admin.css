@@ -894,6 +894,12 @@ hr {
     color: var(--admin-danger);
 }
 
+.badge.AJUSTE {
+    background-color: #e1f0ff;
+    color: var(--admin-accent);
+    border: 1px solid #b3d7ff;
+}
+
 .text-success {
     color: #2e7d32;
 }
