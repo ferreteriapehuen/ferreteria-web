@@ -407,7 +407,8 @@ const generateDTE = () => {
     if (currentDocType === 'factura') {
         const rut = document.getElementById('cli-rut').value;
         const name = document.getElementById('cli-name').value;
-        const address = document.getElementById('cli-address').value || 'SANTIAGO, CHILE';
+        const address = document.getElementById('cli-address').value || 'DIRECCIÓN NO INFORMADA';
+        const city = document.getElementById('cli-city').value || 'CIUDAD NO INFORMADA';
         const giro = document.getElementById('cli-giro').value || 'COMERCIO AL POR MENOR';
 
         clientInfoDiv.innerHTML = `
@@ -416,6 +417,7 @@ const generateDTE = () => {
                 <p><strong>RAZÓN SOCIAL:</strong> ${name.toUpperCase()}</p>
                 <p><strong>GIRO:</strong> ${giro.toUpperCase()}</p>
                 <p><strong>DIRECCIÓN:</strong> ${address.toUpperCase()}</p>
+                <p><strong>CIUDAD:</strong> ${city.toUpperCase()}</p>
             </div>
         `;
         clientInfoDiv.style.display = 'block';
@@ -455,7 +457,8 @@ const generateDTE = () => {
             rut: document.getElementById('cli-rut').value,
             name: document.getElementById('cli-name').value,
             giro: document.getElementById('cli-giro').value,
-            address: document.getElementById('cli-address').value
+            address: document.getElementById('cli-address').value,
+            city: document.getElementById('cli-city').value
         } : null
     });
 };
@@ -1004,7 +1007,7 @@ const renderMovementsHistory = () => {
             <td><span class="badge ${badgeClass}">${m.docType.replace(/_/g, ' ').toUpperCase()}</span></td>
             <td>
                 <small>${m.items.join(', ').substring(0, 50)}${m.items.join(', ').length > 50 ? '...' : ''}</small>
-                ${m.clientData ? `<br><span style="font-size: 0.7rem; color: #666; font-weight: 500;">Cliente: ${m.clientData.name.toUpperCase()} (${m.clientData.rut})</span>` : ''}
+                ${m.clientData ? `<br><span style="font-size: 0.7rem; color: #666; font-weight: 500;">Cliente: ${m.clientData.name.toUpperCase()} (${m.clientData.rut}) ${m.clientData.city ? `- ${m.clientData.city.toUpperCase()}` : ''}</span>` : ''}
             </td>
             <td><strong class="${m.type === 'sale' ? 'text-success' : 'text-neutral'}">${m.total > 0 ? formatPrice(m.total) : '---'}</strong></td>
             <td>${m.seller}</td>
