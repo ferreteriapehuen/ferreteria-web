@@ -37,7 +37,73 @@ onSnapshot(productsCol, (snapshot) => {
     }
 
     renderAridosProducts();
+    initHeroSlider();
 });
+
+/* Hero Slider Logic */
+const initHeroSlider = () => {
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.querySelector('.slider-btn.prev');
+    const nextBtn = document.querySelector('.slider-btn.next');
+
+    if (!slides.length) return;
+
+    let currentSlide = 0;
+    let slideInterval;
+
+    const showSlide = (n) => {
+        slides.forEach(s => s.classList.remove('active'));
+        dots.forEach(d => d.classList.remove('active'));
+
+        currentSlide = (n + slides.length) % slides.length;
+
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+    };
+
+    const nextSlide = () => showSlide(currentSlide + 1);
+    const prevSlide = () => showSlide(currentSlide - 1);
+
+    const startAutoPlay = () => {
+        stopAutoPlay();
+        slideInterval = setInterval(nextSlide, 6000); // 6 seconds
+    };
+
+    const stopAutoPlay = () => {
+        if (slideInterval) clearInterval(slideInterval);
+    };
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            startAutoPlay();
+        });
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            startAutoPlay();
+        });
+    }
+
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            showSlide(index);
+            startAutoPlay();
+        });
+    });
+
+    // Pause on hover
+    const slider = document.querySelector('.hero-slider');
+    if (slider) {
+        slider.addEventListener('mouseenter', stopAutoPlay);
+        slider.addEventListener('mouseleave', startAutoPlay);
+    }
+
+    startAutoPlay();
+};
 
 // Helper to save cart to storage
 const saveCart = () => {

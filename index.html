@@ -89,19 +89,62 @@
     </nav>
 
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container hero-content">
-            <div class="hero-text">
-                <span class="badge-hero">NUEVA TEMPORADA</span>
-                <h2>Construye tus sueños con <br> <span class="text-primary">Pehuen</span></h2>
-                <p>Las mejores marcas y precios para tus proyectos de construcción y remodelación.</p>
-                <a href="#productos" class="btn btn-primary">Ver Ofertas <i class="fa-solid fa-arrow-right"></i></a>
+    <!-- Hero Slider Section -->
+    <section class="hero-slider">
+        <div class="slider-container">
+            <!-- Slide 1 -->
+            <div class="slide active"
+                style="background-image: linear-gradient(90deg, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.2) 100%), url('assets/images/promo_tools.png');">
+                <div class="container">
+                    <div class="slide-content">
+                        <span class="promo-badge">OFERTA IMPERDIBLE</span>
+                        <h2>Herramientas de <br><span class="highlight">Alto Rendimiento</span></h2>
+                        <p>Descuentos de hasta el 30% en marcas seleccionadas de herramientas eléctricas.</p>
+                        <div class="slide-actions">
+                            <a href="index.html?cat=herramientas" class="btn btn-primary">Ver Ofertas</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="hero-image">
-                <!-- Placeholder for Hero Image - CSS driven -->
-                <img src="assets/images/hero_banner.jpg" alt="Herramientas de construcción">
+            <!-- Slide 2 -->
+            <div class="slide"
+                style="background-image: linear-gradient(90deg, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.2) 100%), url('assets/images/promo_paint.png');">
+                <div class="container">
+                    <div class="slide-content">
+                        <span class="promo-badge">REMODELA TU HOGAR</span>
+                        <h2>Dale color a tus <br><span class="highlight">Espacios</span></h2>
+                        <p>Línea completa de pinturas y acabados con asesoría técnica especializada.</p>
+                        <div class="slide-actions">
+                            <a href="index.html?cat=materiales" class="btn btn-primary">Ver Catálogo</a>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!-- Slide 3 -->
+            <div class="slide"
+                style="background-image: linear-gradient(90deg, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.2) 100%), url('assets/images/promo_construction.png');">
+                <div class="container">
+                    <div class="slide-content">
+                        <span class="promo-badge">CALIDAD PROFESIONAL</span>
+                        <h2>Construcción <br><span class="highlight">Sin Límites</span></h2>
+                        <p>Los mejores materiales para obra gruesa y terminaciones en un solo lugar.</p>
+                        <div class="slide-actions">
+                            <a href="index.html?cat=materiales" class="btn btn-primary">Cotizar Ahora</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slider Navigation -->
+        <button class="slider-btn prev"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="slider-btn next"><i class="fa-solid fa-chevron-right"></i></button>
+
+        <!-- Slider Pagination -->
+        <div class="slider-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
         </div>
     </section>
 
