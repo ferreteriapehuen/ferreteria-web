@@ -829,20 +829,7 @@ hr {
     display: inline-block;
 }
 
-.badge.boleta {
-    background-color: #e1f0ff;
-    color: var(--admin-accent);
-}
 
-.badge.factura {
-    background-color: #fff4de;
-    color: var(--admin-warning);
-}
-
-.badge.ingreso {
-    background-color: #c9f7f5;
-    color: var(--admin-success);
-}
 
 .text-success {
     color: var(--admin-success);
@@ -850,4 +837,63 @@ hr {
 
 .text-neutral {
     color: var(--admin-text);
+}
+
+/* Movement Filters */
+.movement-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.m-filter-btn {
+    padding: 8px 15px;
+    border-radius: 5px;
+    border: 1px solid var(--admin-border);
+    background: #fff;
+    color: var(--admin-dark);
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.m-filter-btn:hover {
+    background-color: var(--admin-light);
+}
+
+.m-filter-btn.active {
+    background: var(--admin-accent);
+    color: #fff;
+    border-color: var(--admin-accent);
+}
+
+.badge.VALE_INTERNO {
+    background-color: #f1f1f1;
+    color: #666;
+    border: 1px solid #ccc;
+}
+
+.badge.PENDIENTE_FACTURA {
+    background-color: #fff4de;
+    color: var(--admin-warning);
+    border: 1px solid #ffe2a5;
+}
+
+.badge.ingreso {
+    background-color: #c9f7f5;
+    color: var(--admin-success);
+}
+
+.badge.ELIMINADO {
+    background-color: #ffe2e5;
+    color: var(--admin-danger);
+}
+
+.text-success {
+    color: #2e7d32;
+}
+
+.text-neutral {
+    color: #757575;
 }

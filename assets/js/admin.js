@@ -350,9 +350,9 @@ window.setDocType = (type) => {
     // Update UI toggle buttons
     document.querySelectorAll('.doc-btn').forEach(btn => {
         btn.classList.remove('active');
-        if (btn.textContent.toLowerCase().includes(type)) {
-            btn.classList.add('active');
-        }
+        // Match by the argument passed to the function
+        if (type === 'boleta' && btn.textContent.includes('Vale')) btn.classList.add('active');
+        if (type === 'factura' && btn.textContent.includes('Factura')) btn.classList.add('active');
     });
 
     const invForm = document.getElementById('invoice-form');
@@ -380,8 +380,24 @@ const generateDTE = () => {
     const dteNumber = Math.floor(Math.random() * 900000) + 100000; // Simulated Folio
 
     // Update DTE Visualization Content
-    document.getElementById('dte-title').textContent = currentDocType === 'factura' ? 'FACTURA ELECTRÓNICA' : 'BOLETA ELECTRÓNICA';
-    document.getElementById('dte-number').textContent = 'Nº FOLIO: ' + dteNumber;
+    const disclaimerDiv = document.getElementById('dte-disclaimer');
+    if (currentDocType === 'factura') {
+        document.getElementById('dte-title').textContent = 'BOUCHER PARA FACTURAR';
+        document.getElementById('dte-title').style.color = 'var(--admin-primary)';
+        disclaimerDiv.innerHTML = "DOCUMENTO NO VÁLIDO COMO FACTURA.<br>LOS DATOS HAN SIDO REGISTRADOS PARA EMISIÓN SII POSTERIOR.";
+        disclaimerDiv.style.display = 'block';
+        disclaimerDiv.style.borderColor = 'var(--admin-primary)';
+        disclaimerDiv.style.color = 'var(--admin-primary)';
+    } else {
+        document.getElementById('dte-title').textContent = 'VALE INTERNO';
+        document.getElementById('dte-title').style.color = '#666';
+        disclaimerDiv.innerHTML = "COMPROBANTE INTERNO<br>NO VÁLIDO COMO DOCUMENTO TRIBUTARIO.";
+        disclaimerDiv.style.display = 'block';
+        disclaimerDiv.style.borderColor = '#ccc';
+        disclaimerDiv.style.color = '#666';
+    }
+
+    document.getElementById('dte-number').textContent = 'COMPROBANTE Nº: ' + dteNumber;
     document.getElementById('dte-total').textContent = formatPrice(total);
 
     // Client Info Section (for Facturas)
@@ -428,11 +444,17 @@ const generateDTE = () => {
     const currentUser = JSON.parse(sessionStorage.getItem(STORAGE_PREFIX + 'current_admin')) || { name: 'Admin Principal' };
     recordMovement({
         type: 'sale',
-        docType: currentDocType,
+        docType: currentDocType === 'factura' ? 'PENDIENTE_FACTURA' : 'VALE_INTERNO',
         folio: dteNumber,
         items: cart.map(i => `${i.qty}x ${i.name}`),
         total: total,
-        seller: currentUser.name
+        seller: currentUser.name,
+        clientData: currentDocType === 'factura' ? {
+            rut: document.getElementById('cli-rut').value,
+            name: document.getElementById('cli-name').value,
+            giro: document.getElementById('cli-giro').value,
+            address: document.getElementById('cli-address').value
+        } : null
     });
 };
 
@@ -447,7 +469,8 @@ const recordMovement = async (data) => {
         items: data.items || [],
         total: data.total || 0,
         seller: data.seller || "Sistema",
-        justification: data.justification || ''
+        justification: data.justification || '',
+        clientData: data.clientData || null
     };
 
     try {
@@ -885,8 +908,11 @@ const renderMovementsHistory = () => {
         row.innerHTML = `
             <td>${m.date}</td>
             <td>${m.folio}</td>
-            <td><span class="badge ${badgeClass}">${m.docType.toUpperCase()}</span></td>
-            <td><small>${m.items.join(', ').substring(0, 50)}${m.items.join(', ').length > 50 ? '...' : ''}</small></td>
+            <td><span class="badge ${badgeClass}">${m.docType.replace(/_/g, ' ').toUpperCase()}</span></td>
+            <td>
+                <small>${m.items.join(', ').substring(0, 50)}${m.items.join(', ').length > 50 ? '...' : ''}</small>
+                ${m.clientData ? `<br><span style="font-size: 0.7rem; color: #666; font-weight: 500;">Cliente: ${m.clientData.name.toUpperCase()} (${m.clientData.rut})</span>` : ''}
+            </td>
             <td><strong class="${m.type === 'sale' ? 'text-success' : 'text-neutral'}">${m.total > 0 ? formatPrice(m.total) : '---'}</strong></td>
             <td>${m.seller}</td>
         `;
@@ -1064,7 +1090,7 @@ window.deleteProduct = async (id) => {
 
     try {
         await deleteDoc(doc(db, 'products', id.toString()));
-        
+
         // Registrar movimiento
         const currentUser = JSON.parse(sessionStorage.getItem(STORAGE_PREFIX + 'current_admin')) || { name: 'Admin' };
         await recordMovement({

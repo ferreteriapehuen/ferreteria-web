@@ -78,8 +78,8 @@
                         <div class="doc-settings">
                             <label class="doc-label">Tipo de Documento</label>
                             <div class="doc-toggle">
-                                <button class="doc-btn active" onclick="setDocType('boleta')">Boleta</button>
-                                <button class="doc-btn" onclick="setDocType('factura')">Factura</button>
+                                <button class="doc-btn active" onclick="setDocType('boleta')">Vale Interno</button>
+                                <button class="doc-btn" onclick="setDocType('factura')">Boucher Factura</button>
                             </div>
 
                             <!-- Invoice Details Form (Hidden by default) -->
@@ -151,12 +151,24 @@
             <!-- Sales Movements Section -->
             <section id="movements" class="tab-content">
                 <div class="inventory-header">
-                    <h1>Movimientos de Venta</h1>
+                    <h1>Movimientos del Sistema</h1>
                     <div class="inv-controls">
+                        <button class="btn-add" id="btn-sales-report" style="background-color: var(--admin-success);">
+                            <i class="fa-solid fa-file-invoice-dollar"></i> Reporte Ventas
+                        </button>
+                        <button class="btn-add" id="btn-stock-report" style="background-color: var(--admin-warning);">
+                            <i class="fa-solid fa-boxes-stacked"></i> Reporte Stock
+                        </button>
                         <button class="btn-add" id="btn-daily-report" style="background-color: var(--admin-accent);">
-                            <i class="fa-solid fa-file-invoice-dollar"></i> Informe Diario
+                            <i class="fa-solid fa-file-lines"></i> Resumen General
                         </button>
                     </div>
+                </div>
+
+                <div class="movement-filters">
+                    <button class="m-filter-btn active" data-mtype="all">Todos</button>
+                    <button class="m-filter-btn" data-mtype="sale">Solo Ventas</button>
+                    <button class="m-filter-btn" data-mtype="entry">Solo Ingresos/Stock</button>
                 </div>
 
                 <div class="inventory-table-wrapper">
@@ -413,6 +425,9 @@
                 <hr>
                 <div class="dte-items" id="dte-items">
                     <!-- Items -->
+                </div>
+                <div id="dte-disclaimer"
+                    style="text-align: center; margin: 10px 0; font-size: 0.75rem; font-weight: 500; border: 1px dashed #ccc; padding: 5px; border-radius: 4px; display: none;">
                 </div>
                 <hr>
                 <div class="dte-totals">
