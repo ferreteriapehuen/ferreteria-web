@@ -27,6 +27,11 @@ onSnapshot(productsCol, (snapshot) => {
             filterButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
+        // Scroll to products on load if category is present
+        setTimeout(() => {
+            const productsSection = document.getElementById('productos');
+            if (productsSection) productsSection.scrollIntoView({ behavior: 'smooth' });
+        }, 500);
     } else {
         renderProducts();
     }
@@ -345,6 +350,29 @@ if (mobileMenuBtn) {
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
         const href = link.getAttribute('href');
+        const isHomePage = window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/');
+
+        // Intercept category links if we are already on index.html
+        if (isHomePage && href.includes('?cat=')) {
+            e.preventDefault();
+            const urlParams = new URLSearchParams(href.split('?')[1]);
+            const category = urlParams.get('cat');
+            if (category) {
+                renderProducts(category);
+                // Update active button In UI
+                filterButtons.forEach(b => {
+                    b.classList.remove('active');
+                    if (b.dataset.filter === category) b.classList.add('active');
+                });
+                // Scroll
+                const productsSection = document.getElementById('productos');
+                if (productsSection) productsSection.scrollIntoView({ behavior: 'smooth' });
+                // Close mobile menu
+                if (navList) navList.classList.remove('show');
+            }
+            return;
+        }
+
         // Do not intercept if it's a real link (not #) and not an in-page anchor
         if (href && href !== '#' && !href.startsWith('#')) return;
 
