@@ -393,7 +393,6 @@ body {
     gap: 15px;
 }
 
-#inv-search,
 #inv-filter {
     padding: 10px 15px;
     border: 1px solid var(--admin-border);
@@ -402,8 +401,13 @@ body {
     outline: none;
 }
 
-#inv-search {
+.inv-search-container {
+    position: relative;
     width: 300px;
+}
+
+#inv-search {
+    width: 100% !important;
 }
 
 .btn-add {

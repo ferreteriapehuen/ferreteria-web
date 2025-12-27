@@ -110,7 +110,10 @@
                 <div class="inventory-header">
                     <h1>Gestión de Inventario</h1>
                     <div class="inv-controls">
-                        <input type="text" id="inv-search" placeholder="Buscar producto...">
+                        <div class="inv-search-container" style="position: relative;">
+                            <input type="text" id="inv-search" placeholder="Buscar producto..." autocomplete="off">
+                            <div id="inv-search-results" class="pos-search-results"></div>
+                        </div>
                         <select id="inv-filter">
                             <option value="all">Todas las categorías</option>
                             <option value="herramientas">Herramientas</option>

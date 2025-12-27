@@ -62,6 +62,7 @@ const posSearchResults = document.getElementById('pos-search-results');
 const invSearch = document.getElementById('inv-search');
 const invFilter = document.getElementById('inv-filter');
 const invBody = document.getElementById('inventory-body');
+const invSearchResults = document.getElementById('inv-search-results');
 
 // Login Check
 const checkAuth = () => {
@@ -612,7 +613,52 @@ window.editStock = async (id) => {
     }
 };
 
-invSearch.addEventListener('input', renderInventory);
+invSearch.addEventListener('input', (e) => {
+    const val = e.target.value.toLowerCase().trim();
+    renderInventory();
+
+    if (val.length < 2) {
+        invSearchResults.classList.remove('active');
+        return;
+    }
+
+    const matches = products.filter(p =>
+        p.name.toLowerCase().includes(val) ||
+        p.id.toString().includes(val)
+    ).slice(0, 5);
+
+    if (matches.length > 0) {
+        invSearchResults.innerHTML = '';
+        matches.forEach(p => {
+            const div = document.createElement('div');
+            div.className = 'search-item';
+            div.innerHTML = `
+                <div class="info">
+                    <div class="name">${p.name}</div>
+                    <div class="stock-info">Stock: ${p.stock} | ID: ${p.id}</div>
+                </div>
+                <div class="price">${formatPrice(p.price)}</div>
+            `;
+            div.addEventListener('click', () => {
+                invSearch.value = p.name;
+                renderInventory();
+                invSearchResults.classList.remove('active');
+            });
+            invSearchResults.appendChild(div);
+        });
+        invSearchResults.classList.add('active');
+    } else {
+        invSearchResults.classList.remove('active');
+    }
+});
+
+// Close admin search if clicking outside
+document.addEventListener('click', (e) => {
+    if (invSearch && !invSearch.contains(e.target) && invSearchResults && !invSearchResults.contains(e.target)) {
+        invSearchResults.classList.remove('active');
+    }
+});
+
 invFilter.addEventListener('change', renderInventory);
 
 /* --- Stock Management Module --- */

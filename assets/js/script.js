@@ -71,6 +71,7 @@ const productsContainer = document.getElementById('products-container');
 const cartCountElement = document.getElementById('cart-count');
 const filterButtons = document.querySelectorAll('.filter-btn');
 const searchInput = document.getElementById('search-input');
+const searchResults = document.getElementById('search-results');
 const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 const navList = document.getElementById('nav-list');
 const navLinks = document.querySelectorAll('.nav-list a:not(#mobile-menu-btn)'); // Exclude toggle button
@@ -256,39 +257,71 @@ filterButtons.forEach(btn => {
 
 // Search Functionality
 if (searchInput) {
-    searchInput.addEventListener('input', (e) => { // Changed to 'change' or keeping 'input' but handling redirect on Enter? 
-        // 'input' is real-time. Redirecting on input is bad UX for typing.
+    searchInput.addEventListener('input', (e) => {
+        const val = e.target.value.toLowerCase().trim();
+
+        if (val.length < 2) {
+            searchResults.classList.remove('active');
+            if (productsContainer) renderProducts('all', val);
+            return;
+        }
+
+        const matches = products.filter(p =>
+            p.name.toLowerCase().includes(val) ||
+            p.category.toLowerCase().includes(val) ||
+            p.id.toString().includes(val)
+        ).slice(0, 8); // Limit to 8 results
+
+        if (matches.length > 0) {
+            searchResults.innerHTML = '';
+            matches.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'search-item';
+                div.innerHTML = `
+                    <div class="info">
+                        <div class="name">${p.name}</div>
+                        <div class="stock-info">${p.category} | SKU: ${p.id}</div>
+                    </div>
+                    <div class="price">${formatPrice(p.price)}</div>
+                `;
+                div.addEventListener('click', () => {
+                    if (productsContainer) {
+                        searchInput.value = p.name;
+                        renderProducts('all', p.name);
+                        searchResults.classList.remove('active');
+                    } else {
+                        window.location.href = `index.html?search=${encodeURIComponent(p.name)}`;
+                    }
+                });
+                searchResults.appendChild(div);
+            });
+            searchResults.classList.add('active');
+        } else {
+            searchResults.classList.remove('active');
+        }
     });
 
-    // Better: Handle 'Enter' key or search button click for redirect scenarios, 
-    // but for index page 'input' is nice.
-    // Let's keep 'input' for index page, but if we are on another page, we need to wait for Enter?
-    // Actually, the previous code was doing realtime search on index. 
-
-    // To support "Search from Aridos Page" -> we probably need to listen for "Enter" key or button click.
-    // Realtime search on Aridos page without results is weird.
-
-    // Let's change listener to handle both.
-
-    searchInput.addEventListener('keyup', (e) => {
-        const term = searchInput.value;
-        if (productsContainer) {
-            // We are on Index, do realtime
-            renderProducts('all', term);
-            if (term.length > 0) {
-                filterButtons.forEach(b => b.classList.remove('active'));
-            }
-        } else {
-            // We are on another page. Wait for Enter to redirect.
-            if (e.key === 'Enter') {
+    searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            const term = searchInput.value;
+            searchResults.classList.remove('active');
+            if (productsContainer) {
+                renderProducts('all', term);
+            } else {
                 window.location.href = `index.html?search=${encodeURIComponent(term)}`;
             }
         }
     });
 
-    // Also handle the search button click if it exists (it's in HTML but no ID)
-    const searchBtn = searchInput.nextElementSibling; // The button next to input
-    if (searchBtn) {
+    // Close search if clicking outside
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            searchResults.classList.remove('active');
+        }
+    });
+
+    const searchBtn = searchInput.nextElementSibling.nextElementSibling; // The button next to results-dropdown
+    if (searchBtn && searchBtn.tagName === 'BUTTON') {
         searchBtn.addEventListener('click', () => {
             const term = searchInput.value;
             if (productsContainer) {
@@ -729,7 +762,7 @@ window.openProductDetails = (id) => {
 
     const body = document.getElementById('details-modal-body');
     const images = product.images && product.images.length > 0 ? product.images : [product.image];
-    
+
     body.innerHTML = `
         <div class="product-details-grid">
             <div class="details-images">
