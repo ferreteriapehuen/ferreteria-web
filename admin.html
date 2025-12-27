@@ -345,11 +345,12 @@
                 <button class="close-modal" id="close-stock-modal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="stock-form">
-                <div class="form-group">
-                    <label>Producto</label>
-                    <select id="stock-product-select" required style="width: 100%; padding: 10px; border-radius: 8px;">
-                        <option value="" disabled selected>Seleccione Producto</option>
-                    </select>
+                <div class="form-group" style="position: relative;">
+                    <label>Producto (Buscar por nombre o ID)</label>
+                    <input type="text" id="stock-search-input" placeholder="Escriba para buscar..." autocomplete="off"
+                        style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    <input type="hidden" id="stock-product-selected-id">
+                    <div id="stock-search-results" class="pos-search-results"></div>
                 </div>
                 <div class="form-group">
                     <label>Stock Actual: <span id="stock-current-display"

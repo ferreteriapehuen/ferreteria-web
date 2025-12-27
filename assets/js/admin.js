@@ -657,6 +657,9 @@ document.addEventListener('click', (e) => {
     if (invSearch && !invSearch.contains(e.target) && invSearchResults && !invSearchResults.contains(e.target)) {
         invSearchResults.classList.remove('active');
     }
+    if (stockSearchInput && !stockSearchInput.contains(e.target) && stockSearchResults && !stockSearchResults.contains(e.target)) {
+        stockSearchResults.classList.remove('active');
+    }
 });
 
 invFilter.addEventListener('change', renderInventory);
@@ -666,7 +669,9 @@ const btnManageStock = document.getElementById('btn-manage-stock');
 const stockModal = document.getElementById('stock-modal');
 const closeStockModal = document.getElementById('close-stock-modal');
 const stockForm = document.getElementById('stock-form');
-const stockProductSelect = document.getElementById('stock-product-select');
+const stockSearchInput = document.getElementById('stock-search-input');
+const stockSearchResults = document.getElementById('stock-search-results');
+const stockSelectedIdInput = document.getElementById('stock-product-selected-id');
 const stockCurrentDisplay = document.getElementById('stock-current-display');
 const stockTypeSelect = document.getElementById('stock-type-select');
 const stockDocGroup = document.getElementById('stock-doc-group');
@@ -674,20 +679,14 @@ const stockJustificationGroup = document.getElementById('stock-justification-gro
 
 if (btnManageStock) {
     btnManageStock.addEventListener('click', () => {
-        // Populate Select
-        stockProductSelect.innerHTML = '<option value="" disabled selected>Seleccione Producto</option>';
-        products.forEach(p => {
-            const option = document.createElement('option');
-            option.value = p.id;
-            option.textContent = `${p.name} (Actual: ${p.stock})`;
-            stockProductSelect.appendChild(option);
-        });
-
         // Reset Form
         stockForm.reset();
+        stockSelectedIdInput.value = '';
         stockCurrentDisplay.textContent = '-';
         stockDocGroup.style.display = 'block';
         stockJustificationGroup.style.display = 'none';
+
+        if (stockSearchResults) stockSearchResults.classList.remove('active');
 
         stockModal.classList.add('open');
     });
@@ -699,12 +698,49 @@ if (closeStockModal) {
     });
 }
 
-if (stockProductSelect) {
-    stockProductSelect.addEventListener('change', (e) => {
-        const id = parseInt(e.target.value);
-        const product = products.find(p => p.id === id);
-        if (product) {
-            stockCurrentDisplay.textContent = product.stock;
+if (stockSearchInput) {
+    stockSearchInput.addEventListener('input', (e) => {
+        const val = e.target.value.toLowerCase().trim();
+
+        if (val.length < 2) {
+            stockSearchResults.classList.remove('active');
+            return;
+        }
+
+        const matches = products.filter(p =>
+            p.name.toLowerCase().includes(val) ||
+            p.id.toString().includes(val)
+        ).slice(0, 5);
+
+        if (matches.length > 0) {
+            stockSearchResults.innerHTML = '';
+            matches.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'search-item';
+                div.innerHTML = `
+                    <div class="info">
+                        <div class="name">${p.name}</div>
+                        <div class="stock-info">Stock: ${p.stock} | ID: ${p.id}</div>
+                    </div>
+                    <div class="price">${formatPrice(p.price)}</div>
+                `;
+                div.addEventListener('click', () => {
+                    stockSearchInput.value = p.name;
+                    stockSelectedIdInput.value = p.id;
+                    stockCurrentDisplay.textContent = p.stock;
+                    stockSearchResults.classList.remove('active');
+                });
+                stockSearchResults.appendChild(div);
+            });
+            stockSearchResults.classList.add('active');
+        } else {
+            stockSearchResults.classList.remove('active');
+        }
+    });
+
+    stockSearchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault(); // Don't submit form on enter here
         }
     });
 }
@@ -724,7 +760,7 @@ if (stockTypeSelect) {
 if (stockForm) {
     stockForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const productId = parseInt(stockProductSelect.value);
+        const productId = parseInt(stockSelectedIdInput.value);
         const type = stockTypeSelect.value;
         const qty = parseInt(document.getElementById('stock-qty').value);
         const doc = document.getElementById('stock-doc').value;
