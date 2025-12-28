@@ -24,11 +24,19 @@
     font-family: 'Outfit', sans-serif;
 }
 
+html,
+body {
+    overflow-x: hidden;
+    touch-action: pan-y;
+    /* Disable pinch-zoom and double-tap zoom, only allow vertical scrolling */
+    -webkit-text-size-adjust: 100%;
+    /* Prevent font scaling on orientation change */
+}
+
 body {
     background-color: var(--bg-light);
     color: var(--text-dark);
     line-height: 1.6;
-    overflow-x: hidden;
     /* Prevent horizontal scroll/shrink issues */
 }
 
