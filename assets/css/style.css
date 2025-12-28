@@ -28,6 +28,8 @@ body {
     background-color: var(--bg-light);
     color: var(--text-dark);
     line-height: 1.6;
+    overflow-x: hidden;
+    /* Prevent horizontal scroll/shrink issues */
 }
 
 a {
@@ -49,6 +51,12 @@ img {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
 }
 
 /* Utilities */
@@ -535,16 +543,21 @@ img {
 
 @media (max-width: 480px) {
     .hero-slider {
-        height: 450px;
+        height: 480px;
     }
 
     .slide h2 {
-        font-size: 2rem;
+        font-size: 2.4rem;
+        /* Increased from 2rem */
+    }
+
+    .slide p {
+        font-size: 1.1rem;
     }
 
     .promo-badge {
-        font-size: 0.75rem;
-        padding: 4px 10px;
+        font-size: 0.8rem;
+        padding: 5px 12px;
     }
 }
 
@@ -1252,16 +1265,18 @@ img {
 
 @media (max-width: 480px) {
     .header-content {
-        padding: 10px 15px;
+        padding: 12px 15px;
     }
 
     .logo-image {
-        width: 50px;
-        height: 50px;
+        width: 65px;
+        /* Increased from 50px */
+        height: 65px;
     }
 
     .logo-text h1 {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
+        /* Increased from 1.5rem */
     }
 
     .logo-text span {
@@ -1272,12 +1287,16 @@ img {
         gap: 15px;
     }
 
+    .search-container {
+        margin-top: 12px;
+    }
+
     .action-item span {
         display: none;
     }
 
     .action-item i {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         margin-bottom: 0;
     }
 
@@ -1290,7 +1309,7 @@ img {
     }
 
     .top-bar {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
     }
 }
 
@@ -1552,6 +1571,16 @@ img {
     color: #ccc;
     max-width: 600px;
     margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+    .aridos-header h2 {
+        font-size: 2.2rem;
+    }
+
+    .aridos-header p {
+        font-size: 1.05rem;
+    }
 }
 
 /* Process Steps Box */
