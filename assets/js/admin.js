@@ -1121,17 +1121,20 @@ if (closeUserModalBtn) {
 const renderAdminUsers = () => {
     if (!usersBody) return;
     usersBody.innerHTML = '';
-    admins.forEach((user, index) => {
+    admins.forEach((user) => {
         const row = document.createElement('tr');
+        // Usar clases de badge existentes: ingreso (verde) para activo, ELIMINADO (rojo) para inactivo
+        const statusClass = user.status === 'active' ? 'ingreso' : 'ELIMINADO';
         row.innerHTML = `
             <td>${user.name}</td>
             <td>${user.email || user.username}</td>
             <td><span class="badge ${user.role}">${user.role.toUpperCase()}</span></td>
-            <td><span class="badge ${user.status}">${user.status.toUpperCase()}</span></td>
+            <td><span class="badge ${statusClass}">${user.status.toUpperCase()}</span></td>
             <td>
-                <button class="btn-action btn-edit" title="Editar" onclick="editUser(${user.id})"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button class="btn-action btn-edit" title="Cambiar Estado" onclick="toggleUserStatus(${user.id})"><i class="fa-solid fa-${user.status === 'active' ? 'user-slash' : 'user-check'}"></i></button>
-                ${user.id !== 1 ? `<button class="btn-action btn-delete" title="Eliminar" onclick="deleteUser(${user.id})"><i class="fa-solid fa-trash"></i></button>` : ''}
+                <button class="btn-action btn-edit" title="Editar" onclick="editUser('${user.id}')"><i class="fa-solid fa-pen-to-square"></i></button>
+                <button class="btn-action btn-edit" title="${user.status === 'active' ? 'Desactivar' : 'Activar'}" onclick="toggleUserStatus('${user.id}')">
+                    <i class="fa-solid fa-${user.status === 'active' ? 'user-slash' : 'user-check'}"></i>
+                </button>
             </td>
         `;
         usersBody.appendChild(row);
@@ -1194,14 +1197,27 @@ window.editUser = (id) => {
 };
 
 window.toggleUserStatus = async (id) => {
-    // Note: id passed here is string because it comes from doc ID map
-    if (id === 1 || id === '1') return alert('No se puede desactivar al administrador principal.');
+    // Evitar que el admin principal se desactive si es el único
     const user = admins.find(a => a.id === id);
-    if (user) {
-        const newStatus = user.status === 'active' ? 'inactive' : 'active';
+    if (!user) return;
+
+    if (user.role === 'admin' && user.status === 'active') {
+        const otherAdmins = admins.filter(a => a.role === 'admin' && a.status === 'active' && a.id !== id);
+        if (otherAdmins.length === 0) {
+            return alert('Debe haber al menos un administrador activo en el sistema.');
+        }
+    }
+
+    const newStatus = user.status === 'active' ? 'inactive' : 'active';
+    const confirmMsg = newStatus === 'inactive' ?
+        `¿Estás seguro de desactivar a ${user.name}? No podrá ingresar al sistema.` :
+        `¿Estás seguro de activar a ${user.name}?`;
+
+    if (confirm(confirmMsg)) {
         try {
             const userRef = doc(db, 'admins', id);
             await updateDoc(userRef, { status: newStatus });
+            alert(`Usuario ${newStatus === 'active' ? 'activado' : 'desactivado'} con éxito`);
         } catch (e) {
             console.error(e);
             alert("Error al cambiar estado");
@@ -1210,20 +1226,7 @@ window.toggleUserStatus = async (id) => {
 };
 
 window.deleteUser = async (id) => {
-    // Check if it is the admin created by default (id 1 or '1'). In Firestore it might be a generated ID.
-    // If the user's role is 'admin' and it's the only one, blocking might be complex.
-    // We already check for ID '1' legacy
-    if (id === 1 || id === '1') return alert('No se puede eliminar al administrador principal.');
-
-    if (confirm('¿Estás seguro de eliminar este usuario?')) {
-        try {
-            await deleteDoc(doc(db, 'admins', id));
-            alert('Usuario eliminado');
-        } catch (e) {
-            console.error("Error deleting user:", e);
-            alert("Error al eliminar usuario.");
-        }
-    }
+    alert('Por política de seguridad y auditoría, los usuarios nunca se borran del sistema. Por favor, utilice la opción de desactivar (ícono de usuario bloqueado) para revocar el acceso.');
 };
 
 // Init
