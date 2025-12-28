@@ -140,7 +140,11 @@ navItems.forEach(item => {
         item.classList.add('active');
 
         tabContents.forEach(t => t.classList.remove('active'));
-        document.getElementById(item.dataset.tab).classList.add('active');
+        const targetTab = document.getElementById(item.dataset.tab);
+        if (targetTab) targetTab.classList.add('active');
+
+        // Close sidebar on mobile after selection
+        document.querySelector('.sidebar').classList.remove('open');
 
         // Logic
         if (item.dataset.tab === 'inventory') renderInventory();
@@ -149,6 +153,14 @@ navItems.forEach(item => {
         if (item.dataset.tab === 'pos') posInput.focus();
     });
 });
+
+// Mobile Sidebar Toggle
+const mobileToggleBtn = document.getElementById('mobile-sidebar-toggle');
+if (mobileToggleBtn) {
+    mobileToggleBtn.addEventListener('click', () => {
+        document.querySelector('.sidebar').classList.toggle('open');
+    });
+}
 
 
 /* --- POS Module --- */
