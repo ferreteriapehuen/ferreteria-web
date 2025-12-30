@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Ferretería Pehuen - Especialistas en Construcción</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferretería El Perro - Especialistas en Construcción</title>
     <meta name="description"
-        content="Ferretería Pehuen: Encuentra las mejores herramientas y materiales de construcción. Venta online y despacho a domicilio.">
+        content="Ferretería El Perro: Encuentra las mejores herramientas y materiales de construcción. Venta online y despacho a domicilio.">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,10 +14,6 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/checkout.css">
-    <!-- jsPDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 </head>
 
 <body>
@@ -29,8 +25,7 @@
             <div class="top-links">
                 <a href="nosotros.html">Nosotros</a>
                 <a href="contacto.html">Contacto</a>
-                <a href="#"
-                    onclick="alert('¿Necesitas ayuda? Escríbenos por WhatsApp para una atención inmediata.'); return false;">Ayuda</a>
+                <a href="#">Ayuda</a>
             </div>
         </div>
     </div>
@@ -39,24 +34,23 @@
     <header class="main-header">
         <div class="container header-content">
             <!-- Logo -->
-            <a href="index.html" class="logo">
-                <img src="assets/images/logo.svg" alt="Pehuen Logo" class="logo-image">
+            <a href="#" class="logo">
+                <img src="assets/images/logo.png" alt="El Perro Logo" class="logo-image">
                 <div class="logo-text">
-                    <h1>PEHUEN</h1>
+                    <h1>EL PERRO</h1>
                     <span>FERRETERÍA EXPERTA</span>
                 </div>
             </a>
 
             <!-- Search Bar -->
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="¿Qué estás buscando hoy?" autocomplete="off">
-                <div id="search-results" class="search-results-dropdown"></div>
+                <input type="text" id="search-input" placeholder="¿Qué estás buscando hoy?">
                 <button><i class="fa-solid fa-search"></i></button>
             </div>
 
             <!-- User Actions -->
             <div class="header-actions">
-                <a href="login.html" class="action-item" id="user-action">
+                <a href="#" class="action-item">
                     <i class="fa-regular fa-user"></i>
                     <span>Mi Cuenta</span>
                 </a>
@@ -71,85 +65,35 @@
         </div>
     </header>
 
-
     <!-- Navigation -->
     <nav class="main-nav">
         <div class="container">
-            <button id="mobile-menu-btn" class="mobile-toggle"><i class="fa-solid fa-bars"></i> Categorías</button>
             <ul class="nav-list" id="nav-list">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="index.html?cat=herramientas">Herramientas</a></li>
-                <li><a href="aridos.html" style="color: var(--primary); font-weight: bold;">Venta de Áridos</a></li>
-                <li><a href="index.html?cat=materiales">Materiales</a></li>
-                <li><a href="index.html?cat=materiales">Pinturas</a></li>
-                <li><a href="index.html?cat=jardin">Jardín</a></li>
-                <li><a href="index.html?cat=seguridad">Seguridad</a></li>
-                <li><a href="#" class="highlight"
-                        onclick="alert('Próximamente: Ofertas exclusivas por temporada.'); return false;">Ofertas del
-                        Mes</a></li>
-                <li><a href="#" onclick="generateCatalogPDF(); return false;" class="highlight"><i class="fa-solid fa-file-pdf"></i> Descargar
-                        Catálogo</a></li>
+                <li><a href="#" id="mobile-menu-btn" class="active"><i class="fa-solid fa-bars"></i> Categorías</a></li>
+                <li><a href="#">Herramientas</a></li>
+                <li><a href="#aridos" style="color: var(--primary); font-weight: bold;">Venta de Áridos</a></li>
+                <li><a href="#">Materiales</a></li>
+                <li><a href="#">Pinturas</a></li>
+                <li><a href="#">Jardín</a></li>
+                <li><a href="#">Seguridad</a></li>
+                <li><a href="#" class="highlight">Ofertas del Mes</a></li>
             </ul>
         </div>
     </nav>
 
-
-    <!-- Hero Slider Section -->
-    <section class="hero-slider">
-        <div class="slider-container">
-            <!-- Slide 1 -->
-            <div class="slide active"
-                style="background-image: linear-gradient(90deg, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.2) 100%), url('assets/images/promo_tools.png');">
-                <div class="container">
-                    <div class="slide-content">
-                        <span class="promo-badge">OFERTA IMPERDIBLE</span>
-                        <h2>Herramientas de <br><span class="highlight">Alto Rendimiento</span></h2>
-                        <p>Descuentos de hasta el 30% en marcas seleccionadas de herramientas eléctricas.</p>
-                        <div class="slide-actions">
-                            <a href="index.html?cat=herramientas" class="btn btn-primary">Ver Ofertas</a>
-                        </div>
-                    </div>
-                </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <span class="badge-hero">NUEVA TEMPORADA</span>
+                <h2>Construye tus sueños con <br> <span class="text-primary">El Perro</span></h2>
+                <p>Las mejores marcas y precios para tus proyectos de construcción y remodelación.</p>
+                <a href="#productos" class="btn btn-primary">Ver Ofertas <i class="fa-solid fa-arrow-right"></i></a>
             </div>
-            <!-- Slide 2 -->
-            <div class="slide"
-                style="background-image: linear-gradient(90deg, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.2) 100%), url('assets/images/promo_paint.png');">
-                <div class="container">
-                    <div class="slide-content">
-                        <span class="promo-badge">REMODELA TU HOGAR</span>
-                        <h2>Dale color a tus <br><span class="highlight">Espacios</span></h2>
-                        <p>Línea completa de pinturas y acabados con asesoría técnica especializada.</p>
-                        <div class="slide-actions">
-                            <a href="index.html?cat=materiales" class="btn btn-primary">Ver Catálogo</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="hero-image">
+                <!-- Placeholder for Hero Image - CSS driven -->
+                <img src="assets/images/hero_banner.jpg" alt="Herramientas de construcción">
             </div>
-            <!-- Slide 3 -->
-            <div class="slide"
-                style="background-image: linear-gradient(90deg, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.2) 100%), url('assets/images/promo_construction.png');">
-                <div class="container">
-                    <div class="slide-content">
-                        <span class="promo-badge">CALIDAD PROFESIONAL</span>
-                        <h2>Construcción <br><span class="highlight">Sin Límites</span></h2>
-                        <p>Los mejores materiales para obra gruesa y terminaciones en un solo lugar.</p>
-                        <div class="slide-actions">
-                            <a href="index.html?cat=materiales" class="btn btn-primary">Cotizar Ahora</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Slider Navigation -->
-        <button class="slider-btn prev"><i class="fa-solid fa-chevron-left"></i></button>
-        <button class="slider-btn next"><i class="fa-solid fa-chevron-right"></i></button>
-
-        <!-- Slider Pagination -->
-        <div class="slider-dots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
         </div>
     </section>
 
@@ -202,7 +146,6 @@
                 <button class="filter-btn active" data-filter="all">Todos</button>
                 <button class="filter-btn" data-filter="herramientas">Herramientas</button>
                 <button class="filter-btn" data-filter="materiales">Materiales</button>
-                <button class="filter-btn" data-filter="jardin">Jardín</button>
             </div>
 
             <div class="products-grid" id="products-container">
@@ -212,19 +155,51 @@
     </section>
 
     <!-- Áridos Section -->
-    <!-- Áridos Teaser Section -->
-    <section class="section-padding bg-light">
-        <div class="container text-center">
-            <div class="section-header text-center" style="display: block; margin-bottom: 20px;">
-                <h3><i class="fa-solid fa-truck-front"></i> Venta de Áridos</h3>
+    <section id="aridos" class="aridos-section">
+        <div class="container">
+            <!-- Header -->
+            <div class="aridos-header">
+                <h2><i class="fa-solid fa-truck-front"></i> Áridos para tu Obra</h2>
+                <p>Arena, Ripio, Gravilla y Bolones. Despachamos desde 1 saco (25kg) hasta camiones completos (10m³).
+                </p>
             </div>
-            <p style="max-width: 600px; margin: 0 auto 30px; font-size: 1.1rem;">
-                Arena, Ripio, Bolones y más. Usa nuestra <strong>nueva calculadora</strong> para estimar tu pedido
-                exacto y solicita despacho a domicilio.
-            </p>
-            <a href="aridos.html" class="btn btn-primary" style="font-size: 1.1rem; padding: 15px 30px;">
-                Ir a Sección de Áridos <i class="fa-solid fa-arrow-right"></i>
-            </a>
+
+            <!-- Process Steps -->
+            <div class="process-box">
+                <div class="process-step">
+                    <i class="fa-solid fa-calculator"></i>
+                    <h4>1. Calcula</h4>
+                    <p>Estima los m³ necesarios</p>
+                </div>
+                <div class="process-step">
+                    <i class="fa-solid fa-cart-plus"></i>
+                    <h4>2. Agrega</h4>
+                    <p>Elige el tipo de árido</p>
+                </div>
+                <div class="process-step">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <h4>3. Solicita</h4>
+                    <p>Confirmamos despacho por WhatsApp</p>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="section-header">
+                <h3>Nuestros Áridos</h3>
+            </div>
+            <div class="aridos-products-grid" id="aridos-products-container">
+                <!-- Áridos products will be injected here by JS -->
+            </div>
+
+            <!-- Bulk Order Banner -->
+            <div class="bulk-banner">
+                <div>
+                    <h3>¿Necesitas un camión completo?</h3>
+                    <p>Cotiza precios especiales por volumen (sobre 5m³).</p>
+                </div>
+                <a href="https://wa.me/56978589090?text=Hola,%20necesito%20cotizar%20un%20camion%20de%20aridos"
+                    class="btn">Cotizar Camión <i class="fa-solid fa-truck-front"></i></a>
+            </div>
         </div>
     </section>
 
@@ -239,17 +214,15 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <div class="logo footer-logo">
-                        <img src="assets/images/logo.svg" alt="Pehuen Logo" class="logo-image">
-                        <span class="logo-text">PEHUEN</span>
+                        <img src="assets/images/logo.png" alt="El Perro Logo" class="logo-image">
+                        <span class="logo-text">EL PERRO</span>
                     </div>
                     <p>Tu socio experto en construcción y herramientas. Calidad garantizada en cada producto.</p>
                 </div>
                 <div class="footer-col">
                     <h4>Servicio al Cliente</h4>
                     <ul>
-                        <li><a href="#"
-                                onclick="alert('Nuestro centro de ayuda está siendo actualizado. Por favor contáctanos vía WhatsApp.'); return false;">Centro
-                                de Ayuda</a></li>
+                        <li><a href="#">Centro de Ayuda</a></li>
                         <li><a href="#">Seguimiento de Compra</a></li>
                         <li><a href="#">Políticas de Devolución</a></li>
                         <li><a href="#">Términos y Condiciones</a></li>
@@ -258,14 +231,10 @@
                 <div class="footer-col">
                     <h4>Contacto</h4>
                     <ul>
-                        <li><i class="fa-solid fa-phone"></i> +56 41 251 1272</li>
-                        <li><i class="fa-solid fa-envelope"></i> contacto@pehuen.cl</li>
-                        <li><i class="fa-solid fa-location-dot"></i> Calle Arturo Prat 29, Lebu</li>
+                        <li><i class="fa-solid fa-phone"></i> +56 2 2222 2222</li>
+                        <li><i class="fa-solid fa-envelope"></i> contacto@elperro.cl</li>
+                        <li><i class="fa-solid fa-location-dot"></i> Av. Construcción 123, Santiago</li>
                     </ul>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Calle+Arturo+Prat+29,+Lebu" target="_blank"
-                        class="btn btn-primary" style="padding: 5px 15px; font-size: 0.9rem; margin-top: 10px;">
-                        <i class="fa-solid fa-map-location-dot"></i> Cómo llegar
-                    </a>
                 </div>
                 <div class="footer-col">
                     <h4>Síguenos</h4>
@@ -277,7 +246,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Ferretería Pehuen. Todos los derechos reservados.</p>
+                <p>&copy; 2025 Ferretería El Perro. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
@@ -308,7 +277,7 @@
         </div>
     </div>
 
-    <script type="module" src="assets/js/script.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
 
 </html>

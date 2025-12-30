@@ -801,6 +801,51 @@ window.handleLogin = (e) => {
     }
 };
 
+// PDF Generation
+window.generateCatalogPDF = () => {
+    if (!products || products.length === 0) {
+        alert('Cargando productos, por favor intente nuevamente en unos segundos.');
+        return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Title
+    doc.setFontSize(18);
+    doc.text('Catálogo de Productos - Ferretería Pehuen', 14, 22);
+
+    doc.setFontSize(11);
+    doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 14, 30);
+
+    // Prepare table data
+    const tableColumn = ["Producto", "Categoría", "Precio", "Stock"];
+    const tableRows = [];
+
+    products.forEach(product => {
+        const productData = [
+            product.name,
+            product.category,
+            formatPrice(product.price),
+            product.stock !== undefined ? product.stock : 'N/A'
+        ];
+        tableRows.push(productData);
+    });
+
+    // AutoTable
+    doc.autoTable({
+        head: [tableColumn],
+        body: tableRows,
+        startY: 40,
+        theme: 'striped',
+        headStyles: { fillColor: [255, 102, 0] }, // Orange color matching brand
+    });
+
+    // Save
+    doc.save('catalogo_pehuen.pdf');
+};
+
+
 window.logout = () => {
     localStorage.removeItem('ferreteria_currentUser');
     window.location.reload();
