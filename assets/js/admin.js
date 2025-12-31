@@ -624,14 +624,15 @@ const renderInventory = () => {
 
     filtered.forEach(p => {
         const row = document.createElement('tr');
-        if (p.stock <= 5) row.classList.add('stock-low'); // Red highlight
+        const minStock = p.minStock || 5;
+        if (p.stock <= minStock) row.classList.add('stock-low'); // Red highlight
 
         row.innerHTML = `
             <td>${p.id}</td>
             <td>${p.name}</td>
             <td>${p.category}</td>
             <td>${formatPrice(p.price)}</td>
-            <td style="${p.stock <= 5 ? 'color: var(--admin-danger); font-weight: bold;' : ''}">${p.stock}</td>
+            <td style="${p.stock <= minStock ? 'color: var(--admin-danger); font-weight: bold;' : ''}">${p.stock}</td>
             <td>
                 <button class="btn-action btn-history" onclick="openHistory('${p.id}')" title="Ver Historial" style="background-color: #607D8B; color: white;">
                     <i class="fa-solid fa-clock-rotate-left"></i>
@@ -971,14 +972,20 @@ if (addProductForm) {
         const category = document.getElementById('new-prod-category').value;
         const price = parseInt(document.getElementById('new-prod-price').value);
         const stock = parseInt(document.getElementById('new-prod-stock').value);
+        const minStock = parseInt(document.getElementById('new-prod-min-stock').value);
         let idInput = document.getElementById('new-prod-id').value;
         const docRef = document.getElementById('new-prod-doc').value;
 
         let finalImages = [...uploadedImagesList];
         if (finalImages.length === 0) finalImages.push('assets/images/prod_set.jpg');
 
-        if (!name || isNaN(price) || isNaN(stock)) {
-            alert("Por favor complete todos los campos requeridos correctamente.");
+        if (!name || isNaN(price) || isNaN(stock) || isNaN(minStock)) {
+            alert("Por favor complete todos los campos requeridos correctamente, incluyendo precios y stocks.");
+            return;
+        }
+
+        if (minStock > stock) {
+            alert("El Stock Mínimo no puede ser mayor al Stock Inicial.");
             return;
         }
 
@@ -1013,6 +1020,7 @@ if (addProductForm) {
             image: finalImages[0],
             images: finalImages,
             stock: stock,
+            minStock: minStock,
             document: docRef || '---'
         };
 
