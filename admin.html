@@ -142,9 +142,12 @@
                     <table class="inventory-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Producto</th>
-                                <th>Categoría</th>
+                                <th class="sortable" data-sort="id" onclick="window.toggleSort('id')">ID <i
+                                        class="fa-solid fa-sort"></i></th>
+                                <th class="sortable" data-sort="name" onclick="window.toggleSort('name')">Producto <i
+                                        class="fa-solid fa-sort"></i></th>
+                                <th class="sortable" data-sort="category" onclick="window.toggleSort('category')">
+                                    Categoría <i class="fa-solid fa-sort"></i></th>
                                 <th>Precio</th>
                                 <th>Stock</th>
                                 <th>Historial</th>

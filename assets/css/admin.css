@@ -478,6 +478,17 @@ body {
     font-weight: 600;
 }
 
+.inventory-table th.sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+
+.inventory-table th.sortable:hover {
+    background-color: #e4e6ef;
+}
+
+
 .inventory-table tr:hover {
     background-color: #fcfcfc;
 }

@@ -7,6 +7,7 @@ let cart = []; // Local cart for POS
 let movementsHistory = [];
 let admins = [];
 let currentMovementFilter = 'all';
+let currentSort = { field: 'id', order: 'asc' }; // 'asc' or 'desc'
 
 const STORAGE_PREFIX = 'pehuen_';
 
@@ -554,6 +555,19 @@ window.closeDteModal = () => {
 
 /* --- Inventory Module --- */
 
+window.toggleSort = (field) => {
+    if (currentSort.field === field) {
+        // Toggle order
+        currentSort.order = currentSort.order === 'asc' ? 'desc' : 'asc';
+    } else {
+        // New field, default to asc
+        currentSort.field = field;
+        currentSort.order = 'asc';
+    }
+    renderInventory();
+};
+
+
 const renderInventory = () => {
     const searchTerm = invSearch.value.toLowerCase();
     const filterCat = invFilter.value;
@@ -566,6 +580,44 @@ const renderInventory = () => {
 
     if (searchTerm) {
         filtered = filtered.filter(p => p.name.toLowerCase().includes(searchTerm) || p.id.toString().includes(searchTerm));
+    }
+
+    // Sort Data
+    filtered.sort((a, b) => {
+        let valA = a[currentSort.field];
+        let valB = b[currentSort.field];
+
+        // Handle numeric IDs if sorting by ID
+        if (currentSort.field === 'id') {
+            const numA = Number(valA);
+            const numB = Number(valB);
+            if (!isNaN(numA) && !isNaN(numB)) {
+                valA = numA;
+                valB = numB;
+            } else {
+                // Fallback to string sort for non-numeric IDs
+                valA = String(valA).toLowerCase();
+                valB = String(valB).toLowerCase();
+            }
+        } else if (typeof valA === 'string') {
+            valA = valA.toLowerCase();
+            valB = valB.toLowerCase();
+        }
+
+        if (valA < valB) return currentSort.order === 'asc' ? -1 : 1;
+        if (valA > valB) return currentSort.order === 'asc' ? 1 : -1;
+        return 0;
+    });
+
+    // Update Header Icons
+    document.querySelectorAll('.inventory-table th.sortable i').forEach(icon => {
+        icon.className = 'fa-solid fa-sort'; // Reset to neutral
+        icon.style.opacity = '0.3';
+    });
+    const activeIcon = document.querySelector(`.inventory-table th[data-sort="${currentSort.field}"] i`);
+    if (activeIcon) {
+        activeIcon.className = currentSort.order === 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down';
+        activeIcon.style.opacity = '1';
     }
 
     invBody.innerHTML = '';
