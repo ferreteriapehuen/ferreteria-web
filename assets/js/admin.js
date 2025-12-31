@@ -972,11 +972,9 @@ if (addProductForm) {
         const price = parseInt(document.getElementById('new-prod-price').value);
         const stock = parseInt(document.getElementById('new-prod-stock').value);
         let idInput = document.getElementById('new-prod-id').value;
-        const imageUrl = document.getElementById('new-prod-image').value;
         const docRef = document.getElementById('new-prod-doc').value;
 
         let finalImages = [...uploadedImagesList];
-        if (imageUrl) finalImages.push(imageUrl);
         if (finalImages.length === 0) finalImages.push('assets/images/prod_set.jpg');
 
         if (!name || isNaN(price) || isNaN(stock)) {
