@@ -652,36 +652,28 @@ window.editStock = async (id) => {
     const product = products.find(p => p.id == id);
     if (!product) return;
 
-    const newStock = prompt(`Editar Stock para: ${product.name}\nActual: ${product.stock}`, product.stock);
-    if (newStock !== null) {
-        const stockInt = parseInt(newStock);
-        if (!isNaN(stockInt) && stockInt >= 0) {
-            const diff = stockInt - product.stock;
-            if (diff !== 0) {
-                // Update Firestore
-                try {
-                    const productRef = doc(db, 'products', id);
-                    await updateDoc(productRef, { stock: stockInt });
+    // Set UI to Edit Mode
+    document.getElementById('product-modal-title').textContent = `Editar Producto: ${product.name}`;
+    document.querySelector('#add-product-form button[type="submit"]').textContent = 'Actualizar Producto';
 
-                    // Record Movement
-                    recordMovement({
-                        productId: id,
-                        type: 'entry',
-                        docType: diff > 0 ? 'INGRESO' : 'AJUSTE',
-                        items: [`${Math.abs(diff)}x ${product.name} (${diff > 0 ? 'Aumento' : 'Baja'})`],
-                        total: 0,
-                        seller: "Admin (Manual)"
-                    });
-                } catch (e) {
-                    console.error("Error actualizando stock:", e);
-                    alert("Error al actualizar stock.");
-                }
-            }
-        } else {
-            alert('Valor inválido');
-        }
-    }
+    // Fill Form
+    document.getElementById('edit-prod-id').value = product.id;
+    document.getElementById('new-prod-name').value = product.name;
+    document.getElementById('new-prod-category').value = product.category;
+    document.getElementById('new-prod-price').value = product.price;
+    document.getElementById('new-prod-stock').value = product.stock;
+    document.getElementById('new-prod-min-stock').value = product.minStock || 5;
+    document.getElementById('new-prod-id').value = product.id;
+    document.getElementById('new-prod-id').disabled = true; // No permitir editar ID
+    document.getElementById('new-prod-doc').value = product.document || '';
+
+    // Images
+    uploadedImagesList = [...(product.images || [])];
+    renderImagePreviews();
+
+    addProductModal.classList.add('open');
 };
+
 
 invSearch.addEventListener('input', (e) => {
     const val = e.target.value.toLowerCase().trim();
@@ -884,6 +876,13 @@ const addProductForm = document.getElementById('add-product-form');
 
 if (btnAddProduct) {
     btnAddProduct.addEventListener('click', () => {
+        document.getElementById('product-modal-title').textContent = 'Agregar Nuevo Producto';
+        document.querySelector('#add-product-form button[type="submit"]').textContent = 'Guardar Producto';
+        document.getElementById('new-prod-id').disabled = false;
+        document.getElementById('edit-prod-id').value = '';
+        addProductForm.reset();
+        uploadedImagesList = [];
+        renderImagePreviews();
         addProductModal.classList.add('open');
     });
 }
@@ -978,6 +977,7 @@ if (addProductForm) {
         const stock = parseInt(document.getElementById('new-prod-stock').value);
         const minStock = parseInt(document.getElementById('new-prod-min-stock').value);
         let idInput = document.getElementById('new-prod-id').value;
+        let editId = document.getElementById('edit-prod-id').value;
         const docRef = document.getElementById('new-prod-doc').value;
 
         let finalImages = [...uploadedImagesList];
@@ -993,37 +993,39 @@ if (addProductForm) {
             return;
         }
 
-        // Check for duplicate name
-        const nameExists = products.some(p => p.name.trim().toLowerCase() === name.trim().toLowerCase());
+        // Check for duplicate name (excluding the current product if editing)
+        const nameExists = products.some(p =>
+            p.name.trim().toLowerCase() === name.trim().toLowerCase() &&
+            p.id.toString() !== editId.toString()
+        );
+
         if (nameExists) {
             alert(`Ya existe un producto con el nombre "${name}". Por favor use un nombre distinto.`);
             return;
         }
 
-        // Generate ID or use provided
-        // With Firestore, we can use the provided ID as the Doc ID.
-        // It's safer to use a string ID for Firestore documents.
-
-        let newId;
-        if (idInput) {
-            if (products.some(p => p.id === idInput)) {
-                alert("El ID ya existe. Por favor elija otro.");
-                return;
-            }
-            newId = idInput.toString();
+        let finalId;
+        if (editId) {
+            finalId = editId;
         } else {
-            // Find max numeric ID if possible, or just generate a timestamp one to simple usage
-            // Since the user might rely on short IDs for barcode, let's try to mimic the old auto-increment behavior based on existing products
-            // Filter for numeric-looking IDs
-            const maxId = products.reduce((max, p) => {
-                const numId = parseInt(p.id);
-                return (!isNaN(numId) && numId > max) ? numId : max;
-            }, 1000); // Start high to avoid conflicts with static data
-            newId = (maxId + 1).toString();
+            // Generate ID or use provided
+            if (idInput) {
+                if (products.some(p => p.id === idInput)) {
+                    alert("El ID ya existe. Por favor elija otro.");
+                    return;
+                }
+                finalId = idInput.toString();
+            } else {
+                const maxId = products.reduce((max, p) => {
+                    const numId = parseInt(p.id);
+                    return (!isNaN(numId) && numId > max) ? numId : max;
+                }, 1000);
+                finalId = (maxId + 1).toString();
+            }
         }
 
-        const newProduct = {
-            id: newId,  // Campo id necesario
+        const productData = {
+            id: finalId,
             name: name,
             category: category,
             price: price,
@@ -1036,25 +1038,42 @@ if (addProductForm) {
         };
 
         try {
-            await setDoc(doc(db, 'products', newId), newProduct);
+            await setDoc(doc(db, 'products', finalId), productData);
 
-            recordMovement({
-                productId: newId,
-                type: 'entry',
-                docType: 'NUEVO',
-                items: [`Ingreso inicial: ${stock}x ${name}`],
-                total: 0,
-                seller: "Admin",
-                folio: docRef || '---'
-            });
+            if (!editId) {
+                recordMovement({
+                    productId: finalId,
+                    type: 'entry',
+                    docType: 'NUEVO',
+                    items: [`Ingreso inicial: ${stock}x ${name}`],
+                    total: 0,
+                    seller: "Admin",
+                    folio: docRef || '---'
+                });
+            } else {
+                // Si cambió el stock, registrarlo
+                const original = products.find(p => p.id == editId);
+                if (original && original.stock !== stock) {
+                    const diff = stock - original.stock;
+                    recordMovement({
+                        productId: finalId,
+                        type: diff > 0 ? 'entry' : 'exit',
+                        docType: 'EDICIÓN',
+                        items: [`Stock ajustado: ${Math.abs(diff)}x ${name} (${diff > 0 ? 'Aumento' : 'Baja'})`],
+                        total: 0,
+                        seller: "Admin",
+                        folio: docRef || '---'
+                    });
+                }
+            }
 
-            alert(`Producto "${name}" agregado correctamente!`);
+            alert(`Producto "${name}" ${editId ? 'actualizado' : 'agregado'} correctamente!`);
             addProductForm.reset();
             uploadedImagesList = [];
             renderImagePreviews();
             addProductModal.classList.remove('open');
         } catch (e) {
-            console.error("Error adding product:", e);
+            console.error("Error saving product:", e);
             alert("Error al guardar producto.");
         }
     });

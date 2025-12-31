@@ -257,10 +257,11 @@
     <div id="add-product-modal" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-header">
-                <h3>Agregar Nuevo Producto</h3>
+                <h3 id="product-modal-title">Agregar Nuevo Producto</h3>
                 <button class="close-modal" id="close-add-modal"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="add-product-form">
+                <input type="hidden" id="edit-prod-id">
                 <div class="form-group">
                     <label>Nombre del Producto</label>
                     <input type="text" id="new-prod-name" required>
