@@ -499,6 +499,22 @@ body {
     background-color: rgba(246, 78, 96, 0.05);
 }
 
+.product-disabled {
+    color: #a0a0a0 !important;
+    background-color: #f9f9f9;
+}
+
+.product-disabled td {
+    color: #a0a0a0 !important;
+}
+
+.product-disabled .btn-edit,
+.product-disabled .btn-history {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+
 .btn-action {
     padding: 5px 10px;
     border: none;

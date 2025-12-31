@@ -625,14 +625,20 @@ const renderInventory = () => {
     filtered.forEach(p => {
         const row = document.createElement('tr');
         const minStock = p.minStock || 5;
-        if (p.stock <= minStock) row.classList.add('stock-low'); // Red highlight
+        const isActive = p.status !== 'inactive';
+
+        if (!isActive) {
+            row.classList.add('product-disabled');
+        } else if (p.stock <= minStock) {
+            row.classList.add('stock-low'); // Red highlight
+        }
 
         row.innerHTML = `
             <td>${p.id}</td>
             <td>${p.name}</td>
             <td>${p.category}</td>
             <td>${formatPrice(p.price)}</td>
-            <td style="${p.stock <= minStock ? 'color: var(--admin-danger); font-weight: bold;' : ''}">${p.stock}</td>
+            <td style="${isActive && p.stock <= minStock ? 'color: var(--admin-danger); font-weight: bold;' : ''}">${p.stock}</td>
             <td>${minStock}</td>
             <td>
                 <button class="btn-action btn-history" onclick="openHistory('${p.id}')" title="Ver Historial" style="background-color: #607D8B; color: white;">
@@ -640,8 +646,12 @@ const renderInventory = () => {
                 </button>
             </td>
             <td>
-                <button class="btn-action btn-edit" onclick="editStock('${p.id}')" title="Editar"><i class="fa-solid fa-pen"></i></button>
-                <button class="btn-action btn-delete" onclick="deleteProduct('${p.id}')" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+                ${isActive ? `
+                    <button class="btn-action btn-edit" onclick="editStock('${p.id}')" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                    <button class="btn-action btn-delete" onclick="toggleProductStatus('${p.id}')" title="Deshabilitar"><i class="fa-solid fa-eye-slash"></i></button>
+                ` : `
+                    <button class="btn-action btn-success" onclick="toggleProductStatus('${p.id}')" title="Habilitar" style="background-color: var(--admin-success); color: white;"><i class="fa-solid fa-eye"></i></button>
+                `}
             </td>
         `;
         invBody.appendChild(row);
@@ -1034,6 +1044,7 @@ if (addProductForm) {
             images: finalImages,
             stock: stock,
             minStock: minStock,
+            status: 'active',
             document: docRef || '---'
         };
 
@@ -1322,37 +1333,40 @@ checkAuth();
 populateUserSelect();
 renderPosCart();
 
-// Función para eliminar productos del inventario
-window.deleteProduct = async (id) => {
+// Función para deshabilitar/habilitar productos del inventario
+window.toggleProductStatus = async (id) => {
     const product = products.find(p => p.id == id);
     if (!product) {
         alert('Producto no encontrado');
         return;
     }
 
-    if (!confirm(`¿Estás seguro de eliminar "${product.name}"?\n\nEsta acción no se puede deshacer.`)) {
+    const currentStatus = product.status || 'active';
+    const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
+    const actionText = newStatus === 'active' ? 'habilitar' : 'deshabilitar';
+
+    if (!confirm(`¿Estás seguro de ${actionText} el producto "${product.name}"?`)) {
         return;
     }
 
     try {
-        await deleteDoc(doc(db, 'products', id.toString()));
+        await updateDoc(doc(db, 'products', id.toString()), { status: newStatus });
 
         // Registrar movimiento
         const currentUser = JSON.parse(sessionStorage.getItem(STORAGE_PREFIX + 'current_admin')) || { name: 'Admin' };
         await recordMovement({
             productId: id,
             type: 'entry',
-            docType: 'ELIMINADO',
-            items: [`Producto eliminado: ${product.name}`],
+            docType: newStatus === 'active' ? 'HABILITADO' : 'DESHABILITADO',
+            items: [`Producto ${newStatus}: ${product.name}`],
             total: 0,
             seller: currentUser.name,
-            justification: 'Eliminación de producto del inventario'
+            justification: `${newStatus === 'active' ? 'Reactivación' : 'Desactivación'} de producto del inventario`
         });
 
-        alert(`Producto "${product.name}" eliminado correctamente`);
-        // No necesitamos renderizar manualmente, el onSnapshot lo hará automáticamente
+        alert(`Producto "${product.name}" ${newStatus === 'active' ? 'habilitado' : 'deshabilitado'} correctamente`);
     } catch (e) {
-        console.error('Error eliminando producto:', e);
-        alert('Error al eliminar el producto: ' + e.message);
+        console.error('Error al cambiar estado del producto:', e);
+        alert('Error: ' + e.message);
     }
 };

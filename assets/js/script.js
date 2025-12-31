@@ -281,9 +281,12 @@ const renderProducts = (category = 'all', searchTerm = '') => {
         let filteredProducts = products;
 
         if (category !== 'all') {
-            filteredProducts = filteredProducts.filter(p => p.category === category || (category === 'materiales' && p.category !== 'herramientas' && p.category !== 'aridos' && p.category !== 'jardin'));
+            filteredProducts = filteredProducts.filter(p => (p.category === category || (category === 'materiales' && p.category !== 'herramientas' && p.category !== 'aridos' && p.category !== 'jardin')) && p.status !== 'inactive');
         } else if (!searchTerm) {
-            filteredProducts = filteredProducts.filter(p => p.category !== 'aridos');
+            filteredProducts = filteredProducts.filter(p => p.category !== 'aridos' && p.status !== 'inactive');
+        } else {
+            // If searching but still want only active
+            filteredProducts = filteredProducts.filter(p => p.status !== 'inactive');
         }
 
         if (searchTerm) {
@@ -472,7 +475,7 @@ const renderAridosProducts = () => {
     aridosContainer.style.opacity = '0.5';
 
     setTimeout(() => {
-        const aridosProducts = products.filter(p => p.category === 'aridos');
+        const aridosProducts = products.filter(p => p.category === 'aridos' && p.status !== 'inactive');
 
         aridosProducts.forEach(product => {
             aridosContainer.insertAdjacentHTML('beforeend', createProductCard(product));
