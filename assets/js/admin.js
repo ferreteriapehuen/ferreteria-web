@@ -633,6 +633,7 @@ const renderInventory = () => {
             <td>${p.category}</td>
             <td>${formatPrice(p.price)}</td>
             <td style="${p.stock <= minStock ? 'color: var(--admin-danger); font-weight: bold;' : ''}">${p.stock}</td>
+            <td>${minStock}</td>
             <td>
                 <button class="btn-action btn-history" onclick="openHistory('${p.id}')" title="Ver Historial" style="background-color: #607D8B; color: white;">
                     <i class="fa-solid fa-clock-rotate-left"></i>
