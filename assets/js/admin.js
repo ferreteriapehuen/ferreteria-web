@@ -989,6 +989,13 @@ if (addProductForm) {
             return;
         }
 
+        // Check for duplicate name
+        const nameExists = products.some(p => p.name.trim().toLowerCase() === name.trim().toLowerCase());
+        if (nameExists) {
+            alert(`Ya existe un producto con el nombre "${name}". Por favor use un nombre distinto.`);
+            return;
+        }
+
         // Generate ID or use provided
         // With Firestore, we can use the provided ID as the Doc ID.
         // It's safer to use a string ID for Firestore documents.
