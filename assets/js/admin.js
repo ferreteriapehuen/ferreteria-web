@@ -890,6 +890,9 @@ if (btnAddProduct) {
 if (closeAddModal) {
     closeAddModal.addEventListener('click', () => {
         addProductModal.classList.remove('open');
+        addProductForm.reset();
+        uploadedImagesList = [];
+        renderImagePreviews();
     });
 }
 
