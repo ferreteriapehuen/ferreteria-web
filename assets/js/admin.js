@@ -221,7 +221,7 @@ const renderPosCart = () => {
             <h4>${item.name}</h4>
             <input type="number" class="pos-qty-input" value="${item.qty}" min="1" onchange="updatePosQty('${item.id}', this)">
             <span>${formatPrice(subtotal)}</span>
-            <button class="btn-remove-item" onclick="removePosItem('${item.id}')"><i class="fa-solid fa-trash"></i></button>
+            <button class="btn-remove-item" onclick="removePosItem('${item.id}')" title="Quitar del carro"><i class="fa-solid fa-trash"></i></button>
         `;
         posTicketItems.appendChild(row);
     });
@@ -640,8 +640,8 @@ const renderInventory = () => {
                 </button>
             </td>
             <td>
-                <button class="btn-action btn-edit" onclick="editStock('${p.id}')"><i class="fa-solid fa-pen"></i></button>
-                <button class="btn-action btn-delete" onclick="deleteProduct('${p.id}')"><i class="fa-solid fa-trash"></i></button>
+                <button class="btn-action btn-edit" onclick="editStock('${p.id}')" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                <button class="btn-action btn-delete" onclick="deleteProduct('${p.id}')" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
             </td>
         `;
         invBody.appendChild(row);

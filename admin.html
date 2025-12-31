@@ -142,11 +142,12 @@
                     <table class="inventory-table">
                         <thead>
                             <tr>
-                                <th class="sortable" data-sort="id" onclick="window.toggleSort('id')">ID <i
-                                        class="fa-solid fa-sort"></i></th>
-                                <th class="sortable" data-sort="name" onclick="window.toggleSort('name')">Producto <i
-                                        class="fa-solid fa-sort"></i></th>
-                                <th class="sortable" data-sort="category" onclick="window.toggleSort('category')">
+                                <th class="sortable" data-sort="id" onclick="window.toggleSort('id')"
+                                    title="Clic para ordenar">ID <i class="fa-solid fa-sort"></i></th>
+                                <th class="sortable" data-sort="name" onclick="window.toggleSort('name')"
+                                    title="Clic para ordenar">Producto <i class="fa-solid fa-sort"></i></th>
+                                <th class="sortable" data-sort="category" onclick="window.toggleSort('category')"
+                                    title="Clic para ordenar">
                                     Categoría <i class="fa-solid fa-sort"></i></th>
                                 <th>Precio</th>
                                 <th>Stock</th>
@@ -258,7 +259,8 @@
         <div class="modal-box">
             <div class="modal-header">
                 <h3 id="product-modal-title">Agregar Nuevo Producto</h3>
-                <button class="close-modal" id="close-add-modal"><i class="fa-solid fa-xmark"></i></button>
+                <button class="close-modal" id="close-add-modal" title="Cerrar"><i
+                        class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="add-product-form">
                 <input type="hidden" id="edit-prod-id">
@@ -319,7 +321,8 @@
         <div class="modal-box">
             <div class="modal-header">
                 <h3 id="user-modal-title">Gestión de Usuario</h3>
-                <button class="close-modal" id="close-user-modal"><i class="fa-solid fa-xmark"></i></button>
+                <button class="close-modal" id="close-user-modal" title="Cerrar"><i
+                        class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="user-form">
                 <input type="hidden" id="user-idx">
@@ -355,7 +358,8 @@
         <div class="modal-box">
             <div class="modal-header">
                 <h3>Gestionar Stock</h3>
-                <button class="close-modal" id="close-stock-modal"><i class="fa-solid fa-xmark"></i></button>
+                <button class="close-modal" id="close-stock-modal" title="Cerrar"><i
+                        class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="stock-form">
                 <div class="form-group" style="position: relative;">
@@ -400,7 +404,8 @@
         <div class="modal-box" style="max-width: 800px;">
             <div class="modal-header">
                 <h3 id="history-modal-title">Historial de Producto</h3>
-                <button class="close-modal" id="close-history-modal"><i class="fa-solid fa-xmark"></i></button>
+                <button class="close-modal" id="close-history-modal" title="Cerrar"><i
+                        class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="inventory-table-wrapper" style="max-height: 400px; overflow-y: auto;">
                 <table class="inventory-table">
